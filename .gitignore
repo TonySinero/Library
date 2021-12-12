@@ -13,3 +13,8 @@
 
 # Dependency directories (remove the comment below to include it)
 # vendor/
+
+test.db
+.main.go.swp
+.env
+__debug_bin
