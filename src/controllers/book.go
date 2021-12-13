@@ -4,7 +4,6 @@ package controllers
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/library/src/models"
-	"gorm.io/gorm"
 	"net/http"
 )
 
@@ -59,32 +58,30 @@ func CreateBook(c *gin.Context) {
 
 func DeleteBook(c *gin.Context) {
 	// Get model if exist
-	db := c.MustGet("db").(*gorm.DB)
 	var books models.Book
-	if err := db.Where("id = ?", c.Param("id")).First(&books).Error; err != nil {
+	if err := models.DB.Where("id = ?", c.Param("id")).First(&books).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "books not found!"})
 		return
 	}
-	db.Delete(&books)
+	models.DB.Delete(&books)
 	c.JSON(http.StatusOK, gin.H{"data": true})
 }
 
 // Update a book.
 
 func UpdateBook(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
 	// Get model if exist
 	var books models.Book
-	if err := db.Where("id = ?", c.Param("id")).First(&books).Error; err != nil {
+	if err := models.DB.Where("id = ?", c.Param("id")).First(&books).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "books not found!"})
 		return
 	}
 	// Validate input
-	var input models.CreateBookInput
+	var input models.Book
 	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	db.Model(&books).Updates(input)
+	models.DB.Model(&books).Updates(input)
 	c.JSON(http.StatusOK, gin.H{"data": books})
 }

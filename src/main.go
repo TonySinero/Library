@@ -6,7 +6,6 @@ import (
 	"github.com/library/docs"
 	"github.com/library/src/config"
 	"github.com/library/src/controllers"
-	"github.com/library/src/middlewares"
 	"github.com/library/src/models"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -30,7 +29,7 @@ func main() {
 	}
 
 	apiBook := r.Group("/library/book")
-	apiBook.Use(middlewares.AuthorizeJWT())
+	//apiBook.Use(middlewares.AuthorizeJWT())
 	{
 		apiBook.POST("/", controllers.CreateBook)
 		apiBook.GET("/", controllers.FindBooks)
@@ -50,7 +49,7 @@ func main() {
 	docs.SwaggerInfo.Description = "This is a sample server golang."
 	docs.SwaggerInfo.Version = "1.0"
 	docs.SwaggerInfo.Host = "localhost:8000"
-	docs.SwaggerInfo.BasePath = "/v1"
+	docs.SwaggerInfo.BasePath = "/library"
 	docs.SwaggerInfo.Schemes = []string{"http", "https"}
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
