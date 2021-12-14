@@ -27,20 +27,15 @@ func main() {
 		apiAdmin.POST("/", controllers.CreateAdmin)
 	}
 
-	//apiUser := r.Group("/library/user")
-	//apiUser.Use(middlewares.AuthorizeJWT())
-	//{
-	//	apiUser.POST("/", controllers.CreateUsers)
-	//	apiUser.GET("/", controllers.GetUsers)
-	//	apiUser.PATCH("/:id", controllers.UpdateUser)
-	//}
+	apiUser := r.Group("/library/user")
+	apiUser.Use(middlewares.AuthorizeJWT())
+	{
+		apiUser.POST("/", controllers.CreateUsers)
+		apiUser.GET("/", controllers.GetUsers)
+		apiUser.GET("/:id", controllers.DetailUser)
+		apiUser.PATCH("/:id", controllers.UpdateUser)
+	}
 
-	//func GetUsers(c *gin.Context) {
-	//	var users []models.Admin
-	//	models.DB.Find(&users)
-	//
-	//	c.JSON(http.StatusOK, gin.H{"data": users})
-	//}
 
 	apiBook := r.Group("/library/book")
 	apiBook.Use(middlewares.AuthorizeJWT())

@@ -1,4 +1,3 @@
-
 package models
 
 import (
@@ -31,6 +30,7 @@ func ConnectDataBase() {
 	db.AutoMigrate(&Book{})
 	db.AutoMigrate(&Category{})
 	db.AutoMigrate(&Admin{})
+	db.AutoMigrate(&User{})
 
 	DB = db
 }
