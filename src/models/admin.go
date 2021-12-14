@@ -5,9 +5,9 @@ import (
 	"github.com/library/src/utils"
 )
 
-// User model.
+// Admin model.
 
-type User struct {
+type Admin struct {
 	ModelBase
 	Email    string `json:"user"`
 	Password string `json:"password"`
@@ -15,21 +15,21 @@ type User struct {
 
 // UserInput for userModel.
 
-type UserInput struct {
+type AdminInput struct {
 	Email    string `json:"email" binding:"required"`
 	Password string `json:"password" binding:"required"`
 }
 
 // EncryptPassword method.
 
-func (u *User) EncryptPassword() {
+func (u *Admin) EncryptPassword() {
 	passwordEncrypt := utils.Encrypt(u.Password)
 	u.Password = passwordEncrypt
 }
 
 // ValidatePassword method.
 
-func (u *User) ValidatePassword(password string) bool {
+func (u *Admin) ValidatePassword(password string) bool {
 	if err := utils.CompareHash(u.Password, password); err != nil {
 		return false
 	}

@@ -44,10 +44,15 @@ func CreateBook(c *gin.Context) {
 
 	// Create book
 	book := models.Book{
-		Title:      input.Title,
-		Price:      input.Price,
-		Author:     input.Author,
-		CategoryID: input.CategoryID,
+		Title:          input.Title,
+		Price:          input.Price,
+		Author:         input.Author,
+		Year:           input.Year,
+		NumberOfCopies: input.NumberOfCopies,
+		NumberOfPages:  input.NumberOfPages,
+		Image:          input.Image,
+		PricePerDay:    input.PricePerDay,
+		CategoryID:     input.CategoryID,
 	}
 	models.DB.Create(&book)
 

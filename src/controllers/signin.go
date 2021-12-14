@@ -18,11 +18,11 @@ type signInModel struct {
 }
 
 func (lm *signInModel) Validate() bool {
-	var user models.User
-	if err := models.DB.First(&user, "email = ?", lm.Email).Error; err != nil {
+	var admin models.Admin
+	if err := models.DB.First(&admin, "email = ?", lm.Email).Error; err != nil {
 		return false
 	}
-	return user.ValidatePassword(lm.Password)
+	return admin.ValidatePassword(lm.Password)
 }
 
 // SignIn Controller.

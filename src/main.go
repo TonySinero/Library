@@ -6,6 +6,7 @@ import (
 	"github.com/library/docs"
 	"github.com/library/src/config"
 	"github.com/library/src/controllers"
+	"github.com/library/src/middlewares"
 	"github.com/library/src/models"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -21,15 +22,28 @@ func main() {
 	r.GET("/library/status", controllers.Status)
 	r.POST("library/signIn", controllers.SignIn)
 
-	apiUser := r.Group("/library/user")
+	apiAdmin := r.Group("/library/admin")
 	{
-		apiUser.POST("/", controllers.CreateUser)
-		apiUser.GET("/", controllers.GetUsers)
-
+		apiAdmin.POST("/", controllers.CreateAdmin)
 	}
 
+	//apiUser := r.Group("/library/user")
+	//apiUser.Use(middlewares.AuthorizeJWT())
+	//{
+	//	apiUser.POST("/", controllers.CreateUsers)
+	//	apiUser.GET("/", controllers.GetUsers)
+	//	apiUser.PATCH("/:id", controllers.UpdateUser)
+	//}
+
+	//func GetUsers(c *gin.Context) {
+	//	var users []models.Admin
+	//	models.DB.Find(&users)
+	//
+	//	c.JSON(http.StatusOK, gin.H{"data": users})
+	//}
+
 	apiBook := r.Group("/library/book")
-	//apiBook.Use(middlewares.AuthorizeJWT())
+	apiBook.Use(middlewares.AuthorizeJWT())
 	{
 		apiBook.POST("/", controllers.CreateBook)
 		apiBook.GET("/", controllers.FindBooks)
@@ -46,8 +60,8 @@ func main() {
 
 	// programmatically set swagger info
 	docs.SwaggerInfo.Title = "Library API"
-	docs.SwaggerInfo.Description = "This is a sample server golang."
-	docs.SwaggerInfo.Version = "1.0"
+	docs.SwaggerInfo.Description = "This is a library API golang."
+	docs.SwaggerInfo.Version = "2.0"
 	docs.SwaggerInfo.Host = "localhost:8000"
 	docs.SwaggerInfo.BasePath = "/library"
 	docs.SwaggerInfo.Schemes = []string{"http", "https"}
