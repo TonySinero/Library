@@ -31,6 +31,8 @@ func ConnectDataBase() {
 	db.AutoMigrate(&Category{})
 	db.AutoMigrate(&Admin{})
 	db.AutoMigrate(&User{})
+	db.AutoMigrate(&Lending{})
+	db.AutoMigrate(&Acceptance{})
 
 	DB = db
 }

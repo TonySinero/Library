@@ -26,7 +26,7 @@ func main() {
 	{
 		apiAdmin.POST("/", controllers.CreateAdmin)
 	}
-
+  {
 	apiUser := r.Group("/library/user")
 	apiUser.Use(middlewares.AuthorizeJWT())
 	{
@@ -34,6 +34,24 @@ func main() {
 		apiUser.GET("/", controllers.GetUsers)
 		apiUser.GET("/:id", controllers.DetailUser)
 		apiUser.PATCH("/:id", controllers.UpdateUser)
+	}
+
+	apiLending := r.Group("/library/order")
+	apiLending.Use(middlewares.AuthorizeJWT())
+	{
+		apiLending.POST("/", controllers.CreateForm)
+		apiLending.GET("/", controllers.GetAllForm)
+		apiLending.GET("/:id", controllers.GetForm)
+		apiLending.DELETE("/:id", controllers.DeleteForm)
+	}
+
+	apiAcceptance := r.Group("/library/accept")
+	apiAcceptance.Use(middlewares.AuthorizeJWT())
+	{
+		apiAcceptance.POST("/", controllers.CreateAccept)
+		apiAcceptance.GET("/", controllers.GetAllAccept)
+		apiAcceptance.GET("/:id", controllers.GetAccept)
+		apiAcceptance.DELETE("/:id", controllers.DeleteAccept)
 	}
 
 
@@ -46,7 +64,7 @@ func main() {
 		apiBook.DELETE("/:id", controllers.DeleteBook)
 		apiBook.PATCH("/:id", controllers.UpdateBook)
 	}
-
+}
 	apiCategory := r.Group("/library/category")
 	{
 		apiCategory.POST("/", controllers.CreateCategory)
