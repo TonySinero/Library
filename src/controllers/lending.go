@@ -2,12 +2,13 @@ package controllers
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/library/src/database"
 	"github.com/library/src/models"
 	"net/http"
 )
 func GetAllForm(c *gin.Context) {
 	var forms []models.Lending
-	models.DB.Find(&forms)
+	database.DB.Find(&forms)
 
 	c.JSON(http.StatusOK, gin.H{"data": forms})
 }
@@ -16,7 +17,7 @@ func GetAllForm(c *gin.Context) {
 func GetForm(c *gin.Context) {
 	var form models.Lending
 
-	if err := models.DB.Where("id = ?", c.Param("id")).First(&form).Error; err != nil {
+	if err := database.DB.Where("id = ?", c.Param("id")).First(&form).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "form not found!"})
 		return
 	}
@@ -45,7 +46,7 @@ func CreateForm(c *gin.Context) {
 		ReturnDate:   input.ReturnDate,
 		Price:        input.Price,
 	}
-	models.DB.Create(&form)
+	database.DB.Create(&form)
 
 	c.JSON(http.StatusCreated, input)
 }
@@ -55,10 +56,10 @@ func CreateForm(c *gin.Context) {
 func DeleteForm(c *gin.Context) {
 	// Get model if exist
 	var form models.Lending
-	if err := models.DB.Where("id = ?", c.Param("id")).First(&form).Error; err != nil {
+	if err := database.DB.Where("id = ?", c.Param("id")).First(&form).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "form not found!"})
 		return
 	}
-	models.DB.Delete(&form)
+	database.DB.Delete(&form)
 	c.JSON(http.StatusOK, gin.H{"data": true})
 }

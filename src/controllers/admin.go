@@ -3,6 +3,7 @@ package controllers
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/library/src/database"
 	"github.com/library/src/models"
 	"net/http"
 )
@@ -28,7 +29,7 @@ func CreateAdmin(c *gin.Context) {
 		Password: input.Password,
 	}
 	admin.EncryptPassword()
-	models.DB.Create(&admin)
+	database.DB.Create(&admin)
 
 	c.JSON(http.StatusCreated, adminResponse{"OK"})
 }

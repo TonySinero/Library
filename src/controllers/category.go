@@ -3,6 +3,7 @@ package controllers
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/library/src/database"
 	"github.com/library/src/models"
 	"net/http"
 )
@@ -20,7 +21,7 @@ func CreateCategory(c *gin.Context) {
 
 	// Create category
 	category := models.Category{Name: input.Name}
-	models.DB.Create(&category)
+	database.DB.Create(&category)
 
 	c.JSON(http.StatusCreated, input)
 }
@@ -30,7 +31,7 @@ func CreateCategory(c *gin.Context) {
 
 func FindCategory(c *gin.Context) {
 	var categories []models.Category
-	models.DB.Find(&categories)
+	database.DB.Find(&categories)
 
 	c.JSON(http.StatusOK, categories)
 }

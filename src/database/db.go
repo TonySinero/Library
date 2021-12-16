@@ -1,8 +1,9 @@
-package models
+package database
 
 import (
 	"fmt"
 	"github.com/library/src/config"
+	"github.com/library/src/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -27,12 +28,12 @@ func ConnectDataBase() {
 		panic("failed to connect database")
 	}
 
-	db.AutoMigrate(&Book{})
-	db.AutoMigrate(&Category{})
-	db.AutoMigrate(&Admin{})
-	db.AutoMigrate(&User{})
-	db.AutoMigrate(&Lending{})
-	db.AutoMigrate(&Acceptance{})
+	db.AutoMigrate(&models.Book{})
+	db.AutoMigrate(&models.Category{})
+	db.AutoMigrate(&models.Admin{})
+	db.AutoMigrate(&models.User{})
+	db.AutoMigrate(&models.Lending{})
+	db.AutoMigrate(&models.Acceptance{})
 
 	DB = db
 }

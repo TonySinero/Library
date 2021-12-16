@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/library/src/database"
 	"github.com/library/src/models"
 	"net/http"
 )
@@ -11,7 +12,7 @@ import (
 
 func FindBooks(c *gin.Context) {
 	var books []models.Book
-	models.DB.Find(&books)
+	database.DB.Find(&books)
 
 	c.JSON(http.StatusOK, gin.H{"data": books})
 }
@@ -22,7 +23,7 @@ func FindBooks(c *gin.Context) {
 func DetailBooks(c *gin.Context) {
 	var book models.Book
 
-	if err := models.DB.Where("id = ?", c.Param("id")).First(&book).Error; err != nil {
+	if err := database.DB.Where("id = ?", c.Param("id")).First(&book).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Book not found!"})
 		return
 	}
@@ -53,7 +54,7 @@ func CreateBook(c *gin.Context) {
 		PricePerDay:    input.PricePerDay,
 		CategoryID:     input.CategoryID,
 	}
-	models.DB.Create(&book)
+	database.DB.Create(&book)
 
 	c.JSON(http.StatusCreated, input)
 }
@@ -63,11 +64,11 @@ func CreateBook(c *gin.Context) {
 func DeleteBook(c *gin.Context) {
 	// Get model if exist
 	var books models.Book
-	if err := models.DB.Where("id = ?", c.Param("id")).First(&books).Error; err != nil {
+	if err := database.DB.Where("id = ?", c.Param("id")).First(&books).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "books not found!"})
 		return
 	}
-	models.DB.Delete(&books)
+	database.DB.Delete(&books)
 	c.JSON(http.StatusOK, gin.H{"data": true})
 }
 
@@ -76,7 +77,7 @@ func DeleteBook(c *gin.Context) {
 func UpdateBook(c *gin.Context) {
 	// Get model if exist
 	var books models.Book
-	if err := models.DB.Where("id = ?", c.Param("id")).First(&books).Error; err != nil {
+	if err := database.DB.Where("id = ?", c.Param("id")).First(&books).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "books not found!"})
 		return
 	}
@@ -86,6 +87,6 @@ func UpdateBook(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	models.DB.Model(&books).Updates(input)
+	database.DB.Model(&books).Updates(input)
 	c.JSON(http.StatusOK, gin.H{"data": books})
 }

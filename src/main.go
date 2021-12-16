@@ -6,8 +6,8 @@ import (
 	"github.com/library/docs"
 	"github.com/library/src/config"
 	"github.com/library/src/controllers"
+	"github.com/library/src/database"
 	"github.com/library/src/middlewares"
-	"github.com/library/src/models"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
@@ -16,7 +16,7 @@ import (
 func main() {
 	r := gin.Default()
 
-	models.ConnectDataBase()
+	database.ConnectDataBase()
 
 	// routes
 	r.GET("/library/status", controllers.Status)

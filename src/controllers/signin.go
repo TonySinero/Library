@@ -3,6 +3,7 @@ package controllers
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/library/src/database"
 	"github.com/library/src/models"
 	"github.com/library/src/services"
 	"net/http"
@@ -19,7 +20,7 @@ type signInModel struct {
 
 func (lm *signInModel) Validate() bool {
 	var admin models.Admin
-	if err := models.DB.First(&admin, "email = ?", lm.Email).Error; err != nil {
+	if err := database.DB.First(&admin, "email = ?", lm.Email).Error; err != nil {
 		return false
 	}
 	return admin.ValidatePassword(lm.Password)
