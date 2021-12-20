@@ -7,12 +7,12 @@ services:
     env_file:
       - .env
     volumes:
-      - my-db:/var/lib/postgresql
+      - db:/var/lib/postgresql
     ports:
       - '5432:5432'
 
   app:
-    container_name: go_api
+    container_name: library
     build: .
     ports:
       - 8000:8000

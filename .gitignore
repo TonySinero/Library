@@ -5,6 +5,9 @@
 *.so
 *.dylib
 
+# ENV variables
+*.env
+
 # Test binary, built with `go test -c`
 *.test
 
@@ -13,8 +16,3 @@
 
 # Dependency directories (remove the comment below to include it)
 # vendor/
-
-test.db
-.main.go.swp
-.env
-__debug_bin
