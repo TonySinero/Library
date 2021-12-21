@@ -9,10 +9,11 @@
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/bc56d1cd-fcdc-42bc-bb05-7b4d3bd31546/storage_v2/_src_/database/postgres.edMnLQ/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/bc56d1cd-fcdc-42bc-bb05-7b4d3bd31546/storage_v2/_src_/database/postgres.edMnLQ/schema/public.abK9xQ.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/app.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/data_app.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/user_app.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/category_app.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/category_app.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/user_app.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/user_app.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db/db.go" beforeDir="false" afterPath="$PROJECT_DIR$/db/db.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/data.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/user.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/data_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/test/user_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/admin.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/admin.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/category.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/category.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

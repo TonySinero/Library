@@ -21,8 +21,8 @@ func (a *App) initializeCategoryRoutes() {
 	//a.Router.Handle("/category", a.isAuthorized(a.CreateCategory)).Methods("POST")
 	//a.Router.Handle("/categories", a.isAuthorized(a.GetCategories)).Methods("GET")
 
-	a.Router.HandleFunc("/category", a.CreateCategory).Methods("POST")
-	a.Router.HandleFunc("/categories", a.GetCategories).Methods("GET")
+	a.Router.HandleFunc("/category", a.createCategory).Methods("POST")
+	a.Router.HandleFunc("/categories", a.getCategories).Methods("GET")
 
 }
 
@@ -30,7 +30,7 @@ func (a *App) initializeCategoryRoutes() {
 
 
 // Gets list of category with count and start variables from URL.
-func (a *App) GetCategories(w http.ResponseWriter, r *http.Request) {
+func (a *App) getCategories(w http.ResponseWriter, r *http.Request) {
 	// Convert count and start string variables to int.
 	count, _ := strconv.Atoi(r.FormValue("count"))
 	start, _ := strconv.Atoi(r.FormValue("start"))
@@ -54,7 +54,7 @@ func (a *App) GetCategories(w http.ResponseWriter, r *http.Request) {
 }
 
 // Inserts new category into db.
-func (a *App) CreateCategory(w http.ResponseWriter, r *http.Request) {
+func (a *App) createCategory(w http.ResponseWriter, r *http.Request) {
 	var dt model.Categories
 	// Gets JSON object from request body.
 	decoder := json.NewDecoder(r.Body)

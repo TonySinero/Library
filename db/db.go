@@ -53,6 +53,20 @@ const CATEGORY_SCHEMA = `
 	);
 `
 
+// Schema for author table.
+const AUTHOR_SCHEMA = `
+	CREATE TABLE IF NOT EXISTS authors (
+		id uuid DEFAULT uuid_generate_v4 () unique,
+	    firstname varchar(225) NOT NULL,
+		surname varchar(225) NOT NULL,
+	    dateofbirth varchar(225) NOT NULL,
+		photo varchar(225) NOT NULL,
+		createdat timestamp NOT NULL,
+	    updatedat timestamp NOT NULL,
+		primary key (id)
+	);
+`
+
 // Receives database credentials and connects to database.
 func (db *DB) Initialize(user, password, dbhost, dbname string) {
 	connectionString := fmt.Sprintf("postgres://%s:%s@%s:5432/%s?sslmode=disable", user, password, dbhost, dbname)
@@ -67,5 +81,5 @@ func (db *DB) Initialize(user, password, dbhost, dbname string) {
 	db.Database.Exec(ADMIN_SCHEMA)
 	db.Database.Exec(USER_SCHEMA)
     db.Database.Exec(CATEGORY_SCHEMA)
+	db.Database.Exec(AUTHOR_SCHEMA)
 }
-//intattr int NOT NULL,

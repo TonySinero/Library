@@ -59,7 +59,6 @@ func GetAdmins(db *sql.DB, start, count int) ([]Admin, error) {
 
 // Create new admin and insert to database.
 func (u *Admin) CreateAdmin(db *sql.DB) error {
-	// Scan db after creation if admin exists using new user's id.
 	timestamp := time.Now()
 	err := db.QueryRow(
 		"INSERT INTO admins(email, password, createdat, updatedat) VALUES($1, $2, $3, $4) RETURNING id, email, password, createdat, updatedat", u.Email, u.Password, timestamp, timestamp).Scan(&u.ID, &u.Email, &u.Password, &u.CreatedAt, &u.UpdatedAt)

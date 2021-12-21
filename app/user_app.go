@@ -28,7 +28,7 @@ func (a *App) initializeUserRoutes() {
 	//a.Router.Handle("/user/{id}", a.isAuthorized(a.deleteUser)).Methods("DELETE")
 
 	a.Router.HandleFunc("/user", a.createUser).Methods("POST")
-	a.Router.HandleFunc("/users", a.GetUsers).Methods("GET")
+	a.Router.HandleFunc("/users", a.getUsers).Methods("GET")
 	a.Router.HandleFunc("/user/{id}", a.getUser).Methods("GET")
 	a.Router.HandleFunc("/user/{id}", a.updateUser).Methods("PUT")
 	a.Router.HandleFunc("/user/{id}", a.deleteUser).Methods("DELETE")
@@ -62,7 +62,7 @@ func (a *App) getUser(w http.ResponseWriter, r *http.Request) {
 }
 
 // Gets list of user with count and start variables from URL.
-func (a *App) GetUsers(w http.ResponseWriter, r *http.Request) {
+func (a *App) getUsers(w http.ResponseWriter, r *http.Request) {
 	// Convert count and start string variables to int.
 	count, _ := strconv.Atoi(r.FormValue("count"))
 	start, _ := strconv.Atoi(r.FormValue("start"))

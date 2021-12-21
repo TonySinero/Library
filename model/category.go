@@ -46,7 +46,6 @@ func GetCategories(db *sql.DB, start, count int) ([]Categories, error) {
 
 // Create new category and insert to database.
 func (dt *Categories) CreateCategory(db *sql.DB) error {
-	// Scan db after creation if user exists using new user id.
 	timestamp := time.Now()
 	err := db.QueryRow(
 		"INSERT INTO categories(categories, createdat) VALUES($1, $2) RETURNING id, categories, createdat", dt.Categories, timestamp).Scan(&dt.ID, &dt.Categories, &dt.CreatedAt)
