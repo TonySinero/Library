@@ -49,13 +49,13 @@ func (a *App) getAuthors(w http.ResponseWriter, r *http.Request) {
 		start = 0
 	}
 
-	user, err := model.GetAuthors(d.Database, start, count)
+	author, err := model.GetAuthors(d.Database, start, count)
 	if err != nil {
 		app.RespondWithError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
 
-	app.RespondWithJSON(w, http.StatusOK, user)
+	app.RespondWithJSON(w, http.StatusOK, author)
 }
 
 // Inserts new author into db.

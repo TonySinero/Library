@@ -66,6 +66,24 @@ const AUTHOR_SCHEMA = `
 		primary key (id)
 	);
 `
+// Schema for user table.
+const BOOK_SCHEMA = `
+	CREATE TABLE IF NOT EXISTS books (
+		id uuid DEFAULT uuid_generate_v4 () unique,
+	    bookname varchar(225) NOT NULL,
+		categoryID varchar(225) NOT NULL,
+	    authorID varchar(225) NOT NULL,
+	    cost float NOT NULL,
+	    numberofbook int NOT NULL,
+		photo varchar(225) NOT NULL,
+	    priceperday float NOT NULL,
+	    yearofpublishing int NOT NULL,
+	    numberofpages int NOT NULL,
+		createdat timestamp NOT NULL,
+		updatedat timestamp NOT NULL,
+		primary key (id)
+	);
+`
 
 // Receives database credentials and connects to database.
 func (db *DB) Initialize(user, password, dbhost, dbname string) {
@@ -82,4 +100,5 @@ func (db *DB) Initialize(user, password, dbhost, dbname string) {
 	db.Database.Exec(USER_SCHEMA)
     db.Database.Exec(CATEGORY_SCHEMA)
 	db.Database.Exec(AUTHOR_SCHEMA)
+	db.Database.Exec(BOOK_SCHEMA)
 }

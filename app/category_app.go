@@ -44,13 +44,13 @@ func (a *App) getCategories(w http.ResponseWriter, r *http.Request) {
 		start = 0
 	}
 
-	user, err := model.GetCategories(d.Database, start, count)
+	category, err := model.GetCategories(d.Database, start, count)
 	if err != nil {
 		app.RespondWithError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
 
-	app.RespondWithJSON(w, http.StatusOK, user)
+	app.RespondWithJSON(w, http.StatusOK, category)
 }
 
 // Inserts new category into db.

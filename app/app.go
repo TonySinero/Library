@@ -52,6 +52,7 @@ func (a *App) Initialize() {
 	a.UserInitialize()
 	a.CategoryInitialize()
 	a.AuthorInitialize()
+	a.BookInitialize()
 }
 
 // Serve homepage
