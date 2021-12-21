@@ -43,6 +43,15 @@ const USER_SCHEMA = `
 		primary key (id)
 	);
 `
+// Schema for category table.
+const CATEGORY_SCHEMA = `
+	CREATE TABLE IF NOT EXISTS categories (
+		id uuid DEFAULT uuid_generate_v4 () unique,
+		categories varchar(225) NOT NULL UNIQUE,
+		createdat timestamp NOT NULL,
+		primary key (id)
+	);
+`
 
 // Receives database credentials and connects to database.
 func (db *DB) Initialize(user, password, dbhost, dbname string) {
@@ -57,5 +66,6 @@ func (db *DB) Initialize(user, password, dbhost, dbname string) {
 	db.Database.Exec(DB_SETUP)
 	db.Database.Exec(ADMIN_SCHEMA)
 	db.Database.Exec(USER_SCHEMA)
+    db.Database.Exec(CATEGORY_SCHEMA)
 }
 //intattr int NOT NULL,

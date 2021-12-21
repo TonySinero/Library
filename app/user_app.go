@@ -21,10 +21,11 @@ func (a *App) UserInitialize() {
 // Defines routes.
 func (a *App) initializeUserRoutes() {
 	// Authorized routes.
-	//a.Router.Handle("/data", a.isAuthorized(a.createData)).Methods("POST")
-	//a.Router.Handle("/data", a.isAuthorized(a.getMultipleData)).Methods("GET")
-	//a.Router.Handle("/data/{id}", a.isAuthorized(a.updateData)).Methods("PUT")
-	//a.Router.Handle("/data/{id}", a.isAuthorized(a.deleteData)).Methods("DELETE")
+	//a.Router.Handle("/user", a.isAuthorized(a.createUser)).Methods("POST")
+	//a.Router.Handle("/users", a.isAuthorized(a.GetUsers)).Methods("GET")
+	//a.Router.Handle("/user/{id}", a.isAuthorized(a.getUser)).Methods("GET")
+	//a.Router.Handle("/user/{id}", a.isAuthorized(a.updateUser)).Methods("PUT")
+	//a.Router.Handle("/user/{id}", a.isAuthorized(a.deleteUser)).Methods("DELETE")
 
 	a.Router.HandleFunc("/user", a.createUser).Methods("POST")
 	a.Router.HandleFunc("/users", a.GetUsers).Methods("GET")

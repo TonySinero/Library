@@ -50,6 +50,7 @@ func (a *App) Initialize() {
 	a.Router.HandleFunc("/Library", homePage)
 	a.AdminInitialize()
 	a.UserInitialize()
+	a.CategoryInitialize()
 }
 
 // Serve homepage
