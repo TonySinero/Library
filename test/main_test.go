@@ -7,9 +7,9 @@ import (
 	"os"
 	"testing"
 
+	"github.com/google/uuid"
 	"github.com/library/app"
 	"github.com/library/db"
-	"github.com/google/uuid"
 	"github.com/spf13/viper"
 )
 
@@ -72,27 +72,90 @@ func ensureTableExists() {
 
 // Clean test tables.
 func clearTable() {
+	d.Database.Exec("DELETE FROM admins")
 	d.Database.Exec("DELETE FROM users")
-	d.Database.Exec("DELETE FROM data")
+	d.Database.Exec("DELETE FROM categories")
+	d.Database.Exec("DELETE FROM authors")
+	d.Database.Exec("DELETE FROM books")
+	d.Database.Exec("DELETE FROM issue")
+	d.Database.Exec("DELETE FROM acceptance")
 }
 
 // SQL query to create table.
 const tableCreationQuery = `
 	CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-	CREATE TABLE IF NOT EXISTS users (
-			id uuid DEFAULT uuid_generate_v4 () unique,
-			email varchar(225) NOT NULL UNIQUE,
-			password varchar(225) NOT NULL,
-			createdat timestamp NOT NULL,
-			updatedat timestamp NOT NULL,
-			primary key (id)
-	);
-	CREATE TABLE IF NOT EXISTS data (
+	CREATE TABLE IF NOT EXISTS admins (
 		id uuid DEFAULT uuid_generate_v4 () unique,
-		strattr varchar(225) NOT NULL UNIQUE,
-		intattr int NOT NULL,
+		email varchar(225) NOT NULL UNIQUE,
+		password varchar(225) NOT NULL,
 		createdat timestamp NOT NULL,
 		updatedat timestamp NOT NULL,
+		primary key (id)
+	);
+	CREATE TABLE IF NOT EXISTS users (
+		id uuid DEFAULT uuid_generate_v4 () unique,
+	    firstname varchar(225) NOT NULL,
+		surname varchar(225) NOT NULL,
+	    secondname varchar(225) NOT NULL,
+	    passport varchar(225) NOT NULL,
+	    dateofbirth varchar(225) NOT NULL,
+		email varchar(225) NOT NULL,
+	    address varchar(225) NOT NULL,
+	    indebtedness varchar(225) NOT NULL,
+		createdat timestamp NOT NULL,
+		updatedat timestamp NOT NULL,
+		primary key (id)
+	);
+    CREATE TABLE IF NOT EXISTS categories (
+		id uuid DEFAULT uuid_generate_v4 () unique,
+		categories varchar(225) NOT NULL UNIQUE,
+		createdat timestamp NOT NULL,
+		primary key (id)
+	);
+    CREATE TABLE IF NOT EXISTS authors (
+		id uuid DEFAULT uuid_generate_v4 () unique,
+	    firstname varchar(225) NOT NULL,
+		surname varchar(225) NOT NULL,
+	    dateofbirth varchar(225) NOT NULL,
+		photo varchar(225) NOT NULL,
+		createdat timestamp NOT NULL,
+	    updatedat timestamp NOT NULL,
+		primary key (id)
+	);
+	CREATE TABLE IF NOT EXISTS books (
+		id uuid DEFAULT uuid_generate_v4 () unique,
+	    bookname varchar(225) NOT NULL,
+		categoryID varchar(225) NOT NULL,
+	    authorID varchar(225) NOT NULL,
+	    cost float NOT NULL,
+	    numberofbook int NOT NULL,
+		photo varchar(225) NOT NULL,
+	    priceperday float NOT NULL,
+	    yearofpublishing int NOT NULL,
+	    numberofpages int NOT NULL,
+		createdat timestamp NOT NULL,
+		updatedat timestamp NOT NULL,
+		primary key (id)
+	);
+	CREATE TABLE IF NOT EXISTS issue (
+		id uuid DEFAULT uuid_generate_v4 () unique,
+	    userID varchar(225) NOT NULL,
+	    bookID varchar(225) NOT NULL,
+	    returndate varchar(225) NOT NULL,
+	    preliminarycost float NOT NULL,
+		createdat timestamp NOT NULL,
+		primary key (id)
+	);
+	CREATE TABLE IF NOT EXISTS acceptance (
+		id uuid DEFAULT uuid_generate_v4 () unique,
+	    userID varchar(225) NOT NULL,
+	    bookID varchar(225) NOT NULL,
+	    bookcondition varchar(225) NOT NULL,
+	    rating int NOT NULL,
+	    finalcost float NOT NULL,
+	    photo varchar(225) NOT NULL,
+	    createdat timestamp NOT NULL,
+	    updatedat timestamp NOT NULL,
 		primary key (id)
 	);
 `

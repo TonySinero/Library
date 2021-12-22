@@ -7,6 +7,13 @@ import (
 	"github.com/library/app"
 	"github.com/spf13/viper"
 )
+// @title           Library API
+// @version         2.0
+// @description     This is a sample server API.
+// @host            localhost:8080
+// @securityDefinitions.apikey mySigningKey
+// @in header
+// @name Authorization
 
 func main() {
 	viper.SetConfigName("config")
