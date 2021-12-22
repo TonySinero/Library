@@ -53,6 +53,8 @@ func (a *App) Initialize() {
 	a.CategoryInitialize()
 	a.AuthorInitialize()
 	a.BookInitialize()
+	a.IssueInitialize()
+	a.AcceptanceInitialize()
 }
 
 // Serve homepage

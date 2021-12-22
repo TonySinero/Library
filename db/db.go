@@ -84,7 +84,33 @@ const BOOK_SCHEMA = `
 		primary key (id)
 	);
 `
-
+// Schema for lending table.
+const LENDING_SCHEMA = `
+	CREATE TABLE IF NOT EXISTS issue (
+		id uuid DEFAULT uuid_generate_v4 () unique,
+	    userID varchar(225) NOT NULL,
+	    bookID varchar(225) NOT NULL,
+	    returndate varchar(225) NOT NULL,
+	    preliminarycost float NOT NULL,
+		createdat timestamp NOT NULL,
+		primary key (id)
+	);
+`
+// Schema for acceptance table.
+const ACCEPTANCE_SCHEMA = `
+	CREATE TABLE IF NOT EXISTS acceptance (
+		id uuid DEFAULT uuid_generate_v4 () unique,
+	    userID varchar(225) NOT NULL,
+	    bookID varchar(225) NOT NULL,
+	    bookcondition varchar(225) NOT NULL,
+	    rating int NOT NULL,
+	    finalcost float NOT NULL,
+	    photo varchar(225) NOT NULL,
+	    createdat timestamp NOT NULL,
+	    updatedat timestamp NOT NULL,
+		primary key (id)
+	);
+`
 // Receives database credentials and connects to database.
 func (db *DB) Initialize(user, password, dbhost, dbname string) {
 	connectionString := fmt.Sprintf("postgres://%s:%s@%s:5432/%s?sslmode=disable", user, password, dbhost, dbname)
@@ -101,4 +127,6 @@ func (db *DB) Initialize(user, password, dbhost, dbname string) {
     db.Database.Exec(CATEGORY_SCHEMA)
 	db.Database.Exec(AUTHOR_SCHEMA)
 	db.Database.Exec(BOOK_SCHEMA)
+	db.Database.Exec(LENDING_SCHEMA)
+	db.Database.Exec(ACCEPTANCE_SCHEMA)
 }
