@@ -32,6 +32,8 @@ func (a *App) initializeBookRoutes() {
 	a.Router.HandleFunc("/book/{id}", a.getBook).Methods("GET")
 	a.Router.HandleFunc("/book/{id}", a.updateBook).Methods("PUT")
 	a.Router.HandleFunc("/book/{id}", a.deleteBook).Methods("DELETE")
+	a.Router.HandleFunc("/book/image", a.PostFile).Methods("POST")
+
 }
 
 // Route handlers
