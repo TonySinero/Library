@@ -20,8 +20,8 @@ const ADMIN_SCHEMA = `
 		id uuid DEFAULT uuid_generate_v4 () unique,
 		email varchar(225) NOT NULL UNIQUE,
 		password varchar(225) NOT NULL,
-		createdat timestamp NOT NULL,
-		updatedat timestamp NOT NULL,
+		created_at timestamp NOT NULL,
+		updated_at timestamp NOT NULL,
 		primary key (id)
 	);
 `
@@ -32,14 +32,14 @@ const USER_SCHEMA = `
 		id uuid DEFAULT uuid_generate_v4 () unique,
 	    firstname varchar(225) NOT NULL,
 		surname varchar(225) NOT NULL,
-	    secondname varchar(225) NOT NULL,
+	    second_name varchar(225) NOT NULL,
 	    passport varchar(225) NOT NULL,
-	    dateofbirth varchar(225) NOT NULL,
+	    date_of_birth varchar(225) NOT NULL,
 		email varchar(225) NOT NULL,
 	    address varchar(225) NOT NULL,
 	    indebtedness varchar(225) NOT NULL,
-		createdat timestamp NOT NULL,
-		updatedat timestamp NOT NULL,
+		created_at timestamp NOT NULL,
+		updated_at timestamp NOT NULL,
 		primary key (id)
 	);
 `
@@ -47,8 +47,8 @@ const USER_SCHEMA = `
 const CATEGORY_SCHEMA = `
 	CREATE TABLE IF NOT EXISTS categories (
 		id uuid DEFAULT uuid_generate_v4 () unique,
-		categories varchar(225) NOT NULL UNIQUE,
-		createdat timestamp NOT NULL,
+		name varchar(225) NOT NULL UNIQUE,
+		created_at timestamp NOT NULL,
 		primary key (id)
 	);
 `
@@ -59,40 +59,52 @@ const AUTHOR_SCHEMA = `
 		id uuid DEFAULT uuid_generate_v4 () unique,
 	    firstname varchar(225) NOT NULL,
 		surname varchar(225) NOT NULL,
-	    dateofbirth varchar(225) NOT NULL,
+	    date_of_birth varchar(225) NOT NULL,
 		photo varchar(225) NOT NULL,
-		createdat timestamp NOT NULL,
-	    updatedat timestamp NOT NULL,
+		created_at timestamp NOT NULL,
+	    updated_at timestamp NOT NULL,
 		primary key (id)
 	);
 `
-// Schema for user table.
+// Schema for book table.
 const BOOK_SCHEMA = `
+	CREATE TABLE IF NOT EXISTS book (
+		id uuid DEFAULT uuid_generate_v4 () unique,
+	    name varchar(225) NOT NULL,
+		category varchar(225) NOT NULL,
+	    author varchar(225) NOT NULL,
+	    cost float NOT NULL,
+	    price_per_day float NOT NULL,
+		photo varchar(225) NOT NULL,
+	    year_of_publishing int NOT NULL,
+	    number_of_pages int NOT NULL,
+		created_at timestamp NOT NULL,
+		updated_at timestamp NOT NULL,
+		primary key (id)
+	);
+`
+// Schema for books table.
+const BOOKS_SCHEMA = `
 	CREATE TABLE IF NOT EXISTS books (
 		id uuid DEFAULT uuid_generate_v4 () unique,
-	    bookname varchar(225) NOT NULL,
-		categoryID varchar(225) NOT NULL,
-	    authorID varchar(225) NOT NULL,
-	    cost float NOT NULL,
-	    numberofbook int NOT NULL,
-		photo varchar(225) NOT NULL,
-	    priceperday float NOT NULL,
-	    yearofpublishing int NOT NULL,
-	    numberofpages int NOT NULL,
-		createdat timestamp NOT NULL,
-		updatedat timestamp NOT NULL,
+	    book_id varchar(225) NOT NULL,
+		category_id varchar(225) NOT NULL,
+	    author_id varchar(225) NOT NULL,
+	    number_of_book int NOT NULL,
+		created_at timestamp NOT NULL,
+		deleted_at timestamp NOT NULL,
 		primary key (id)
 	);
 `
 // Schema for lending table.
-const LENDING_SCHEMA = `
+const ISSUE_SCHEMA = `
 	CREATE TABLE IF NOT EXISTS issue (
 		id uuid DEFAULT uuid_generate_v4 () unique,
-	    userID varchar(225) NOT NULL,
-	    bookID varchar(225) NOT NULL,
-	    returndate varchar(225) NOT NULL,
-	    preliminarycost float NOT NULL,
-		createdat timestamp NOT NULL,
+	    user_id varchar(225) NOT NULL,
+	    books_id varchar(225) NOT NULL,
+	    return_date varchar(225) NOT NULL,
+	    preliminary_cost float NOT NULL,
+		created_at timestamp NOT NULL,
 		primary key (id)
 	);
 `
@@ -100,14 +112,14 @@ const LENDING_SCHEMA = `
 const ACCEPTANCE_SCHEMA = `
 	CREATE TABLE IF NOT EXISTS acceptance (
 		id uuid DEFAULT uuid_generate_v4 () unique,
-	    userID varchar(225) NOT NULL,
-	    bookID varchar(225) NOT NULL,
-	    bookcondition varchar(225) NOT NULL,
+	    user_id varchar(225) NOT NULL,
+	    books_id varchar(225) NOT NULL,
+	    book_condition varchar(225) NOT NULL,
 	    rating int NOT NULL,
-	    finalcost float NOT NULL,
+	    final_cost float NOT NULL,
 	    photo varchar(225) NOT NULL,
-	    createdat timestamp NOT NULL,
-	    updatedat timestamp NOT NULL,
+	    created_at timestamp NOT NULL,
+	    updated_at timestamp NOT NULL,
 		primary key (id)
 	);
 `
@@ -127,6 +139,7 @@ func (db *DB) Initialize(user, password, dbhost, dbname string) {
     db.Database.Exec(CATEGORY_SCHEMA)
 	db.Database.Exec(AUTHOR_SCHEMA)
 	db.Database.Exec(BOOK_SCHEMA)
-	db.Database.Exec(LENDING_SCHEMA)
+	db.Database.Exec(BOOKS_SCHEMA)
+	db.Database.Exec(ISSUE_SCHEMA)
 	db.Database.Exec(ACCEPTANCE_SCHEMA)
 }

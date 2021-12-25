@@ -31,8 +31,8 @@ func (a *App) initializeAdminRoutes() {
 	//a.Router.Handle("/admin/{id}", a.isAuthorized(a.updateAdmin)).Methods("PUT")
 	//a.Router.Handle("/admin/{id}", a.isAuthorized(a.deleteAdmin)).Methods("DELETE")
 
-	a.Router.HandleFunc("/admin/{id}", a.getAdmin).Methods("GET")
 	a.Router.HandleFunc("/admins", a.getAdmins).Methods("GET")
+	a.Router.HandleFunc("/admin/{id}", a.getAdmin).Methods("GET")
 	a.Router.HandleFunc("/admin/{id}", a.updateAdmin).Methods("PUT")
 	a.Router.HandleFunc("/admin/{id}", a.deleteAdmin).Methods("DELETE")
 }

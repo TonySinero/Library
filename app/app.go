@@ -55,6 +55,7 @@ func (a *App) Initialize() {
 	a.BookInitialize()
 	a.IssueInitialize()
 	a.AcceptanceInitialize()
+	a.BooksInitialize()
 }
 
 // Serve homepage

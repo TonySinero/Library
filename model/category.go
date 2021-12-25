@@ -10,8 +10,8 @@ import (
 // Defines category model.
 type Categories struct {
 	ID             uuid.UUID `json:"id"       sql:"uuid"`
-	Categories     string    `json:"categories" validate:"required" sql:"categories"`
-	CreatedAt      time.Time `json:"createdat" sql:"createdat"`
+	Name           string    `json:"name" validate:"required" sql:"name"`
+	CreatedAt      time.Time `json:"createdAt" sql:"created_at"`
 
 }
 
@@ -20,7 +20,7 @@ type Categories struct {
 // Gets category. Limit count and start position in db.
 func GetCategories(db *sql.DB, start, count int) ([]Categories, error) {
 	rows, err := db.Query(
-		"SELECT id, categories, createdat FROM categories LIMIT $1 OFFSET $2",
+		"SELECT id, name, created_at FROM categories LIMIT $1 OFFSET $2",
 		count, start)
 
 	if err != nil {
@@ -34,7 +34,7 @@ func GetCategories(db *sql.DB, start, count int) ([]Categories, error) {
 	// Store query results into category variable if no errors.
 	for rows.Next() {
 		var dt Categories
-		if err := rows.Scan(&dt.ID, &dt.Categories, &dt.CreatedAt); err != nil {
+		if err := rows.Scan(&dt.ID, &dt.Name, &dt.CreatedAt); err != nil {
 			return nil, err
 		}
 		category = append(category, dt)
@@ -48,7 +48,7 @@ func GetCategories(db *sql.DB, start, count int) ([]Categories, error) {
 func (dt *Categories) CreateCategory(db *sql.DB) error {
 	timestamp := time.Now()
 	err := db.QueryRow(
-		"INSERT INTO categories(categories, createdat) VALUES($1, $2) RETURNING id, categories, createdat", dt.Categories, timestamp).Scan(&dt.ID, &dt.Categories, &dt.CreatedAt)
+		"INSERT INTO categories(name, created_at) VALUES($1, $2) RETURNING id, name, created_at", dt.Name, timestamp).Scan(&dt.ID, &dt.Name, &dt.CreatedAt)
 	if err != nil {
 		return err
 	}

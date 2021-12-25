@@ -28,6 +28,7 @@ func (a *App) initializeAuthorRoutes() {
 	a.Router.HandleFunc("/author", a.createAuthor).Methods("POST")
 	a.Router.HandleFunc("/authors", a.getAuthors).Methods("GET")
 	a.Router.HandleFunc("/author/{id}", a.updateAuthor).Methods("PUT")
+	a.Router.HandleFunc("/author/image", a.PostFile).Methods("POST")
 
 }
 

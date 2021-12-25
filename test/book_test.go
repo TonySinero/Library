@@ -90,13 +90,12 @@ func TestCreateBook(t *testing.T) {
 	}
 
 	newData := model.Book{
-		BookName: "string1",
-		CategoryID: "string2",
-		AuthorID: "string3",
+		Name: "string1",
+		Category: "string2",
+		Author: "string3",
 		Cost: 1.1,
-		NumberOfBook: 5,
+		PricePerDay: 1.5,
 		Photo: "string4",
-		PricePerDay: 2.2,
 		YearOfPublishing: 1111,
 		NumberOfPages: 1222,
 	}
@@ -115,36 +114,31 @@ func TestCreateBook(t *testing.T) {
 	var m map[string]interface{}
 	json.Unmarshal(response.Body.Bytes(), &m)
 
-	if m["bookname"] != "string1" {
-		t.Errorf("Expected book bookname to be 'string1'. Got '%v'", m["bookname"])
+	if m["name"] != "string1" {
+		t.Errorf("Expected book bookname to be 'string1'. Got '%v'", m["name"])
 	}
 
-	if m["categoryID"] != "string2" {
-		t.Errorf("Expected book categoryID to be 'string2'. Got '%v'", m["categoryID"])
+	if m["category"] != "string2" {
+		t.Errorf("Expected book category to be 'string2'. Got '%v'", m["category"])
 	}
-	if m["authorID"] != "string3" {
-		t.Errorf("Expected book authorID to be 'string3'. Got '%v'", m["authorID"])
+	if m["author"] != "string3" {
+		t.Errorf("Expected book author to be 'string3'. Got '%v'", m["author"])
 	}
 
 	if m["cost"] != float64(1.1) {
 		t.Errorf("Expected book cost to be 1.1 Got '%v'", m["cost"])
 	}
-	if m["numberofbook"] != uint(1) {
-		t.Errorf("Expected book numberofbook to be 1. Got '%v'", m["numberofbook"])
+	if m["pricePerDay"] != float64(2.2) {
+		t.Errorf("Expected book pricePerDay to be 2.2 Got '%v'", m["pricePerDay"])
 	}
-
 	if m["photo"] != "string4" {
 		t.Errorf("Expected book photo to be 'string4'. Got '%v'", m["photo"])
 	}
-	if m["priceperday"] != float64(2.2) {
-		t.Errorf("Expected book priceperday to be 2.2 Got '%v'", m["priceperday"])
+	if m["yearOfPublishing"] != uint(1111) {
+		t.Errorf("Expected book yearOfPublishing to be 1111. Got '%v'", m["yearOfPublishing"])
 	}
-
-	if m["yearofpublishing"] != uint(1111) {
-		t.Errorf("Expected book yearofpublishing to be 1111. Got '%v'", m["yearofpublishing"])
-	}
-	if m["numberofpages"] != uint(1222) {
-		t.Errorf("Expected book numberofpages to be 1222. Got '%v'", m["numberofpages"])
+	if m["numberOfPages"] != uint(1222) {
+		t.Errorf("Expected book numberOfPages to be 1222. Got '%v'", m["numberOfPages"])
 	}
 }
 
@@ -165,7 +159,7 @@ func TestUpdateBook(t *testing.T) {
 	var originalBook map[string]interface{}
 	json.Unmarshal(response.Body.Bytes(), &originalBook)
 
-	var jsonStr = []byte(`{"bookname":"string1 - updated bookname", "categoryID":"string2 - updated categoryID", "authorID":"string3 - updated authorID", "cost": 1.1 , "numberofbook": 2, "photo":"string4 - updated photo", "priceperday": 1.1 , "yearofpublishing": 3, "numberofpages": 4}`)
+	var jsonStr = []byte(`{"name":"string1 - updated name", "category":"string2 - updated category", "author":"string3 - updated author", "cost": 1.1 , "pricePerDay": 2.2, "photo":"string4 - updated photo" , "yearOfPublishing": 3333, "numberOfPages": 4444}`)
 	req, _ = http.NewRequest("PUT", "/book/"+testID, bytes.NewBuffer(jsonStr))
 	// Add "Token" header to request with generated token.
 	req.Header.Add("Token", validToken)
@@ -182,36 +176,31 @@ func TestUpdateBook(t *testing.T) {
 		t.Errorf("Expected the id to remain the same (%v). Got %v", originalBook["id"], m["id"])
 	}
 
-	if m["bookname"] == originalBook["bookname"] {
-		t.Errorf("Expected the bookname to change from '%v' to '%v'. Got '%v'", originalBook["bookname"], m["bookname"], m["bookname"])
+	if m["name"] == originalBook["name"] {
+		t.Errorf("Expected the bookname to change from '%v' to '%v'. Got '%v'", originalBook["name"], m["name"], m["name"])
 	}
 
-	if m["categoryID"] == originalBook["categoryID"] {
-		t.Errorf("Expected the categoryID to change from '%v' to '%v'. Got '%v'", originalBook["categoryID"], m["categoryID"], m["categoryID"])
+	if m["category"] == originalBook["category"] {
+		t.Errorf("Expected the category to change from '%v' to '%v'. Got '%v'", originalBook["category"], m["category"], m["category"])
 	}
-	if m["authorID"] == originalBook["authorID"] {
-		t.Errorf("Expected the authorID to change from '%v' to '%v'. Got '%v'", originalBook["authorID"], m["authorID"], m["authorID"])
+	if m["author"] == originalBook["author"] {
+		t.Errorf("Expected the author to change from '%v' to '%v'. Got '%v'", originalBook["author"], m["author"], m["author"])
 	}
 
 	if m["cost"] == originalBook["cost"] {
 		t.Errorf("Expected the cost to change from '%v' to '%v'. Got '%v'", originalBook["cost"], m["cost"], m["cost"])
 	}
-	if m["numberofbook"] == originalBook["numberofbook"] {
-		t.Errorf("Expected the numberofbook to change from '%v' to '%v'. Got '%v'", originalBook["numberofbook"], m["numberofbook"], m["numberofbook"])
+	if m["pricePerDay"] == originalBook["pricePerDay"] {
+		t.Errorf("Expected the pricePerDay to change from '%v' to '%v'. Got '%v'", originalBook["pricePerDay"], m["pricePerDay"], m["pricePerDay"])
 	}
-
 	if m["photo"] == originalBook["photo"] {
 		t.Errorf("Expected the photo to change from '%v' to '%v'. Got '%v'", originalBook["photo"], m["photo"], m["photo"])
 	}
-	if m["priceperday"] == originalBook["priceperday"] {
-		t.Errorf("Expected the priceperday to change from '%v' to '%v'. Got '%v'", originalBook["priceperday"], m["priceperday"], m["priceperday"])
+	if m["yearOfPublishing"] == originalBook["yearOfPublishing"] {
+		t.Errorf("Expected the yearOfPublishing to change from '%v' to '%v'. Got '%v'", originalBook["yearOfPublishing"], m["yearOfPublishing"], m["yearOfPublishing"])
 	}
-
-	if m["yearofpublishing"] == originalBook["yearofpublishing"] {
-		t.Errorf("Expected the yearofpublishing to change from '%v' to '%v'. Got '%v'", originalBook["yearofpublishing"], m["yearofpublishing"], m["yearofpublishing"])
-	}
-	if m["numberofpages"] == originalBook["numberofpages"] {
-		t.Errorf("Expected the numberofpages to change from '%v' to '%v'. Got '%v'", originalBook["numberofpages"], m["numberofpages"], m["numberofpages"])
+	if m["numberOfPages"] == originalBook["numberOfPages"] {
+		t.Errorf("Expected the numberOfPages to change from '%v' to '%v'. Got '%v'", originalBook["numberOfPages"], m["numberOfPages"], m["numberOfPages"])
 	}
 }
 
@@ -255,6 +244,6 @@ func addBook(count int) {
 
 	for i := 1; i <= count; i++ {
 		timestamp := time.Now()
-		d.Database.Exec("INSERT INTO books(id, bookname, categoryID, authorID, cost, numberofbook, photo, priceperday, yearofpublishing, numberofpages, createdat, updatedat) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10,  $11, $12)", testID, "string"+strconv.Itoa(i), "string"+strconv.Itoa(i), "string"+strconv.Itoa(i), i, i, "string"+strconv.Itoa(i), i, i, i, timestamp, timestamp)
+		d.Database.Exec("INSERT INTO book(id, name, category, author, cost, price_per_day, photo, year_of_publishing, number_of_pages, created_at, updated_at) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10,  $11)", testID, "string"+strconv.Itoa(i), "string"+strconv.Itoa(i), "string"+strconv.Itoa(i), i, i, "string"+strconv.Itoa(i), i, i, timestamp, timestamp)
 	}
 }

@@ -12,10 +12,10 @@ type Author struct {
 	ID             uuid.UUID `json:"id"       sql:"uuid"`
 	Firstname      string    `json:"firstname" validate:"required" sql:"firstname"`
 	Surname        string    `json:"surname" validate:"required" sql:"surname"`
-	DateOfBirth    string    `json:"dateofbirth" validate:"required" sql:"dateofbirth"`
+	DateOfBirth    string    `json:"dateOfBirth" validate:"required" sql:"date_of_birth"`
 	Photo          string    `json:"photo" validate:"required" sql:"photo"`
-	CreatedAt      time.Time `json:"createdat" sql:"createdat"`
-	UpdatedAt      time.Time `json:"updatedat" sql:"updatedat"`
+	CreatedAt      time.Time `json:"createdAt" sql:"created_at"`
+	UpdatedAt      time.Time `json:"updatedAt" sql:"updated_at"`
 }
 
 // Query operations
@@ -23,7 +23,7 @@ type Author struct {
 // Gets authors. Limit count and start position in db.
 func GetAuthors(db *sql.DB, start, count int) ([]Author, error) {
 	rows, err := db.Query(
-		"SELECT id, firstname, surname, dateofbirth, photo, createdat, updatedat FROM authors LIMIT $1 OFFSET $2",
+		"SELECT id, firstname, surname, date_of_birth, photo, created_at, updated_at FROM authors LIMIT $1 OFFSET $2",
 		count, start)
 
 	if err != nil {
@@ -53,7 +53,7 @@ func (dt *Author) CreateAuthor(db *sql.DB) error {
 	// Scan db after creation if author exists using new author id.
 	timestamp := time.Now()
 	err := db.QueryRow(
-		"INSERT INTO authors(firstname, surname, dateofbirth, photo, createdat, updatedat) VALUES($1, $2, $3, $4, $5, $6) RETURNING id, firstname, surname, dateofbirth, photo, createdat, updatedat", dt.Firstname, dt.Surname,  dt.DateOfBirth, dt.Photo, timestamp, timestamp).Scan(&dt.ID, &dt.Firstname, &dt.Surname, &dt.DateOfBirth, &dt.Photo, &dt.CreatedAt, &dt.UpdatedAt)
+		"INSERT INTO authors(firstname, surname, date_of_birth, photo, created_at, updated_at) VALUES($1, $2, $3, $4, $5, $6) RETURNING id, firstname, surname, date_of_birth, photo, created_at, updated_at", dt.Firstname, dt.Surname,  dt.DateOfBirth, dt.Photo, timestamp, timestamp).Scan(&dt.ID, &dt.Firstname, &dt.Surname, &dt.DateOfBirth, &dt.Photo, &dt.CreatedAt, &dt.UpdatedAt)
 	if err != nil {
 		return err
 	}
@@ -65,7 +65,7 @@ func (dt *Author) CreateAuthor(db *sql.DB) error {
 func (dt *Author) UpdateAuthor(db *sql.DB) error {
 	timestamp := time.Now()
 	_, err :=
-		db.Exec("UPDATE authors SET firstname=$1, surname=$2, dateofbirth=$3, photo=$4, updatedat=$5 WHERE id=$6 RETURNING id, firstname, surname, photo, createdat, updatedat", dt.Firstname, dt.Surname,  dt.DateOfBirth, dt.Photo, timestamp, dt.ID)
+		db.Exec("UPDATE authors SET firstname=$1, surname=$2, date_of_birth=$3, photo=$4, updated_at=$5 WHERE id=$6 RETURNING id, firstname, surname, date_of_birth, photo, created_at, updated_at", dt.Firstname, dt.Surname,  dt.DateOfBirth, dt.Photo, timestamp, dt.ID)
 
 	return err
 }

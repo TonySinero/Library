@@ -1,15 +1,15 @@
 package main
 
 import (
+	"github.com/library/app"
 	"log"
 	"os"
 
-	"github.com/library/app"
 	"github.com/spf13/viper"
 )
 // @title           Library API
 // @version         2.0
-// @description     This is a sample server API.
+// @description     This is a server API.
 // @host            localhost:8080
 // @securityDefinitions.apikey mySigningKey
 // @in header

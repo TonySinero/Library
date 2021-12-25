@@ -1,6 +1,7 @@
 package test
 
 import (
+	"github.com/library/app"
 	"log"
 	"net/http"
 	"net/http/httptest"
@@ -8,7 +9,6 @@ import (
 	"testing"
 
 	"github.com/google/uuid"
-	"github.com/library/app"
 	"github.com/library/db"
 	"github.com/spf13/viper"
 )
@@ -76,7 +76,7 @@ func clearTable() {
 	d.Database.Exec("DELETE FROM users")
 	d.Database.Exec("DELETE FROM categories")
 	d.Database.Exec("DELETE FROM authors")
-	d.Database.Exec("DELETE FROM books")
+	d.Database.Exec("DELETE FROM book")
 	d.Database.Exec("DELETE FROM issue")
 	d.Database.Exec("DELETE FROM acceptance")
 }
@@ -88,74 +88,73 @@ const tableCreationQuery = `
 		id uuid DEFAULT uuid_generate_v4 () unique,
 		email varchar(225) NOT NULL UNIQUE,
 		password varchar(225) NOT NULL,
-		createdat timestamp NOT NULL,
-		updatedat timestamp NOT NULL,
+		created_at timestamp NOT NULL,
+		updated_at timestamp NOT NULL,
 		primary key (id)
 	);
 	CREATE TABLE IF NOT EXISTS users (
 		id uuid DEFAULT uuid_generate_v4 () unique,
 	    firstname varchar(225) NOT NULL,
 		surname varchar(225) NOT NULL,
-	    secondname varchar(225) NOT NULL,
+	    second_name varchar(225) NOT NULL,
 	    passport varchar(225) NOT NULL,
-	    dateofbirth varchar(225) NOT NULL,
+	    date_of_birth varchar(225) NOT NULL,
 		email varchar(225) NOT NULL,
 	    address varchar(225) NOT NULL,
 	    indebtedness varchar(225) NOT NULL,
-		createdat timestamp NOT NULL,
-		updatedat timestamp NOT NULL,
+		created_at timestamp NOT NULL,
+		updated_at timestamp NOT NULL,
 		primary key (id)
 	);
     CREATE TABLE IF NOT EXISTS categories (
 		id uuid DEFAULT uuid_generate_v4 () unique,
-		categories varchar(225) NOT NULL UNIQUE,
-		createdat timestamp NOT NULL,
+		name varchar(225) NOT NULL UNIQUE,
+		created_at timestamp NOT NULL,
 		primary key (id)
 	);
     CREATE TABLE IF NOT EXISTS authors (
 		id uuid DEFAULT uuid_generate_v4 () unique,
 	    firstname varchar(225) NOT NULL,
 		surname varchar(225) NOT NULL,
-	    dateofbirth varchar(225) NOT NULL,
+	    date_of_birth varchar(225) NOT NULL,
 		photo varchar(225) NOT NULL,
-		createdat timestamp NOT NULL,
-	    updatedat timestamp NOT NULL,
+		created_at timestamp NOT NULL,
+	    updated_at timestamp NOT NULL,
 		primary key (id)
 	);
-	CREATE TABLE IF NOT EXISTS books (
+	CREATE TABLE IF NOT EXISTS book (
 		id uuid DEFAULT uuid_generate_v4 () unique,
-	    bookname varchar(225) NOT NULL,
-		categoryID varchar(225) NOT NULL,
-	    authorID varchar(225) NOT NULL,
+	    name varchar(225) NOT NULL,
+		category varchar(225) NOT NULL,
+	    author varchar(225) NOT NULL,
 	    cost float NOT NULL,
-	    numberofbook int NOT NULL,
+	    price_per_day float NOT NULL,
 		photo varchar(225) NOT NULL,
-	    priceperday float NOT NULL,
-	    yearofpublishing int NOT NULL,
-	    numberofpages int NOT NULL,
-		createdat timestamp NOT NULL,
-		updatedat timestamp NOT NULL,
+	    year_of_publishing int NOT NULL,
+	    number_of_pages int NOT NULL,
+		created_at timestamp NOT NULL,
+		updated_at timestamp NOT NULL,
 		primary key (id)
 	);
 	CREATE TABLE IF NOT EXISTS issue (
 		id uuid DEFAULT uuid_generate_v4 () unique,
-	    userID varchar(225) NOT NULL,
-	    bookID varchar(225) NOT NULL,
-	    returndate varchar(225) NOT NULL,
-	    preliminarycost float NOT NULL,
-		createdat timestamp NOT NULL,
+	    user_id varchar(225) NOT NULL,
+	    books_id varchar(225) NOT NULL,
+	    return_date varchar(225) NOT NULL,
+	    preliminary_cost float NOT NULL,
+		created_at timestamp NOT NULL,
 		primary key (id)
 	);
 	CREATE TABLE IF NOT EXISTS acceptance (
 		id uuid DEFAULT uuid_generate_v4 () unique,
-	    userID varchar(225) NOT NULL,
-	    bookID varchar(225) NOT NULL,
-	    bookcondition varchar(225) NOT NULL,
+	    user_id varchar(225) NOT NULL,
+	    books_id varchar(225) NOT NULL,
+	    book_condition varchar(225) NOT NULL,
 	    rating int NOT NULL,
-	    finalcost float NOT NULL,
+	    final_cost float NOT NULL,
 	    photo varchar(225) NOT NULL,
-	    createdat timestamp NOT NULL,
-	    updatedat timestamp NOT NULL,
+	    created_at timestamp NOT NULL,
+	    updated_at timestamp NOT NULL,
 		primary key (id)
 	);
 `

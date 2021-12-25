@@ -15,8 +15,8 @@ import (
 
 // Test functions
 
-// Tests response if data table is empty.
-// Deletes all records from data table and sends GET request to /data endpoint.
+// Tests response if user table is empty.
+// Deletes all records from user table and sends GET request to /user endpoint.
 func TestEmptyUserTable(t *testing.T) {
 	clearTable()
 	// Generate JWT for authorization.
@@ -115,20 +115,20 @@ func TestCreateUser(t *testing.T) {
 	var m map[string]interface{}
 	json.Unmarshal(response.Body.Bytes(), &m)
 
-	if m["firstname"] != "string1" {
-		t.Errorf("Expected user firstname to be 'string1'. Got '%v'", m["firstname"])
+	if m["firstName"] != "string1" {
+		t.Errorf("Expected user firstName to be 'string1'. Got '%v'", m["firstName"])
 	}
 	if m["surname"] != "string2" {
 		t.Errorf("Expected user surname to be 'string2'. Got '%v'", m["surname"])
 	}
-	if m["secondname"] != "string3" {
-		t.Errorf("Expected user secondname to be 'string3'. Got '%v'", m["secondname"])
+	if m["secondName"] != "string3" {
+		t.Errorf("Expected user secondName to be 'string3'. Got '%v'", m["secondName"])
 	}
 	if m["passport"] != "string4" {
 		t.Errorf("Expected user passport to be 'string4'. Got '%v'", m["passport"])
 	}
-	if m["dateofbirth"] != "string5" {
-		t.Errorf("Expected user dateofbirth to be 'string5'. Got '%v'", m["dateofbirth"])
+	if m["dateOfBirth"] != "string5" {
+		t.Errorf("Expected user dateOfBirth to be 'string5'. Got '%v'", m["dateOfBirth"])
 	}
 	if m["email"] != "string6" {
 		t.Errorf("Expected user email to be 'string6'. Got '%v'", m["email"])
@@ -159,7 +159,7 @@ func TestUpdateUser(t *testing.T) {
 	var originalUser map[string]interface{}
 	json.Unmarshal(response.Body.Bytes(), &originalUser)
 
-	var jsonStr = []byte(`{"firstname":"string1 - updated firstname", "surname":"string2 - updated surname", "secondname":"string3 - updated secondname", "passport":"string4 - updated passport", "dateofbirth":"string5 - updated dateofbirth", "email":"string6 - updated email", "address":"string7 - updated address", "indebtedness":"string8 - updated indebtedness",}`)
+	var jsonStr = []byte(`{"firstName":"string1 - updated firstName", "surname":"string2 - updated surname", "secondName":"string3 - updated secondName", "passport":"string4 - updated passport", "dateOfBirth":"string5 - updated dateOfBirth", "email":"string6 - updated email", "address":"string7 - updated address", "indebtedness":"string8 - updated indebtedness",}`)
 	req, _ = http.NewRequest("PUT", "/user/"+testID, bytes.NewBuffer(jsonStr))
 	// Add "Token" header to request with generated token.
 	req.Header.Add("Token", validToken)
@@ -176,22 +176,22 @@ func TestUpdateUser(t *testing.T) {
 		t.Errorf("Expected the id to remain the same (%v). Got %v", originalUser["id"], m["id"])
 	}
 
-	if m["firstname"] == originalUser["firstname"] {
-		t.Errorf("Expected the firstname to change from '%v' to '%v'. Got '%v'", originalUser["firstname"], m["firstname"], m["firstname"])
+	if m["firstName"] == originalUser["firstName"] {
+		t.Errorf("Expected the firstName to change from '%v' to '%v'. Got '%v'", originalUser["firstName"], m["firstName"], m["firstName"])
 	}
 
 	if m["surname"] == originalUser["surname"] {
 		t.Errorf("Expected the surname to change from '%v' to '%v'. Got '%v'", originalUser["surname"], m["surname"], m["surname"])
 	}
-	if m["secondname"] == originalUser["secondname"] {
-		t.Errorf("Expected the secondname to change from '%v' to '%v'. Got '%v'", originalUser["secondname"], m["secondname"], m["secondname"])
+	if m["secondName"] == originalUser["secondName"] {
+		t.Errorf("Expected the secondName to change from '%v' to '%v'. Got '%v'", originalUser["secondName"], m["secondName"], m["secondName"])
 	}
 
 	if m["passport"] == originalUser["passport"] {
 		t.Errorf("Expected the passport to change from '%v' to '%v'. Got '%v'", originalUser["passport"], m["passport"], m["passport"])
 	}
-	if m["dateofbirth"] == originalUser["dateofbirth"] {
-		t.Errorf("Expected the dateofbirth to change from '%v' to '%v'. Got '%v'", originalUser["dateofbirth"], m["dateofbirth"], m["dateofbirth"])
+	if m["dateOfBirth"] == originalUser["dateOfBirth"] {
+		t.Errorf("Expected the dateOfBirth to change from '%v' to '%v'. Got '%v'", originalUser["dateOfBirth"], m["dateOfBirth"], m["dateOfBirth"])
 	}
 
 	if m["email"] == originalUser["email"] {
@@ -246,6 +246,6 @@ func addUser(count int) {
 
 	for i := 1; i <= count; i++ {
 		timestamp := time.Now()
-		d.Database.Exec("INSERT INTO users(id, firstname, surname, secondname, passport, dateofbirth, email, address, indebtedness, createdat, updatedat) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)", testID, "string"+strconv.Itoa(i), "string"+strconv.Itoa(i), "string"+strconv.Itoa(i), "string"+strconv.Itoa(i), "string"+strconv.Itoa(i), "string"+strconv.Itoa(i), "string"+strconv.Itoa(i), "string"+strconv.Itoa(i), timestamp, timestamp)
+		d.Database.Exec("INSERT INTO users(id, firstname, surname, second_name, passport, date_of_birth, email, address, indebtedness, created_at, updated_at) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)", testID, "string"+strconv.Itoa(i), "string"+strconv.Itoa(i), "string"+strconv.Itoa(i), "string"+strconv.Itoa(i), "string"+strconv.Itoa(i), "string"+strconv.Itoa(i), "string"+strconv.Itoa(i), "string"+strconv.Itoa(i), timestamp, timestamp)
 	}
 }

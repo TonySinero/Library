@@ -198,6 +198,6 @@ func addAdmin(count int) {
 
 	for i := 1; i <= count; i++ {
 		timestamp := time.Now()
-		d.Database.Exec("INSERT INTO admins(id, email, password, createdat, updatedat) VALUES($1, $2, $3, $4, $5)", testID, "testemail"+strconv.Itoa(i)+"@gmail.com", "password"+strconv.Itoa(i), timestamp, timestamp)
+		d.Database.Exec("INSERT INTO admins(id, email, password, created_at, updated_at) VALUES($1, $2, $3, $4, $5)", testID, "testemail"+strconv.Itoa(i)+"@gmail.com", "password"+strconv.Itoa(i), timestamp, timestamp)
 	}
 }
