@@ -26,8 +26,8 @@ type Book struct {
 
 // Gets a specific book by id.
 func (dt *Book) GetBook(db *sql.DB) error {
-	return db.QueryRow("SELECT name, category, author, cost, price_per_day, photo, year_of_publishing, number_of_pages, created_at, updated_at FROM book WHERE id=$1",
-		dt.ID).Scan(&dt.Name, &dt.Category, &dt.Author, &dt.Cost, &dt.PricePerDay, &dt.Photo, &dt.YearOfPublishing, &dt.NumberOfPages, &dt.CreatedAt, &dt.UpdatedAt)
+	return db.QueryRow("SELECT id, name, category, author, cost, price_per_day, photo, year_of_publishing, number_of_pages, created_at, updated_at FROM book WHERE name=$1",
+		dt.Name).Scan(&dt.ID, &dt.Name, &dt.Category, &dt.Author, &dt.Cost, &dt.PricePerDay, &dt.Photo, &dt.YearOfPublishing, &dt.NumberOfPages, &dt.CreatedAt, &dt.UpdatedAt)
 }
 
 // Gets books. Limit count and start position in db.

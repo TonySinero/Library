@@ -29,7 +29,7 @@ func (a *App) initializeBookRoutes() {
 
 	a.Router.HandleFunc("/book", a.createBook).Methods("POST")
 	a.Router.HandleFunc("/books", a.getBooks).Methods("GET")
-	a.Router.HandleFunc("/book/{id}", a.getBook).Methods("GET")
+	a.Router.HandleFunc("/book/{name}", a.getBook).Methods("GET")
 	a.Router.HandleFunc("/book/{id}", a.updateBook).Methods("PUT")
 	a.Router.HandleFunc("/book/{id}", a.deleteBook).Methods("DELETE")
 	a.Router.HandleFunc("/book/image", a.PostFile).Methods("POST")
@@ -42,12 +42,8 @@ func (a *App) initializeBookRoutes() {
 func (a *App) getBook(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	// Convert id string variable to int.
-	id, err := uuid.Parse(vars["id"])
-	if err != nil {
-		app.RespondWithError(w, http.StatusInternalServerError, err.Error())
-	}
-
-	dt := model.Book{ID: id}
+	name:= vars["name"]
+	dt := model.Book{Name: name}
 	if err := dt.GetBook(d.Database); err != nil {
 		switch err {
 		case sql.ErrNoRows:
