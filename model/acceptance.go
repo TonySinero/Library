@@ -10,11 +10,13 @@ import (
 
 // Defines acceptance model.
 type Acceptance struct {
+	Books
 	ID               uuid.UUID `json:"id"       sql:"uuid"`
 	UserID           string    `json:"userID" validate:"required" sql:"user_id"`
 	BookID           string    `json:"bookID" validate:"required" sql:"book_id"`
 	BookCondition    string    `json:"bookCondition" validate:"required" sql:"book_condition"`
 	Rating           uint      `json:"rating" validate:"required" sql:"rating"`
+	Discount         float32   `json:"discount" validate:"required" sql:"discount"`
 	FinalCost        float32   `json:"finalCost" validate:"required" sql:"final_cost"`
 	Photo            string    `json:"photo" validate:"required" sql:"photo"`
 	CreatedAt        time.Time `json:"createdAt" sql:"created_at"`
@@ -25,14 +27,14 @@ type Acceptance struct {
 
 // Gets a specific acceptance by id.
 func (dt *Acceptance) GetAcceptance(db *sql.DB) error {
-	return db.QueryRow("SELECT user_id, books_id, book_condition, rating, final_cost, photo, created_at, updated_at FROM acceptance WHERE id=$1",
-		dt.ID).Scan(&dt.UserID, &dt.BookID, &dt.BookCondition, &dt.Rating, &dt.FinalCost, &dt.Photo, &dt.CreatedAt, &dt.UpdatedAt)
+	return db.QueryRow("SELECT user_id, books_id, book_condition, rating, discount, final_cost, photo, created_at, updated_at FROM acceptance WHERE id=$1",
+		dt.ID).Scan(&dt.UserID, &dt.BookID, &dt.BookCondition, &dt.Rating, &dt.Discount, &dt.FinalCost, &dt.Photo, &dt.CreatedAt, &dt.UpdatedAt)
 }
 
 // Gets acceptances. Limit count and start position in db.
 func GetAcceptances(db *sql.DB, start, count int) ([]Acceptance, error) {
 	rows, err := db.Query(
-		"SELECT id, user_id, books_id, book_condition, rating, final_cost, photo, created_at, updated_at FROM acceptance LIMIT $1 OFFSET $2",
+		"SELECT id, user_id, books_id, book_condition, rating, discount, final_cost, photo, created_at, updated_at FROM acceptance LIMIT $1 OFFSET $2",
 		count, start)
 
 	if err != nil {
@@ -46,7 +48,7 @@ func GetAcceptances(db *sql.DB, start, count int) ([]Acceptance, error) {
 	// Store query results into acceptance variable if no errors.
 	for rows.Next() {
 		var dt Acceptance
-		if err := rows.Scan(&dt.ID, &dt.UserID, &dt.BookID, &dt.BookCondition, &dt.Rating, &dt.FinalCost, &dt.Photo, &dt.CreatedAt, &dt.UpdatedAt); err != nil {
+		if err := rows.Scan(&dt.ID, &dt.UserID, &dt.BookID, &dt.BookCondition, &dt.Rating, &dt.Discount, &dt.FinalCost, &dt.Photo, &dt.CreatedAt, &dt.UpdatedAt); err != nil {
 			return nil, err
 		}
 		acceptance = append(acceptance, dt)
@@ -62,7 +64,7 @@ func (dt *Acceptance) CreateAcceptance(db *sql.DB) error {
 	// Scan db after creation if acceptance exists using new acceptance id.
 	timestamp := time.Now()
 	err := db.QueryRow(
-		"INSERT INTO acceptance(user_id, books_id, book_condition, rating, final_cost, photo, created_at, updated_at) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id, user_id, books_id, book_condition, rating, final_cost, photo, created_at, updated_at", dt.UserID, dt.BookID, dt.BookCondition, dt.Rating, dt.FinalCost, dt.Photo, timestamp, timestamp).Scan(&dt.ID, &dt.UserID, &dt.BookID, &dt.BookCondition, &dt.Rating, &dt.FinalCost, &dt.Photo, &dt.CreatedAt, &dt.UpdatedAt)
+		"INSERT INTO acceptance(user_id, books_id, book_condition, rating, discount, final_cost, photo, created_at, updated_at) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id, user_id, books_id, book_condition, rating, discount, final_cost, photo, created_at, updated_at", dt.UserID, dt.BookID, dt.BookCondition, dt.Rating, dt.Discount, dt.FinalCost, dt.Photo, timestamp, timestamp).Scan(&dt.ID, &dt.UserID, &dt.BookID, &dt.BookCondition, &dt.Rating, &dt.Discount, &dt.FinalCost, &dt.Photo, &dt.CreatedAt, &dt.UpdatedAt)
 	if err != nil {
 		return err
 	}
@@ -74,7 +76,7 @@ func (dt *Acceptance) CreateAcceptance(db *sql.DB) error {
 func (dt *Acceptance) UpdateAcceptance(db *sql.DB) error {
 	timestamp := time.Now()
 	_, err :=
-		db.Exec("UPDATE acceptance SET user_id=$1, books_id=$2, book_condition=$3, rating=$4, final_cost=$5, photo=$6, updated_at=$7 WHERE id=$8 RETURNING id, user_id, books_id, book_condition, rating, final_cost, photo, created_at, updated_at",  dt.UserID, dt.BookID, dt.BookCondition, dt.Rating, dt.FinalCost, dt.Photo, timestamp, dt.ID)
+		db.Exec("UPDATE acceptance SET user_id=$1, books_id=$2, book_condition=$3, discount=$4, rating=$5, final_cost=$6, photo=$7, updated_at=$8 WHERE id=$9 RETURNING id, user_id, books_id, book_condition, rating, discount, final_cost, photo, created_at, updated_at",  dt.UserID, dt.BookID, dt.BookCondition, dt.Rating, dt.Discount, dt.FinalCost, dt.Photo, timestamp, dt.ID)
 
 	return err
 }
@@ -100,4 +102,15 @@ func (accep *Acceptance) Validate() error {
 		return errors.New("photo is required")
 	}
 	return nil
+}
+
+func (d *Acceptance) DiscountFunc() {
+	if d.NumberOfBooks > 2 {
+		d.Discount = 0.10
+		d.FinalCost = d.FinalCost * d.Discount
+	}
+	if d.NumberOfBooks > 4 {
+		d.Discount = 0.15
+		d.FinalCost = d.FinalCost * d.Discount
+	}
 }

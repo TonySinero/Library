@@ -116,6 +116,7 @@ const ACCEPTANCE_SCHEMA = `
 	    books_id varchar(225) NOT NULL,
 	    book_condition varchar(225) NOT NULL,
 	    rating int NOT NULL,
+	    discount float NOT NULL,
 	    final_cost float NOT NULL,
 	    photo varchar(225) NOT NULL,
 	    created_at timestamp NOT NULL,

@@ -10,6 +10,7 @@ import (
 
 // Defines issue model.
 type Issue struct {
+	Books
 	ID                uuid.UUID `json:"id"       sql:"uuid"`
 	UserID            string    `json:"userID" validate:"required" sql:"user_id"`
 	BooksID           string    `json:"bookID" validate:"required" sql:"book_id"`
@@ -74,6 +75,13 @@ func (dt *Issue) DeleteIssue(db *sql.DB) error {
 
 	return err
 }
+func (r *Issue) Restrictions() error {
+	if r.NumberOfBooks > 5 {
+		return errors.New("issuing more than five books is prohibited")
+	}
+	return nil
+}
+
 
 func (issue *Issue) Validate() error {
 	if issue.ReturnDate == "" {

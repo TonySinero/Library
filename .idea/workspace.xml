@@ -6,17 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="3475a3fb-c118-4e1c-adbb-681d943378fe" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/bc56d1cd-fcdc-42bc-bb05-7b4d3bd31546.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/bc56d1cd-fcdc-42bc-bb05-7b4d3bd31546.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/bc56d1cd-fcdc-42bc-bb05-7b4d3bd31546/storage_v2/_src_/database/postgres.edMnLQ/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/bc56d1cd-fcdc-42bc-bb05-7b4d3bd31546/storage_v2/_src_/database/postgres.edMnLQ/schema/public.abK9xQ.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/db.go" beforeDir="false" afterPath="$PROJECT_DIR$/db/db.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/model/acceptance.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/acceptance.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/admin.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/admin.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/author.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/author.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/book.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/book.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/books.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/books.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/category.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/category.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/model/issue.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/issue.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/user.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
