@@ -2,6 +2,7 @@ package model
 
 import (
 	"database/sql"
+	"github.com/pkg/errors"
 	"time"
 
 	"github.com/google/uuid"
@@ -72,4 +73,14 @@ func (dt *Issue) DeleteIssue(db *sql.DB) error {
 	_, err := db.Exec("DELETE FROM issue WHERE id=$1", dt.ID)
 
 	return err
+}
+
+func (issue *Issue) Validate() error {
+	if issue.ReturnDate == "" {
+		return errors.New("date is required")
+	}
+	if issue.PreliminaryCost == 0 {
+		return errors.New("price cannot be zero")
+	}
+	return nil
 }

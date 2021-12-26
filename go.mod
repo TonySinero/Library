@@ -18,6 +18,7 @@ require (
 	github.com/jonboulle/clockwork v0.1.0 // indirect
 	github.com/lib/pq v1.10.4
 	github.com/mailru/easyjson v0.7.7 // indirect
+	github.com/pkg/errors v0.9.1 // indirect
 	github.com/prometheus/tsdb v0.7.1 // indirect
 	github.com/smartystreets/goconvey v1.6.4 // indirect
 	github.com/soheilhy/cmux v0.1.4 // indirect

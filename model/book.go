@@ -2,6 +2,7 @@ package model
 
 import (
 	"database/sql"
+	"github.com/pkg/errors"
 	"time"
 
 	"github.com/google/uuid"
@@ -85,4 +86,32 @@ func (dt *Book) DeleteBook(db *sql.DB) error {
 	_, err := db.Exec("DELETE FROM book WHERE id=$1", dt.ID)
 
 	return err
+}
+
+func (book *Book) Validate() error {
+	if book.Name == "" {
+		return errors.New("name is required")
+	}
+	if book.Category == "" {
+		return errors.New("category is required")
+	}
+	if book.Author == "" {
+		return errors.New("author is required")
+	}
+	if book.Cost == 0 {
+		return errors.New("cost cannot be zero")
+	}
+	if book.PricePerDay == 0 {
+		return errors.New("pricePerDay is required")
+	}
+	if book.Photo == "" {
+		return errors.New("photo is required")
+	}
+	if book.YearOfPublishing == 0 {
+		return errors.New("yearOfPublishing cannot be zero")
+	}
+	if book.NumberOfPages == 0 {
+		return errors.New("numberOfPages cannot be zero")
+	}
+	return nil
 }

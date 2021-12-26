@@ -2,6 +2,7 @@ package model
 
 import (
 	"database/sql"
+	"github.com/pkg/errors"
 	"time"
 
 	"github.com/google/uuid"
@@ -70,3 +71,18 @@ func (dt *Author) UpdateAuthor(db *sql.DB) error {
 	return err
 }
 
+func (author *Author) Validate() error {
+	if author.Firstname == "" {
+		return errors.New("name is required")
+	}
+	if author.Surname == "" {
+		return errors.New("surname is required")
+	}
+	if author.DateOfBirth == "" {
+		return errors.New("dateOfBirth is required")
+	}
+	if author.Photo == "" {
+		return errors.New("photo is required")
+	}
+	return nil
+}

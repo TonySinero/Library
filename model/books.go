@@ -2,6 +2,7 @@ package model
 
 import (
 	"database/sql"
+	"github.com/pkg/errors"
 	"time"
 
 	"github.com/google/uuid"
@@ -81,4 +82,11 @@ func (dt *Books) DeleteAllBooks(db *sql.DB) error {
 	_, err := db.Exec("DELETE FROM books WHERE id=$1", dt.ID)
 
 	return err
+}
+
+func (books *Books) Validate() error {
+	if books.NumberOfBooks == 0 {
+		return errors.New("books cannot be zero")
+	}
+	return nil
 }

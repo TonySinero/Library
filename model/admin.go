@@ -2,6 +2,8 @@ package model
 
 import (
 	"database/sql"
+	"github.com/pkg/errors"
+	"strings"
 	"time"
 
 	"github.com/google/uuid"
@@ -83,4 +85,19 @@ func (u *Admin) DeleteAdmin(db *sql.DB) error {
 	_, err := db.Exec("DELETE FROM admins WHERE id=$1", u.ID)
 
 	return err
+}
+
+
+func (admin *Admin) Validate() error {
+	if !strings.Contains(admin.Email, "@") {
+		return errors.New("Email address is required")
+	}
+	if len(admin.Password) < 6 {
+		return errors.New("Password is required")
+	}
+	temp := &Admin{}
+	if temp.Email != "" {
+		return errors.New("Email address already in use by another user.")
+	}
+	return nil
 }

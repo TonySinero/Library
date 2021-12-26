@@ -2,6 +2,8 @@ package model
 
 import (
 	"database/sql"
+	"github.com/pkg/errors"
+	"strings"
 	"time"
 
 	"github.com/google/uuid"
@@ -85,4 +87,29 @@ func (dt *User) DeleteUser(db *sql.DB) error {
 	_, err := db.Exec("DELETE FROM users WHERE id=$1", dt.ID)
 
 	return err
+}
+
+func (user *User) Validate() error {
+	if user.Firstname == "" {
+		return errors.New("name is required")
+	}
+	if user.Surname == "" {
+		return errors.New("surname is required")
+	}
+	if user.SecondName == "" {
+		return errors.New("secondName is required")
+	}
+	if user.DateOfBirth == "" {
+		return errors.New("dateOfBirth is required")
+	}
+	if !strings.Contains(user.Email, "@") {
+		return errors.New("Email address is required")
+	}
+	if user.Address == "" {
+		return errors.New("address is required")
+	}
+	if user.Indebtedness == "" {
+		return errors.New("indebtedness is required")
+	}
+	return nil
 }
