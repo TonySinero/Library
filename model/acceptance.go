@@ -10,7 +10,6 @@ import (
 
 // Defines acceptance model.
 type Acceptance struct {
-	Books
 	ID               uuid.UUID `json:"id"       sql:"uuid"`
 	UserID           string    `json:"userID" validate:"required" sql:"user_id"`
 	BookID           string    `json:"bookID" validate:"required" sql:"book_id"`
@@ -104,12 +103,12 @@ func (accep *Acceptance) Validate() error {
 	return nil
 }
 
-func (d *Acceptance) DiscountFunc() {
-	if d.NumberOfBooks > 2 {
+func (d *Acceptance) DiscountFunc(a *Books) {
+	if a.NumberOfBooks > 2 {
 		d.Discount = 0.10
 		d.FinalCost = d.FinalCost * d.Discount
 	}
-	if d.NumberOfBooks > 4 {
+	if a.NumberOfBooks > 4 {
 		d.Discount = 0.15
 		d.FinalCost = d.FinalCost * d.Discount
 	}
