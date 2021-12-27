@@ -85,15 +85,23 @@ func (a *App) getIssuing(w http.ResponseWriter, r *http.Request) {
 
 // Inserts new issue into db.
 func (a *App) createIssue(w http.ResponseWriter, r *http.Request) {
-	var dt model.Issue
-	// Gets JSON object from request body.
+	vars := mux.Vars(r)
+	id, err := uuid.Parse(vars["id"])
+	if err != nil {
+		app.RespondWithError(w, http.StatusBadRequest, "Invalid state ID")
+		return
+	}
+	p := model.Issue{UserID: id}
+
+	// var p models.Park
 	decoder := json.NewDecoder(r.Body)
-	if err := decoder.Decode(&dt); err != nil {
+	if err := decoder.Decode(&p); err != nil {
 		app.RespondWithError(w, http.StatusBadRequest, "Invalid request payload")
 		return
 	}
-
 	defer r.Body.Close()
+
+	var dt model.Issue
 
 	if err := dt.CreateIssue(d.Database); err != nil {
 		app.RespondWithError(w, http.StatusInternalServerError, err.Error())

@@ -87,33 +87,63 @@ const BOOK_SCHEMA = `
 const BOOKS_SCHEMA = `
 	CREATE TABLE IF NOT EXISTS books (
 		id uuid DEFAULT uuid_generate_v4 () unique,
-	    book_id varchar(225) NOT NULL,
-		category_id varchar(225) NOT NULL,
-	    author_id varchar(225) NOT NULL,
+	    book_id uuid DEFAULT uuid_generate_v4 () unique,
+		category_id uuid DEFAULT uuid_generate_v4 () unique,
+	    author_id uuid DEFAULT uuid_generate_v4 () unique,
 	    number_of_book int NOT NULL,
 		created_at timestamp NOT NULL,
 		deleted_at timestamp NOT NULL,
 		primary key (id)
 	);
+
+ALTER TABLE books
+    ADD CONSTRAINT fk_book_books
+        FOREIGN KEY (book_id)
+            REFERENCES book(id)
+            ON DELETE CASCADE;
+
+ALTER TABLE books
+    ADD CONSTRAINT fk_categories_books
+        FOREIGN KEY (category_id)
+            REFERENCES categories(id)
+            ON DELETE CASCADE;
+
+ALTER TABLE books
+    ADD CONSTRAINT fk_authors_books
+        FOREIGN KEY (author_id)
+            REFERENCES authors(id)
+            ON DELETE CASCADE;
 `
 // Schema for lending table.
 const ISSUE_SCHEMA = `
 	CREATE TABLE IF NOT EXISTS issue (
 		id uuid DEFAULT uuid_generate_v4 () unique,
-	    user_id varchar(225) NOT NULL,
-	    books_id varchar(225) NOT NULL,
+	    user_id uuid DEFAULT uuid_generate_v4 () unique,
+	    books_id uuid DEFAULT uuid_generate_v4 () unique,
 	    return_date varchar(225) NOT NULL,
 	    preliminary_cost float NOT NULL,
 		created_at timestamp NOT NULL,
 		primary key (id)
 	);
+
+ALTER TABLE issue
+    ADD CONSTRAINT fk_users_issue
+        FOREIGN KEY (user_id)
+            REFERENCES users(id)
+            ON DELETE CASCADE;
+
+ALTER TABLE issue
+    ADD CONSTRAINT fk_books_issue
+        FOREIGN KEY (books_id)
+            REFERENCES books(id)
+            ON DELETE CASCADE;
 `
 // Schema for acceptance table.
 const ACCEPTANCE_SCHEMA = `
 	CREATE TABLE IF NOT EXISTS acceptance (
 		id uuid DEFAULT uuid_generate_v4 () unique,
-	    user_id varchar(225) NOT NULL,
-	    books_id varchar(225) NOT NULL,
+	    user_id uuid DEFAULT uuid_generate_v4 () unique,
+	    books_id uuid DEFAULT uuid_generate_v4 () unique,
 	    book_condition varchar(225) NOT NULL,
 	    rating int NOT NULL,
 	    discount float NOT NULL,
@@ -123,6 +153,18 @@ const ACCEPTANCE_SCHEMA = `
 	    updated_at timestamp NOT NULL,
 		primary key (id)
 	);
+
+ALTER TABLE acceptance
+    ADD CONSTRAINT fk_users_acceptance
+        FOREIGN KEY (user_id)
+            REFERENCES users(id)
+            ON DELETE CASCADE;
+
+ALTER TABLE acceptance
+    ADD CONSTRAINT fk_books_acceptance
+        FOREIGN KEY (books_id)
+            REFERENCES books(id)
+            ON DELETE CASCADE;
 `
 // Receives database credentials and connects to database.
 func (db *DB) Initialize(user, password, dbhost, dbname string) {

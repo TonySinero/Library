@@ -11,9 +11,9 @@ import (
 // Defines book model.
 type Books struct {
 	ID               uuid.UUID `json:"id"       sql:"uuid"`
-	BookID           string    `json:"bookID" validate:"required" sql:"book_id"`
-	CategoryID       string    `json:"categoryID" validate:"required" sql:"category_id"`
-	AuthorID         string    `json:"authorID" validate:"required" sql:"author_id"`
+	BookID           uuid.UUID `json:"bookID" validate:"required" sql:"book_id"`
+	CategoryID       uuid.UUID `json:"categoryID" validate:"required" sql:"category_id"`
+	AuthorID         uuid.UUID `json:"authorID" validate:"required" sql:"author_id"`
 	NumberOfBooks    uint      `json:"numberOfBooks" validate:"required" sql:"number_of_books"`
 	CreatedAt        time.Time `json:"createdAt" sql:"created_at"`
 	DeletedAt        time.Time `json:"deletedAt" sql:"deleted_at"`
@@ -82,6 +82,12 @@ func (dt *Books) DeleteAllBooks(db *sql.DB) error {
 	_, err := db.Exec("DELETE FROM books WHERE id=$1", dt.ID)
 
 	return err
+}
+func (r *Books) Restrictions() error {
+	if r.NumberOfBooks > 5 {
+		return errors.New("issuing more than five books is prohibited")
+	}
+	return nil
 }
 
 func (books *Books) Validate() error {

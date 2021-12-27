@@ -11,8 +11,8 @@ import (
 // Defines acceptance model.
 type Acceptance struct {
 	ID               uuid.UUID `json:"id"       sql:"uuid"`
-	UserID           string    `json:"userID" validate:"required" sql:"user_id"`
-	BookID           string    `json:"bookID" validate:"required" sql:"book_id"`
+	UserID           uuid.UUID `json:"userID" validate:"required" sql:"user_id"`
+	BookID           uuid.UUID `json:"bookID" validate:"required" sql:"book_id"`
 	BookCondition    string    `json:"bookCondition" validate:"required" sql:"book_condition"`
 	Rating           uint      `json:"rating" validate:"required" sql:"rating"`
 	Discount         float32   `json:"discount" validate:"required" sql:"discount"`
