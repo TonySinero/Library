@@ -2,7 +2,7 @@ package model
 
 import (
 	"database/sql"
-	"github.com/pkg/errors"
+	"log"
 	"time"
 
 	"github.com/google/uuid"
@@ -87,20 +87,19 @@ func (dt *Acceptance) DeleteAcceptance(db *sql.DB) error {
 	return err
 }
 
-func (accep *Acceptance) Validate() error {
+func (accep *Acceptance) Validate() {
 	if accep.BookCondition == "" {
-		return errors.New("bookCondition is required")
+		log.Print("bookCondition is required")
 	}
 	if accep.Rating == 0 {
-		return errors.New("rating cannot be zero")
+		log.Print("rating cannot be zero")
 	}
 	if accep.FinalCost == 0 {
-		return errors.New("finalCost cannot be zero")
+		log.Print("finalCost cannot be zero")
 	}
 	if accep.Photo == "" {
-		return errors.New("photo is required")
+		log.Print("photo is required")
 	}
-	return nil
 }
 
 func (d *Acceptance) DiscountFunc(a *Books) {

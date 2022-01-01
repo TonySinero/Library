@@ -2,7 +2,7 @@ package model
 
 import (
 	"database/sql"
-	"github.com/pkg/errors"
+	"log"
 	"strings"
 	"time"
 
@@ -69,7 +69,6 @@ func (dt *User) CreateUser(db *sql.DB) error {
 	if err != nil {
 		return err
 	}
-
 	return nil
 }
 
@@ -89,27 +88,27 @@ func (dt *User) DeleteUser(db *sql.DB) error {
 	return err
 }
 
-func (user *User) Validate() error {
+func (user *User) Validate()  {
 	if user.Firstname == "" {
-		return errors.New("name is required")
+		log.Println("name is required")
 	}
 	if user.Surname == "" {
-		return errors.New("surname is required")
+		log.Println("surname is required")
 	}
 	if user.SecondName == "" {
-		return errors.New("secondName is required")
+		log.Println("secondName is required")
 	}
 	if user.DateOfBirth == "" {
-		return errors.New("dateOfBirth is required")
+		log.Println("dateOfBirth is required")
 	}
 	if !strings.Contains(user.Email, "@") {
-		return errors.New("Email address is required")
+		log.Println("Email address is required")
 	}
 	if user.Address == "" {
-		return errors.New("address is required")
+		log.Println("address is required")
 	}
 	if user.Indebtedness == "" {
-		return errors.New("indebtedness is required")
+		log.Println("indebtedness is required")
 	}
-	return nil
+
 }

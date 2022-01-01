@@ -2,15 +2,15 @@ package main
 
 import (
 	"github.com/library/app"
+	"github.com/library/mail"
+	"github.com/spf13/viper"
 	"log"
 	"os"
-
-	"github.com/spf13/viper"
 )
 // @title           Library API
 // @version         2.0
 // @description     This is a server API.
-// @host            localhost:8080
+// @host            localhost:8000
 // @securityDefinitions.apikey mySigningKey
 // @in header
 // @name Authorization
@@ -40,4 +40,9 @@ func main() {
 		// Get port from env.
 		a.Run(":" + os.Getenv("PORT"))
 	}
+
+	email := mail.NewEmail("xxx@126.com", "golang mail", "please, return books to the library")
+	err = mail.SendEmail(email)
+	log.Print(err)
+
 }

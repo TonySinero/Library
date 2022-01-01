@@ -150,5 +150,3 @@ func (a *App) deleteUser(w http.ResponseWriter, r *http.Request) {
 	// Respond with success message if operation is completed.
 	app.RespondWithJSON(w, http.StatusOK, map[string]string{"result": "success"})
 }
-
-// Helper functions
