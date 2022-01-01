@@ -9,8 +9,8 @@ import (
 const (
 	HOST        = "smtp.gmail.com"
 	PORT        = "587"
-	USER        = "tadmopar@gmail.com"
-	PASSWORD    = "139420671"
+	USER        = ""
+	PASSWORD    = ""
 )
 
 type Email struct {
