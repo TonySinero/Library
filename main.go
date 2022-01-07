@@ -1,8 +1,9 @@
 package main
 
 import (
+	"github.com/jasonlvhit/gocron"
 	"github.com/library/app"
-	"github.com/library/mail"
+	"github.com/library/callAt"
 	"github.com/spf13/viper"
 	"log"
 	"os"
@@ -41,8 +42,7 @@ func main() {
 		a.Run(":" + os.Getenv("PORT"))
 	}
 
-	email := mail.NewEmail("xxx@126.com", "golang mail", "please, return books to the library")
-	err = mail.SendEmail(email)
-	log.Print(err)
-
+	s := gocron.NewScheduler()
+	s.Every(2).Days().Do(callAt.Task)
+	<- s.Start()
 }

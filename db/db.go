@@ -71,8 +71,8 @@ const BOOK_SCHEMA = `
 	CREATE TABLE IF NOT EXISTS book (
 		id uuid DEFAULT uuid_generate_v4 () unique,
 	    name varchar(225) NOT NULL,
-		category varchar(225) NOT NULL,
-	    author varchar(225) NOT NULL,
+		category_id uuid,
+	    author_id uuid,
 	    cost float NOT NULL,
 	    price_per_day float NOT NULL,
 		photo varchar(225) NOT NULL,
@@ -82,14 +82,26 @@ const BOOK_SCHEMA = `
 		updated_at timestamp NOT NULL,
 		primary key (id)
 	);
+
+ALTER TABLE book
+    ADD CONSTRAINT fk_categories_book
+        FOREIGN KEY (category_id)
+            REFERENCES categories(id)
+            ON DELETE CASCADE;
+
+ALTER TABLE book
+    ADD CONSTRAINT fk_authors_book
+        FOREIGN KEY (author_id)
+            REFERENCES authors(id)
+            ON DELETE CASCADE;
 `
 // Schema for books table.
 const BOOKS_SCHEMA = `
 	CREATE TABLE IF NOT EXISTS books (
 		id uuid DEFAULT uuid_generate_v4 () unique,
-	    book_id uuid DEFAULT uuid_generate_v4 () unique,
-		category_id uuid DEFAULT uuid_generate_v4 () unique,
-	    author_id uuid DEFAULT uuid_generate_v4 () unique,
+	    book_id uuid,
+		category_id uuid,
+	    author_id uuid,
 	    number_of_book int NOT NULL,
 		created_at timestamp NOT NULL,
 		deleted_at timestamp NOT NULL,
@@ -118,8 +130,8 @@ ALTER TABLE books
 const ISSUE_SCHEMA = `
 	CREATE TABLE IF NOT EXISTS issue (
 		id uuid DEFAULT uuid_generate_v4 () unique,
-	    user_id uuid DEFAULT uuid_generate_v4 () unique,
-	    books_id uuid DEFAULT uuid_generate_v4 () unique,
+	    user_id uuid,
+	    books_id uuid,
 	    return_date varchar(225) NOT NULL,
 	    preliminary_cost float NOT NULL,
 		created_at timestamp NOT NULL,
@@ -142,8 +154,8 @@ ALTER TABLE issue
 const ACCEPTANCE_SCHEMA = `
 	CREATE TABLE IF NOT EXISTS acceptance (
 		id uuid DEFAULT uuid_generate_v4 () unique,
-	    user_id uuid DEFAULT uuid_generate_v4 () unique,
-	    books_id uuid DEFAULT uuid_generate_v4 () unique,
+	    user_id uuid,
+	    books_id uuid,
 	    book_condition varchar(225) NOT NULL,
 	    rating int NOT NULL,
 	    discount float NOT NULL,

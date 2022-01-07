@@ -15,6 +15,7 @@ require (
 	github.com/gorilla/websocket v1.4.2 // indirect
 	github.com/grpc-ecosystem/go-grpc-middleware v1.0.0 // indirect
 	github.com/grpc-ecosystem/go-grpc-prometheus v1.2.0 // indirect
+	github.com/jasonlvhit/gocron v0.0.1 // indirect
 	github.com/jonboulle/clockwork v0.1.0 // indirect
 	github.com/lib/pq v1.10.4
 	github.com/mailru/easyjson v0.7.7 // indirect

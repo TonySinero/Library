@@ -44,7 +44,7 @@ func GetUsers(db *sql.DB, start, count int) ([]User, error) {
 	// Wait for query to execute then close the row.
 	defer rows.Close()
 
-	user := []User{}
+	users := []User{}
 
 	// Store query results into user variable if no errors.
 	for rows.Next() {
@@ -52,10 +52,10 @@ func GetUsers(db *sql.DB, start, count int) ([]User, error) {
 		if err := rows.Scan(&dt.ID, &dt.Firstname, &dt.Surname, &dt.SecondName, &dt.Passport, &dt.DateOfBirth, &dt.Email, &dt.Address, &dt.Indebtedness, &dt.CreatedAt, &dt.UpdatedAt); err != nil {
 			return nil, err
 		}
-		user = append(user, dt)
+		users = append(users, dt)
 	}
 
-	return user, nil
+	return users, nil
 }
 
 // CRUD operations

@@ -84,3 +84,7 @@ func (issue *Issue) Validate() {
 		log.Println("price cannot be zero")
 	}
 }
+
+func (i *Issue) PremCostFunc(b *Book) {
+	i.PreliminaryCost = b.PricePerDay * 30
+}
