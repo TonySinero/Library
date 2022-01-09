@@ -784,7 +784,7 @@ false YEKT
 false Z
 false Zulu
 </TimeZones>
-      <IntrospectionStateNumber>1981</IntrospectionStateNumber>
+      <IntrospectionStateNumber>2009</IntrospectionStateNumber>
       <StartupTime>1639905964</StartupTime>
     </root>
     <database id="2" parent="1" name="postgres">
@@ -801,7 +801,7 @@ false Zulu
 13158||-9223372036854775808|U|G
 13158||10|U|G</Grants>
       <Owner>postgres</Owner>
-      <IntrospectionStateNumber>1982</IntrospectionStateNumber>
+      <IntrospectionStateNumber>2010</IntrospectionStateNumber>
       <Current>1</Current>
       <Relations>sequence|table|24670|24672|1
 sequence|table|24681|24683|1
@@ -893,7 +893,7 @@ sequence|table|25007|25009|1
       <Comment>standard public schema</Comment>
       <StateNumber>287</StateNumber>
       <Owner>postgres</Owner>
-      <IntrospectionStateNumber>1982</IntrospectionStateNumber>
+      <IntrospectionStateNumber>2010</IntrospectionStateNumber>
       <Current>1</Current>
     </schema>
     <extension id="18" parent="2" name="adminpack">
@@ -1269,9 +1269,9 @@ sequence|table|25007|25009|1
       <AccessMethodId>2</AccessMethodId>
     </table>
     <table id="75" parent="17" name="issue">
-      <ObjectId>33664</ObjectId>
+      <ObjectId>33729</ObjectId>
       <Owner>postgres</Owner>
-      <StateNumber>1978</StateNumber>
+      <StateNumber>2007</StateNumber>
       <AccessMethodId>2</AccessMethodId>
     </table>
     <table id="76" parent="17" name="main_admin">
@@ -2970,46 +2970,46 @@ department_id</ColNames>
       <Position>1</Position>
       <DataType>uuid|0s</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>1978</StateNumber>
+      <StateNumber>2007</StateNumber>
       <DefaultExpression>uuid_generate_v4()</DefaultExpression>
       <TypeId>2950</TypeId>
     </column>
     <column id="287" parent="75" name="user_id">
       <Position>2</Position>
       <DataType>uuid|0s</DataType>
-      <StateNumber>1978</StateNumber>
+      <StateNumber>2007</StateNumber>
       <TypeId>2950</TypeId>
     </column>
     <column id="288" parent="75" name="books_id">
       <Position>3</Position>
       <DataType>uuid|0s</DataType>
-      <StateNumber>1978</StateNumber>
+      <StateNumber>2007</StateNumber>
       <TypeId>2950</TypeId>
     </column>
     <column id="289" parent="75" name="return_date">
       <Position>4</Position>
-      <DataType>varchar(225)|0s</DataType>
+      <DataType>timestamp|0s</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>1978</StateNumber>
-      <TypeId>1043</TypeId>
+      <StateNumber>2007</StateNumber>
+      <TypeId>1114</TypeId>
     </column>
     <column id="290" parent="75" name="preliminary_cost">
       <Position>5</Position>
       <DataType>double precision|0s</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>1978</StateNumber>
+      <StateNumber>2007</StateNumber>
       <TypeId>701</TypeId>
     </column>
     <column id="291" parent="75" name="created_at">
       <Position>6</Position>
       <DataType>timestamp|0s</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>1978</StateNumber>
+      <StateNumber>2007</StateNumber>
       <TypeId>1114</TypeId>
     </column>
     <index id="292" parent="75" name="issue_pkey">
-      <ObjectId>33668</ObjectId>
-      <StateNumber>1978</StateNumber>
+      <ObjectId>33733</ObjectId>
+      <StateNumber>2007</StateNumber>
       <ColNames>id</ColNames>
       <Unique>1</Unique>
       <Primary>1</Primary>
@@ -3018,15 +3018,15 @@ department_id</ColNames>
       <AccessMethodId>403</AccessMethodId>
     </index>
     <key id="293" parent="75" name="issue_pkey">
-      <ObjectId>33669</ObjectId>
-      <StateNumber>1978</StateNumber>
+      <ObjectId>33734</ObjectId>
+      <StateNumber>2007</StateNumber>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
       <UnderlyingIndexName>issue_pkey</UnderlyingIndexName>
     </key>
     <foreign-key id="294" parent="75" name="fk_users_issue">
-      <ObjectId>33670</ObjectId>
-      <StateNumber>1978</StateNumber>
+      <ObjectId>33735</ObjectId>
+      <StateNumber>2007</StateNumber>
       <ColNames>user_id</ColNames>
       <RefTableId>33396</RefTableId>
       <RefColPositions>1</RefColPositions>
@@ -3036,8 +3036,8 @@ department_id</ColNames>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
     <foreign-key id="295" parent="75" name="fk_books_issue">
-      <ObjectId>33675</ObjectId>
-      <StateNumber>1978</StateNumber>
+      <ObjectId>33740</ObjectId>
+      <StateNumber>2007</StateNumber>
       <ColNames>books_id</ColNames>
       <RefTableId>33643</RefTableId>
       <RefColPositions>1</RefColPositions>

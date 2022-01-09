@@ -14,18 +14,18 @@ const (
 )
 
 type Email struct {
-	to      string "to"
+	to      []string "to"
 	subject string "subject"
 	msg     string "msg"
 }
 
-func NewEmail(to, subject, msg string) *Email {
-	return &Email{to: to, subject: subject, msg: msg}
+func NewEmail(to []string, subject, msg string) *Email {
+	return &Email{to:to, subject: subject, msg: msg}
 }
 
 func SendEmail(email *Email) error {
 	auth := smtp.PlainAuth("", USER, PASSWORD, HOST)
-	sendTo := strings.Split(email.to, ";")
+	sendTo := email.to
 	done := make(chan error, 1024)
 	addr := fmt.Sprintf("%s:%s", HOST, PORT)
 

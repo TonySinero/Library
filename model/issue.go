@@ -13,7 +13,7 @@ type Issue struct {
 	ID                uuid.UUID `json:"id"       sql:"uuid"`
 	UserID            uuid.UUID `json:"userID" validate:"required" sql:"user_id"`
 	BooksID           uuid.UUID `json:"booksID" validate:"required" sql:"books_id"`
-	ReturnDate        string    `json:"returnDate" validate:"required" sql:"return_date"`
+	ReturnDate        time.Time `json:"returnDate" validate:"required" sql:"return_date"`
 	PreliminaryCost   float32   `json:"preliminaryCost" validate:"required" sql:"preliminary_cost"`
 	CreatedAt         time.Time `json:"createdAt" sql:"created_at"`
 }
@@ -59,7 +59,7 @@ func (dt *Issue) CreateIssue(db *sql.DB) error {
 	// Scan db after creation if issue exists using new issue id.
 	timestamp := time.Now()
 	err := db.QueryRow(
-		"INSERT INTO issue(user_id, books_id, return_date, preliminary_cost, created_at) VALUES($1, $2, $3, $4, $5) RETURNING id, user_id, books_id, return_date, preliminary_cost, created_at", dt.UserID, dt.BooksID, dt.ReturnDate, dt.PreliminaryCost, timestamp).Scan(&dt.ID, &dt.UserID, &dt.BooksID, &dt.ReturnDate, &dt.PreliminaryCost, &dt.CreatedAt)
+		"INSERT INTO issue(user_id, books_id, return_date, preliminary_cost, created_at) VALUES($1, $2, $3, $4, $5) RETURNING id, user_id, books_id, return_date, preliminary_cost, created_at", dt.UserID, dt.BooksID, timestamp, dt.PreliminaryCost, timestamp).Scan(&dt.ID, &dt.UserID, &dt.BooksID, &dt.ReturnDate, &dt.PreliminaryCost, &dt.CreatedAt)
 	if err != nil {
 		return err
 	}
@@ -77,9 +77,6 @@ func (dt *Issue) DeleteIssue(db *sql.DB) error {
 
 
 func (issue *Issue) Validate() {
-	if issue.ReturnDate == "" {
-		log.Println("date is required")
-	}
 	if issue.PreliminaryCost == 0 {
 		log.Println("price cannot be zero")
 	}

@@ -132,7 +132,7 @@ const ISSUE_SCHEMA = `
 		id uuid DEFAULT uuid_generate_v4 () unique,
 	    user_id uuid,
 	    books_id uuid,
-	    return_date varchar(225) NOT NULL,
+	    return_date timestamp NOT NULL,
 	    preliminary_cost float NOT NULL,
 		created_at timestamp NOT NULL,
 		primary key (id)

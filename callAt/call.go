@@ -1,42 +1,44 @@
 package callAt
 
 import (
+	"database/sql"
 	"fmt"
 	"github.com/library/mail"
 	"log"
 	"time"
-
 )
 
 
-const timeLayout = "2021-12-22 16:49:31.000000"
-
-func CallAt(callTime string, f func()) error {
-	ctime, err := time.Parse(timeLayout, callTime)
-	if err != nil {
-		return err
-	}
-
-
-	duration := ctime.Sub(time.Now())
-
-	go func() {
-		time.Sleep(duration)
-		f()
-	}()
-
-	return nil
+type DB struct {
+	Database *sql.DB
 }
-
-func Email() {
-	email := mail.NewEmail("", "golang mail", "please, return books to the library")
+func Email(to []string) {
+	email := mail.NewEmail(to, "golang mail", "please, return books to the library")
 	err := mail.SendEmail(email)
 	log.Print(err)
 }
 
-func Task() {
-	err := CallAt("2021-12-22 16:49:31.000000", Email)
+func CheckReturnDate(r DB) ([]string, error) {
+	transaction, err := r.Database.Begin()
 	if err != nil {
-		fmt.Printf("error: %v\n", err)
+		log.Fatalf("Can not begin transaction:%s", err)
+		return nil, err
 	}
+	var listEmail []string
+	query := fmt.Sprint("SELECT users.email FROM users JOIN issue ON issue.return_date < $1 AND users.id = issue.user_id")
+	rows, err := transaction.Query(query, time.Now().Add(time.Hour))
+	if err != nil {
+		log.Fatalf("Can not executes a query:%s", err)
+		return nil, err
+	}
+	for rows.Next() {
+		var email string
+		if err := rows.Scan(&email); err != nil {
+			log.Fatalf("Scan error:%s", err)
+			return nil, err
+		}
+		listEmail = append(listEmail, email)
+		Email(listEmail)
+	}
+	return listEmail, nil
 }

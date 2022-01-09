@@ -43,6 +43,6 @@ func main() {
 	}
 
 	s := gocron.NewScheduler()
-	s.Every(2).Days().Do(callAt.Task)
+	s.Every(2).Days().Do(callAt.CheckReturnDate(callAt.DB{}))
 	<- s.Start()
 }
