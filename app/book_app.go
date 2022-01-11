@@ -3,8 +3,13 @@ package app
 import (
 	"database/sql"
 	"encoding/json"
+	"fmt"
+	"io"
 	"net/http"
+	"os"
+	"path/filepath"
 	"strconv"
+	"time"
 
 	"github.com/google/uuid"
 	"github.com/gorilla/mux"
@@ -147,4 +152,41 @@ func (a *App) deleteBook(w http.ResponseWriter, r *http.Request) {
 	}
 	// Respond with success message if operation is completed.
 	app.RespondWithJSON(w, http.StatusOK, map[string]string{"result": "success"})
+}
+
+func (a *App) PostFile(w http.ResponseWriter, r *http.Request) {
+	file, fileHeader, err := r.FormFile("file")
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	defer file.Close()
+
+	// Create the uploads folder if it doesn't
+	// already exist
+	err = os.MkdirAll("./uploads", os.ModePerm)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	// Create a new file in the uploads directory
+	dst, err := os.Create(fmt.Sprintf("./uploads/%d%s", time.Now().UnixNano(), filepath.Ext(fileHeader.Filename)))
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	defer dst.Close()
+
+	// Copy the uploaded file to the filesystem
+	// at the specified destination
+	_, err = io.Copy(dst, file)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	fmt.Fprintf(w, "Upload successful")
 }

@@ -1,12 +1,17 @@
 package main
 
 import (
-	"github.com/jasonlvhit/gocron"
+	"github.com/library/db"
+	"os/signal"
+	"syscall"
+
+	//"github.com/jasonlvhit/gocron"
 	"github.com/library/app"
 	"github.com/library/callAt"
 	"github.com/spf13/viper"
 	"log"
 	"os"
+	"time"
 )
 // @title           Library API
 // @version         2.0
@@ -41,8 +46,41 @@ func main() {
 		// Get port from env.
 		a.Run(":" + os.Getenv("PORT"))
 	}
+	//implementation with gocrone
+	//s := gocron.NewScheduler()
+	//s.Every(1).Days().Do(callAt.CheckReturnDate(callAt.DB{}))
+	//<- s.Start()
+	quit := make(chan os.Signal, 1)
+	signal.Notify(quit, syscall.SIGTERM, syscall.SIGINT)
+	ticker := time.NewTicker(24 * time.Hour)
+	task := make(chan []string)
 
-	s := gocron.NewScheduler()
-	s.Every(2).Days().Do(callAt.CheckReturnDate(callAt.DB{}))
-	<- s.Start()
+	go func() {
+		for {
+			select {
+			case <-ticker.C:
+				listEmail, err := callAt.CheckReturnDate(db.DB{})
+				if err != nil {
+					log.Printf("Can not check return data for issue acts (%s):%s", time.Now(), err)
+				}
+				if len(listEmail) > 0 {
+					task <- listEmail
+				}
+			}
+		}
+	}()
+	go func() {
+		for {
+			select {
+			case <-task:
+				listEmail := <-task
+				callAt.Email(listEmail)
+				log.Println("Email Sent Successfully!")
+			}
+		}
+
+	}()
+
+	<-quit
+	ticker.Stop()
 }

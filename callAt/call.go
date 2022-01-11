@@ -1,24 +1,23 @@
 package callAt
 
 import (
-	"database/sql"
 	"fmt"
+	"github.com/library/db"
 	"github.com/library/mail"
 	"log"
 	"time"
 )
 
 
-type DB struct {
-	Database *sql.DB
-}
+var d db.DB
+
 func Email(to []string) {
 	email := mail.NewEmail(to, "golang mail", "please, return books to the library")
 	err := mail.SendEmail(email)
 	log.Print(err)
 }
 
-func CheckReturnDate(r DB) ([]string, error) {
+func CheckReturnDate(r db.DB) ([]string, error) {
 	transaction, err := r.Database.Begin()
 	if err != nil {
 		log.Fatalf("Can not begin transaction:%s", err)
@@ -38,7 +37,6 @@ func CheckReturnDate(r DB) ([]string, error) {
 			return nil, err
 		}
 		listEmail = append(listEmail, email)
-		Email(listEmail)
 	}
 	return listEmail, nil
 }

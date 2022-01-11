@@ -77,6 +77,7 @@ func clearTable() {
 	d.Database.Exec("DELETE FROM categories")
 	d.Database.Exec("DELETE FROM authors")
 	d.Database.Exec("DELETE FROM book")
+	d.Database.Exec("DELETE FROM books")
 	d.Database.Exec("DELETE FROM issue")
 	d.Database.Exec("DELETE FROM acceptance")
 }
@@ -125,8 +126,8 @@ const tableCreationQuery = `
 	CREATE TABLE IF NOT EXISTS book (
 		id uuid DEFAULT uuid_generate_v4 () unique,
 	    name varchar(225) NOT NULL,
-		category varchar(225) NOT NULL,
-	    author varchar(225) NOT NULL,
+		category_id uuid,
+	    author_id uuid,
 	    cost float NOT NULL,
 	    price_per_day float NOT NULL,
 		photo varchar(225) NOT NULL,
@@ -136,21 +137,32 @@ const tableCreationQuery = `
 		updated_at timestamp NOT NULL,
 		primary key (id)
 	);
+	CREATE TABLE IF NOT EXISTS books (
+		id uuid DEFAULT uuid_generate_v4 () unique,
+	    book_id uuid,
+		category_id uuid,
+	    author_id uuid,
+	    number_of_book int NOT NULL,
+		created_at timestamp NOT NULL,
+		deleted_at timestamp NOT NULL,
+		primary key (id)
+	);
 	CREATE TABLE IF NOT EXISTS issue (
 		id uuid DEFAULT uuid_generate_v4 () unique,
-	    user_id varchar(225) NOT NULL,
-	    books_id varchar(225) NOT NULL,
-	    return_date varchar(225) NOT NULL,
+	    user_id uuid,
+	    books_id uuid,
+	    return_date timestamp NOT NULL,
 	    preliminary_cost float NOT NULL,
 		created_at timestamp NOT NULL,
 		primary key (id)
 	);
 	CREATE TABLE IF NOT EXISTS acceptance (
 		id uuid DEFAULT uuid_generate_v4 () unique,
-	    user_id varchar(225) NOT NULL,
-	    books_id varchar(225) NOT NULL,
+	    user_id uuid,
+	    books_id uuid,
 	    book_condition varchar(225) NOT NULL,
 	    rating int NOT NULL,
+	    discount float NOT NULL,
 	    final_cost float NOT NULL,
 	    photo varchar(225) NOT NULL,
 	    created_at timestamp NOT NULL,

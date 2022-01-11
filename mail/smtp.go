@@ -15,8 +15,8 @@ const (
 
 type Email struct {
 	to      []string "to"
-	subject string "subject"
-	msg     string "msg"
+	subject   string "subject"
+	msg       string "msg"
 }
 
 func NewEmail(to []string, subject, msg string) *Email {
@@ -32,10 +32,8 @@ func SendEmail(email *Email) error {
 	go func() {
 		defer close(done)
 		for _, v := range sendTo {
-
 			str := strings.Replace("From: "+USER+"~To: "+v+"~Subject: "+email.subject+"~~", "~", "\r\n", -1) + email.msg
-
-			err := smtp.SendMail( addr, auth, USER,	[]string{v}, []byte(str),
+			err := smtp.SendMail( addr, auth, USER,	sendTo, []byte(str),
 			)
 			done <- err
 		}

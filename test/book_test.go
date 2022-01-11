@@ -91,8 +91,8 @@ func TestCreateBook(t *testing.T) {
 
 	newData := model.Book{
 		Name: "string1",
-		Category: "string2",
-		Author: "string3",
+		CategoryID: uuid.UUID{},
+		AuthorID: uuid.UUID{},
 		Cost: 1.1,
 		PricePerDay: 1.5,
 		Photo: "string4",
@@ -118,11 +118,11 @@ func TestCreateBook(t *testing.T) {
 		t.Errorf("Expected book bookname to be 'string1'. Got '%v'", m["name"])
 	}
 
-	if m["category"] != "string2" {
-		t.Errorf("Expected book category to be 'string2'. Got '%v'", m["category"])
+	if m["categoryID"] != uuid.NewUUID() {
+		t.Errorf("Expected book categoryID to be 'uuid'. Got '%v'", m["categoryID"])
 	}
-	if m["author"] != "string3" {
-		t.Errorf("Expected book author to be 'string3'. Got '%v'", m["author"])
+	if m["authorID"] != uuid.NewUUID() {
+		t.Errorf("Expected book authorID to be 'uuid'. Got '%v'", m["authorID"])
 	}
 
 	if m["cost"] != float64(1.1) {
@@ -159,7 +159,7 @@ func TestUpdateBook(t *testing.T) {
 	var originalBook map[string]interface{}
 	json.Unmarshal(response.Body.Bytes(), &originalBook)
 
-	var jsonStr = []byte(`{"name":"string1 - updated name", "category":"string2 - updated category", "author":"string3 - updated author", "cost": 1.1 , "pricePerDay": 2.2, "photo":"string4 - updated photo" , "yearOfPublishing": 3333, "numberOfPages": 4444}`)
+	var jsonStr = []byte(`{"name":"string1 - updated name", "categoryID":"uuid - updated category", "authorID":"uuid - updated author", "cost": 1.1 , "pricePerDay": 2.2, "photo":"string4 - updated photo" , "yearOfPublishing": 3333, "numberOfPages": 4444}`)
 	req, _ = http.NewRequest("PUT", "/book/"+testID, bytes.NewBuffer(jsonStr))
 	// Add "Token" header to request with generated token.
 	req.Header.Add("Token", validToken)
@@ -180,11 +180,11 @@ func TestUpdateBook(t *testing.T) {
 		t.Errorf("Expected the bookname to change from '%v' to '%v'. Got '%v'", originalBook["name"], m["name"], m["name"])
 	}
 
-	if m["category"] == originalBook["category"] {
-		t.Errorf("Expected the category to change from '%v' to '%v'. Got '%v'", originalBook["category"], m["category"], m["category"])
+	if m["categoryID"] == originalBook["categoryID"] {
+		t.Errorf("Expected the categoryID to change from '%v' to '%v'. Got '%v'", originalBook["categoryID"], m["categoryID"], m["categoryID"])
 	}
-	if m["author"] == originalBook["author"] {
-		t.Errorf("Expected the author to change from '%v' to '%v'. Got '%v'", originalBook["author"], m["author"], m["author"])
+	if m["authorID"] == originalBook["authorID"] {
+		t.Errorf("Expected the authorID to change from '%v' to '%v'. Got '%v'", originalBook["authorID"], m["authorID"], m["authorID"])
 	}
 
 	if m["cost"] == originalBook["cost"] {
@@ -244,6 +244,6 @@ func addBook(count int) {
 
 	for i := 1; i <= count; i++ {
 		timestamp := time.Now()
-		d.Database.Exec("INSERT INTO book(id, name, category, author, cost, price_per_day, photo, year_of_publishing, number_of_pages, created_at, updated_at) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10,  $11)", testID, "string"+strconv.Itoa(i), "string"+strconv.Itoa(i), "string"+strconv.Itoa(i), i, i, "string"+strconv.Itoa(i), i, i, timestamp, timestamp)
+		d.Database.Exec("INSERT INTO book(id, name, category_id, author_id, cost, price_per_day, photo, year_of_publishing, number_of_pages, created_at, updated_at) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10,  $11)", testID, "string"+strconv.Itoa(i), i, i, i, i, "string"+strconv.Itoa(i), i, i, timestamp, timestamp)
 	}
 }
