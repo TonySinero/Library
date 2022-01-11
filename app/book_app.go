@@ -17,6 +17,7 @@ import (
 	app "github.com/library/app/utils"
 	"github.com/library/model"
 )
+const MAX_UPLOAD_SIZE = 1024 * 1024
 
 // Initialize DB and routes.
 func (a *App) BookInitialize() {
@@ -37,7 +38,7 @@ func (a *App) initializeBookRoutes() {
 	a.Router.HandleFunc("/book/{name}", a.getBook).Methods("GET")
 	a.Router.HandleFunc("/book/{id}", a.updateBook).Methods("PUT")
 	a.Router.HandleFunc("/book/{id}", a.deleteBook).Methods("DELETE")
-	a.Router.HandleFunc("/book/image", a.PostFile).Methods("POST")
+	a.Router.HandleFunc("/book/image", a.PostBookImage).Methods("POST")
 
 }
 
@@ -154,38 +155,73 @@ func (a *App) deleteBook(w http.ResponseWriter, r *http.Request) {
 	app.RespondWithJSON(w, http.StatusOK, map[string]string{"result": "success"})
 }
 
-func (a *App) PostFile(w http.ResponseWriter, r *http.Request) {
-	file, fileHeader, err := r.FormFile("file")
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+func (a *App) PostBookImage(w http.ResponseWriter, r *http.Request) {
+	if r.Method != "POST" {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		return
 	}
 
-	defer file.Close()
-
-	// Create the uploads folder if it doesn't
-	// already exist
-	err = os.MkdirAll("./uploads", os.ModePerm)
-	if err != nil {
+	// 32 MB is the default used by FormFile()
+	if err := r.ParseMultipartForm(32 << 20); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	// Create a new file in the uploads directory
-	dst, err := os.Create(fmt.Sprintf("./uploads/%d%s", time.Now().UnixNano(), filepath.Ext(fileHeader.Filename)))
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
+	files := r.MultipartForm.File["file"]
 
-	defer dst.Close()
+	for _, fileHeader := range files {
+		if fileHeader.Size > MAX_UPLOAD_SIZE {
+			http.Error(w, fmt.Sprintf("The uploaded image is too big: %s. Please use an image less than 1MB in size", fileHeader.Filename), http.StatusBadRequest)
+			return
+		}
 
-	// Copy the uploaded file to the filesystem
-	// at the specified destination
-	_, err = io.Copy(dst, file)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
+		// Open the file
+		file, err := fileHeader.Open()
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		defer file.Close()
+
+		buff := make([]byte, 512)
+		_, err = file.Read(buff)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		filetype := http.DetectContentType(buff)
+		if filetype != "image/jpeg" && filetype != "image/png" {
+			http.Error(w, "The provided file format is not allowed. Please upload a JPEG or PNG image", http.StatusBadRequest)
+			return
+		}
+
+		_, err = file.Seek(0, io.SeekStart)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		err = os.MkdirAll("./book_image", os.ModePerm)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		f, err := os.Create(fmt.Sprintf("./book_image/%d%s", time.Now().UnixNano(), filepath.Ext(fileHeader.Filename)))
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+
+		defer f.Close()
+
+		_, err = io.Copy(f, file)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
 	}
 
 	fmt.Fprintf(w, "Upload successful")
