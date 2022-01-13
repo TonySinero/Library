@@ -32,6 +32,7 @@ func (a *App) initializeAcceptanceRoutes() {
 	a.Router.HandleFunc("/acceptance/{id}", a.getAcceptance).Methods("GET")
 	a.Router.HandleFunc("/acceptance/{id}", a.updateAcceptance).Methods("PUT")
 	a.Router.HandleFunc("/acceptance/{id}", a.deleteAcceptance).Methods("DELETE")
+	a.Router.HandleFunc("/profit", a.getProfit).Methods("GET")
 }
 
 // Route handlers
@@ -149,4 +150,13 @@ func (a *App) deleteAcceptance(w http.ResponseWriter, r *http.Request) {
 	}
 	// Respond with success message if operation is completed.
 	app.RespondWithJSON(w, http.StatusOK, map[string]string{"result": "success"})
+}
+
+func (a *App) getProfit(w http.ResponseWriter, r *http.Request) {
+	acceptance, err := model.GetProfit(d.Database)
+	if err != nil {
+		app.RespondWithError(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+	app.RespondWithJSON(w, http.StatusOK, acceptance)
 }

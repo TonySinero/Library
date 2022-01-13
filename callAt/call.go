@@ -9,8 +9,6 @@ import (
 )
 
 
-var d db.DB
-
 func Email(to []string) {
 	email := mail.NewEmail(to, "golang mail", "please, return books to the library")
 	err := mail.SendEmail(email)

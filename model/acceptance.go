@@ -87,6 +87,30 @@ func (dt *Acceptance) DeleteAcceptance(db *sql.DB) error {
 	return err
 }
 
+func GetProfit(db *sql.DB) ([]Acceptance, error) {
+	rows, err := db.Query(
+		"SELECT SUM (final_cost) FROM acceptance")
+
+	if err != nil {
+		return nil, err
+	}
+	// Wait for query to execute then close the row.
+	defer rows.Close()
+
+	acceptance := []Acceptance{}
+
+	// Store query results into acceptance variable if no errors.
+	for rows.Next() {
+		var dt Acceptance
+		if err := rows.Scan( &dt.FinalCost); err != nil {
+			return nil, err
+		}
+		acceptance = append(acceptance, dt)
+	}
+
+	return acceptance, nil
+}
+
 func (accep *Acceptance) Validate() {
 	if accep.BookCondition == "" {
 		log.Print("bookCondition is required")
