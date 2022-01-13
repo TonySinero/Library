@@ -87,28 +87,24 @@ func (dt *Acceptance) DeleteAcceptance(db *sql.DB) error {
 	return err
 }
 
-func GetProfit(db *sql.DB) ([]Acceptance, error) {
+func GetProfit(db *sql.DB) (float32, error) {
+	var profit float32
 	rows, err := db.Query(
 		"SELECT SUM (final_cost) FROM acceptance")
-
 	if err != nil {
-		return nil, err
+		log.Fatalf("Can not executes a query:%s", err)
 	}
 	// Wait for query to execute then close the row.
 	defer rows.Close()
-
-	acceptance := []Acceptance{}
-
 	// Store query results into acceptance variable if no errors.
 	for rows.Next() {
-		var dt Acceptance
-		if err := rows.Scan( &dt.FinalCost); err != nil {
-			return nil, err
+		var profit float32
+		if err := rows.Scan(&profit); err != nil {
+			log.Fatalf("Scan error:%s", err)
 		}
-		acceptance = append(acceptance, dt)
+		return profit, nil
 	}
-
-	return acceptance, nil
+	return profit, nil
 }
 
 func (accep *Acceptance) Validate() {
