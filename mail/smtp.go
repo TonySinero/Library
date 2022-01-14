@@ -3,6 +3,7 @@ package mail
 import (
 	"fmt"
 	"net/smtp"
+	"os"
 	"strings"
 )
 
@@ -22,27 +23,20 @@ type Email struct {
 func NewEmail(to []string, subject, msg string) *Email {
 	return &Email{to:to, subject: subject, msg: msg}
 }
-
 func SendEmail(email *Email) error {
 	auth := smtp.PlainAuth("", USER, PASSWORD, HOST)
 	sendTo := email.to
-	done := make(chan error, 1024)
 	addr := fmt.Sprintf("%s:%s", HOST, PORT)
 
-	go func() {
-		defer close(done)
 		for _, v := range sendTo {
 			str := strings.Replace("From: "+USER+"~To: "+v+"~Subject: "+email.subject+"~~", "~", "\r\n", -1) + email.msg
-			err := smtp.SendMail( addr, auth, USER,	sendTo, []byte(str),
-			)
-			done <- err
+			err := smtp.SendMail(addr, auth, USER,	[]string{v}, []byte(str))
+			if err != nil {
+				fmt.Println(err)
+				os.Exit(1)
+			}
+			fmt.Println("Successfully sent mail to all user in toList")
 		}
-	}()
-
-	for i := 0; i < len(sendTo); i++ {
-		<-done
-	}
-
 	return nil
 }
 
