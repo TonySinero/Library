@@ -19,22 +19,45 @@ type Book struct {
 	Photo            string    `json:"photo" validate:"required" sql:"photo"`
 	YearOfPublishing uint      `json:"yearOfPublishing" validate:"required" sql:"year_of_publishing"`
 	NumberOfPages    uint      `json:"numberOfPages" validate:"required" sql:"number_of_pages"`
+	Views            uint      `json:"views" validate:"required" sql:"views"`
 	CreatedAt        time.Time `json:"createdAt" sql:"created_at"`
 	UpdatedAt        time.Time `json:"updatedAt" sql:"updated_at"`
 }
 
 // Query operations
+func GetPopularBooks(db *sql.DB) ([]Book, error) {
+	rows, err := db.Query(
+		"SELECT id, name, category_id, author_id, cost, price_per_day, photo, year_of_publishing, number_of_pages, views, created_at, updated_at FROM book ORDER BY views DESC LIMIT 3",
+	)
 
+	if err != nil {
+		return nil, err
+	}
+	// Wait for query to execute then close the row.
+	defer rows.Close()
+
+	book := []Book{}
+
+	// Store query results into user variable if no errors.
+	for rows.Next() {
+		var dt Book
+		if err := rows.Scan(&dt.ID, &dt.Name, &dt.CategoryID, &dt.AuthorID, &dt.Cost, &dt.PricePerDay, &dt.Photo, &dt.YearOfPublishing, &dt.NumberOfPages, &dt.Views, &dt.CreatedAt, &dt.UpdatedAt); err != nil {
+			return nil, err
+		}
+		book = append(book, dt)
+	}
+	return book, nil
+}
 // Gets a specific book by id.
 func (dt *Book) GetBook(db *sql.DB) error {
-	return db.QueryRow("SELECT id, name, category_id, author_id, cost, price_per_day, photo, year_of_publishing, number_of_pages, created_at, updated_at FROM book WHERE name=$1",
-		dt.Name).Scan(&dt.ID, &dt.Name, &dt.CategoryID, &dt.AuthorID, &dt.Cost, &dt.PricePerDay, &dt.Photo, &dt.YearOfPublishing, &dt.NumberOfPages, &dt.CreatedAt, &dt.UpdatedAt)
+	return db.QueryRow("SELECT id, name, category_id, author_id, cost, price_per_day, photo, year_of_publishing, number_of_pages, views, created_at, updated_at FROM book WHERE name=$1",
+		dt.Name).Scan(&dt.ID, &dt.Name, &dt.CategoryID, &dt.AuthorID, &dt.Cost, &dt.PricePerDay, &dt.Photo, &dt.YearOfPublishing, &dt.NumberOfPages, &dt.Views, &dt.CreatedAt, &dt.UpdatedAt)
 }
 
 // Gets books. Limit count and start position in db.
 func GetBooks(db *sql.DB, start, count int) ([]Book, error) {
 	rows, err := db.Query(
-		"SELECT id, name, category_id, author_id, cost, price_per_day, photo, year_of_publishing, number_of_pages, created_at, updated_at FROM book ORDER BY name LIMIT $1 OFFSET $2",
+		"SELECT id, name, category_id, author_id, cost, price_per_day, photo, year_of_publishing, number_of_pages, views, created_at, updated_at FROM book ORDER BY name LIMIT $1 OFFSET $2",
 		count, start)
 
 	if err != nil {
@@ -48,7 +71,7 @@ func GetBooks(db *sql.DB, start, count int) ([]Book, error) {
 	// Store query results into book variable if no errors.
 	for rows.Next() {
 		var dt Book
-		if err := rows.Scan(&dt.ID, &dt.Name, &dt.CategoryID, &dt.AuthorID, &dt.Cost, &dt.PricePerDay, &dt.Photo, &dt.YearOfPublishing, &dt.NumberOfPages, &dt.CreatedAt, &dt.UpdatedAt); err != nil {
+		if err := rows.Scan(&dt.ID, &dt.Name, &dt.CategoryID, &dt.AuthorID, &dt.Cost, &dt.PricePerDay, &dt.Photo, &dt.YearOfPublishing, &dt.NumberOfPages, &dt.Views, &dt.CreatedAt, &dt.UpdatedAt); err != nil {
 			return nil, err
 		}
 		book = append(book, dt)
@@ -64,7 +87,7 @@ func (dt *Book) CreateBook(db *sql.DB) error {
 	// Scan db after creation if book exists using new book id.
 	timestamp := time.Now()
 	err := db.QueryRow(
-		"INSERT INTO book(name, category_id, author_id, cost, price_per_day, photo, year_of_publishing, number_of_pages, created_at, updated_at) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING id, name, category_id, author_id, cost, price_per_day, photo, year_of_publishing, number_of_pages, created_at, updated_at", dt.Name, dt.CategoryID, dt.AuthorID, dt.Cost, dt.PricePerDay, dt.Photo, dt.YearOfPublishing, dt.NumberOfPages, timestamp, timestamp).Scan(&dt.ID, &dt.Name, &dt.CategoryID, &dt.AuthorID, &dt.Cost, &dt.PricePerDay, &dt.Photo, &dt.YearOfPublishing, &dt.NumberOfPages, &dt.CreatedAt, &dt.UpdatedAt)
+		"INSERT INTO book(name, category_id, author_id, cost, price_per_day, photo, year_of_publishing, number_of_pages, views, created_at, updated_at) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING id, name, category_id, author_id, cost, price_per_day, photo, year_of_publishing, number_of_pages, views, created_at, updated_at", dt.Name, dt.CategoryID, dt.AuthorID, dt.Cost, dt.PricePerDay, dt.Photo, dt.YearOfPublishing, dt.NumberOfPages, dt.Views, timestamp, timestamp).Scan(&dt.ID, &dt.Name, &dt.CategoryID, &dt.AuthorID, &dt.Cost, &dt.PricePerDay, &dt.Photo, &dt.YearOfPublishing, &dt.NumberOfPages, &dt.Views, &dt.CreatedAt, &dt.UpdatedAt)
 	if err != nil {
 		return err
 	}
@@ -76,7 +99,7 @@ func (dt *Book) CreateBook(db *sql.DB) error {
 func (dt *Book) UpdateBook(db *sql.DB) error {
 	timestamp := time.Now()
 	_, err :=
-		db.Exec("UPDATE book SET name=$1, category_id=$2, author_id=$3, cost=$4, price_per_day=$5, photo=$6, year_of_publishing=$7, number_of_pages=$8, updatedat=$9 WHERE id=$10 RETURNING id, name, category_id, author_id, cost, price_per_day, photo, year_of_publishing, number_of_pages, created_at, updated_at", dt.Name, dt.CategoryID, dt.AuthorID, dt.Cost, dt.PricePerDay, dt.Photo, dt.YearOfPublishing, dt.NumberOfPages, timestamp, dt.ID)
+		db.Exec("UPDATE book SET name=$1, category_id=$2, author_id=$3, cost=$4, price_per_day=$5, photo=$6, year_of_publishing=$7, number_of_pages=$8, views=$9, updatedat=$10 WHERE id=$11 RETURNING id, name, category_id, author_id, cost, price_per_day, photo, year_of_publishing, number_of_pages, views, created_at, updated_at", dt.Name, dt.CategoryID, dt.AuthorID, dt.Cost, dt.PricePerDay, dt.Photo, dt.YearOfPublishing, dt.NumberOfPages, dt.Views, timestamp, dt.ID)
 
 	return err
 }

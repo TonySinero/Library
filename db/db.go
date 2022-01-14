@@ -78,6 +78,7 @@ const BOOK_SCHEMA = `
 		photo varchar(225) NOT NULL,
 	    year_of_publishing int NOT NULL,
 	    number_of_pages int NOT NULL,
+	    views int NOT NULL,
 		created_at timestamp NOT NULL,
 		updated_at timestamp NOT NULL,
 		primary key (id)
@@ -177,23 +178,6 @@ ALTER TABLE acceptance
             REFERENCES book(id)
             ON DELETE CASCADE;
 `
-const POPULAR_BOOKS_SCHEMA = `
-	CREATE TABLE IF NOT EXISTS popular (
-		id uuid DEFAULT uuid_generate_v4 () unique,
-	    book_id uuid,
-	    rating int NOT NULL,
-	    views int NOT NULL,
-	    created_at timestamp NOT NULL,
-	    updated_at timestamp NOT NULL,
-		primary key (id)
-	);
-
-ALTER TABLE popular
-    ADD CONSTRAINT fk_book_popular
-        FOREIGN KEY (book_id)
-            REFERENCES book(id)
-            ON DELETE CASCADE;
-`
 // Receives database credentials and connects to database.
 func (db *DB) Initialize(user, password, dbhost, dbname string) {
 	connectionString := fmt.Sprintf("postgres://%s:%s@%s:5432/%s?sslmode=disable", user, password, dbhost, dbname)
@@ -213,5 +197,4 @@ func (db *DB) Initialize(user, password, dbhost, dbname string) {
 	db.Database.Exec(BOOKS_SCHEMA)
 	db.Database.Exec(ISSUE_SCHEMA)
 	db.Database.Exec(ACCEPTANCE_SCHEMA)
-	db.Database.Exec(POPULAR_BOOKS_SCHEMA)
 }

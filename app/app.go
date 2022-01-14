@@ -56,7 +56,6 @@ func (a *App) Initialize() {
 	a.IssueInitialize()
 	a.AcceptanceInitialize()
 	a.BooksInitialize()
-	a.PopularInitialize()
 }
 
 // Serve homepage
