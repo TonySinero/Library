@@ -2,7 +2,7 @@ package model
 
 import (
 	"database/sql"
-	"log"
+	"github.com/pkg/errors"
 	"time"
 
 	"github.com/google/uuid"
@@ -34,7 +34,7 @@ func (dt *Book) GetBook(db *sql.DB) error {
 // Gets books. Limit count and start position in db.
 func GetBooks(db *sql.DB, start, count int) ([]Book, error) {
 	rows, err := db.Query(
-		"SELECT id, name, category_id, author_id, cost, price_per_day, photo, year_of_publishing, number_of_pages, created_at, updated_at FROM book LIMIT $1 OFFSET $2",
+		"SELECT id, name, category_id, author_id, cost, price_per_day, photo, year_of_publishing, number_of_pages, created_at, updated_at FROM book ORDER BY name LIMIT $1 OFFSET $2",
 		count, start)
 
 	if err != nil {
@@ -88,23 +88,24 @@ func (dt *Book) DeleteBook(db *sql.DB) error {
 	return err
 }
 
-func (book *Book) Validate() {
-	if book.Name == "" {
-		log.Print("name is required")
+func (dt *Book) Validate() error {
+	if dt.Name == "" {
+		return errors.New("name is required")
 	}
-	if book.Cost == 0 {
-		log.Print("cost cannot be zero")
+	if dt.Cost == 0 {
+		return errors.New("cost cannot be zero")
 	}
-	if book.PricePerDay == 0 {
-		log.Print("pricePerDay is required")
+	if dt.PricePerDay == 0 {
+		return errors.New("pricePerDay is required")
 	}
-	if book.Photo == "" {
-		log.Print("photo is required")
+	if dt.Photo == "" {
+		return errors.New("photo is required")
 	}
-	if book.YearOfPublishing == 0 {
-		log.Print("yearOfPublishing cannot be zero")
+	if dt.YearOfPublishing == 0 {
+		return errors.New("yearOfPublishing cannot be zero")
 	}
-	if book.NumberOfPages == 0 {
-		log.Print("numberOfPages cannot be zero")
+	if dt.NumberOfPages == 0 {
+		return errors.New("numberOfPages cannot be zero")
 	}
+	return nil
 }

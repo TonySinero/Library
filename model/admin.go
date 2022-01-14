@@ -87,12 +87,11 @@ func (u *Admin) DeleteAdmin(db *sql.DB) error {
 	return err
 }
 
-
-func (admin *Admin) Validate() error {
-	if !strings.Contains(admin.Email, "@") {
+func (u *Admin) Validate() error {
+	if !strings.Contains(u.Email, "@") {
 		return errors.New("Email address is required")
 	}
-	if len(admin.Password) < 6 {
+	if len(u.Password) < 6 {
 		return errors.New("Password is required")
 	}
 	temp := &Admin{}

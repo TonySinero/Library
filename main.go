@@ -50,6 +50,7 @@ func main() {
 	//s := gocron.NewScheduler()
 	//s.Every(1).Days().Do(callAt.CheckReturnDate(callAt.DB{}))
 	//<- s.Start()
+
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, syscall.SIGTERM, syscall.SIGINT)
 	ticker := time.NewTicker(24 * time.Hour)

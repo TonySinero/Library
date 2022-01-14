@@ -2,7 +2,7 @@ package model
 
 import (
 	"database/sql"
-	"log"
+	"github.com/pkg/errors"
 	"strings"
 	"time"
 
@@ -35,7 +35,7 @@ func (dt *User) GetUser(db *sql.DB) error {
 // Gets users. Limit count and start position in db.
 func GetUsers(db *sql.DB, start, count int) ([]User, error) {
 	rows, err := db.Query(
-		"SELECT id, firstname, surname, second_name, passport, date_of_birth, email, address, indebtedness, created_at, updated_at FROM users LIMIT $1 OFFSET $2",
+		"SELECT id, firstname, surname, second_name, passport, date_of_birth, email, address, indebtedness, created_at, updated_at FROM users ORDER BY surname LIMIT $1 OFFSET $2",
 		count, start)
 
 	if err != nil {
@@ -88,27 +88,27 @@ func (dt *User) DeleteUser(db *sql.DB) error {
 	return err
 }
 
-func (user *User) Validate()  {
-	if user.Firstname == "" {
-		log.Println("name is required")
+func (dt *User) Validate() error {
+	if dt.Firstname == "" {
+		return errors.New("name is required")
 	}
-	if user.Surname == "" {
-		log.Println("surname is required")
+	if dt.Surname == "" {
+		return errors.New("surname is required")
 	}
-	if user.SecondName == "" {
-		log.Println("secondName is required")
+	if dt.SecondName == "" {
+		return errors.New("secondName is required")
 	}
-	if user.DateOfBirth == "" {
-		log.Println("dateOfBirth is required")
+	if dt.DateOfBirth == "" {
+		return errors.New("dateOfBirth is required")
 	}
-	if !strings.Contains(user.Email, "@") {
-		log.Println("Email address is required")
+	if !strings.Contains(dt.Email, "@") {
+		return errors.New("Email address is required")
 	}
-	if user.Address == "" {
-		log.Println("address is required")
+	if dt.Address == "" {
+		return errors.New("address is required")
 	}
-	if user.Indebtedness == "" {
-		log.Println("indebtedness is required")
+	if dt.Indebtedness == "" {
+		return errors.New("indebtedness is required")
 	}
-
+	return nil
 }

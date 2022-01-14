@@ -2,7 +2,7 @@ package model
 
 import (
 	"database/sql"
-	"log"
+	"github.com/pkg/errors"
 	"time"
 
 	"github.com/google/uuid"
@@ -74,14 +74,13 @@ func (dt *Issue) DeleteIssue(db *sql.DB) error {
 
 	return err
 }
-
-
-func (issue *Issue) Validate() {
-	if issue.PreliminaryCost == 0 {
-		log.Println("price cannot be zero")
-	}
+func (dt *Issue) PremCostFunc(b *Book) {
+	dt.PreliminaryCost = b.PricePerDay * 30
 }
 
-func (i *Issue) PremCostFunc(b *Book) {
-	i.PreliminaryCost = b.PricePerDay * 30
+func (dt *Issue) Validate() error {
+	if dt.PreliminaryCost == 0 {
+		return errors.New("price cannot be zero")
+	}
+	return nil
 }

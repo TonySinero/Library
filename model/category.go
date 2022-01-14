@@ -2,7 +2,7 @@ package model
 
 import (
 	"database/sql"
-	"log"
+	"github.com/pkg/errors"
 	"time"
 
 	"github.com/google/uuid"
@@ -57,9 +57,10 @@ func (dt *Categories) CreateCategory(db *sql.DB) error {
 	return nil
 }
 
-func (cat *Categories) Validate() {
-	if cat.Name == "" {
-		log.Println("category is required")
+func (dt *Categories) Validate() error {
+	if dt.Name == "" {
+		return errors.New("category is required")
 	}
+	return nil
 }
 

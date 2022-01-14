@@ -131,7 +131,7 @@ const ISSUE_SCHEMA = `
 	CREATE TABLE IF NOT EXISTS issue (
 		id uuid DEFAULT uuid_generate_v4 () unique,
 	    user_id uuid,
-	    books_id uuid,
+	    book_id uuid,
 	    return_date timestamp NOT NULL,
 	    preliminary_cost float NOT NULL,
 		created_at timestamp NOT NULL,
@@ -145,9 +145,9 @@ ALTER TABLE issue
             ON DELETE CASCADE;
 
 ALTER TABLE issue
-    ADD CONSTRAINT fk_books_issue
-        FOREIGN KEY (books_id)
-            REFERENCES books(id)
+    ADD CONSTRAINT fk_book_issue
+        FOREIGN KEY (book_id)
+            REFERENCES book(id)
             ON DELETE CASCADE;
 `
 // Schema for acceptance table.
@@ -155,9 +155,8 @@ const ACCEPTANCE_SCHEMA = `
 	CREATE TABLE IF NOT EXISTS acceptance (
 		id uuid DEFAULT uuid_generate_v4 () unique,
 	    user_id uuid,
-	    books_id uuid,
+	    book_id uuid,
 	    book_condition varchar(225) NOT NULL,
-	    rating int NOT NULL,
 	    discount float NOT NULL,
 	    final_cost float NOT NULL,
 	    photo varchar(225) NOT NULL,
@@ -173,9 +172,26 @@ ALTER TABLE acceptance
             ON DELETE CASCADE;
 
 ALTER TABLE acceptance
-    ADD CONSTRAINT fk_books_acceptance
-        FOREIGN KEY (books_id)
-            REFERENCES books(id)
+    ADD CONSTRAINT fk_book_acceptance
+        FOREIGN KEY (book_id)
+            REFERENCES book(id)
+            ON DELETE CASCADE;
+`
+const POPULAR_BOOKS_SCHEMA = `
+	CREATE TABLE IF NOT EXISTS popular (
+		id uuid DEFAULT uuid_generate_v4 () unique,
+	    book_id uuid,
+	    rating int NOT NULL,
+	    views int NOT NULL,
+	    created_at timestamp NOT NULL,
+	    updated_at timestamp NOT NULL,
+		primary key (id)
+	);
+
+ALTER TABLE popular
+    ADD CONSTRAINT fk_book_popular
+        FOREIGN KEY (book_id)
+            REFERENCES book(id)
             ON DELETE CASCADE;
 `
 // Receives database credentials and connects to database.
@@ -197,4 +213,5 @@ func (db *DB) Initialize(user, password, dbhost, dbname string) {
 	db.Database.Exec(BOOKS_SCHEMA)
 	db.Database.Exec(ISSUE_SCHEMA)
 	db.Database.Exec(ACCEPTANCE_SCHEMA)
+	db.Database.Exec(POPULAR_BOOKS_SCHEMA)
 }

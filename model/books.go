@@ -30,7 +30,7 @@ func (dt *Books) GetNumberBook(db *sql.DB) error {
 // Gets books. Limit count and start position in db.
 func GetNumberBooks(db *sql.DB, start, count int) ([]Books, error) {
 	rows, err := db.Query(
-		"SELECT id, book_id, category_id, author_id, number_of_book, created_at, deleted_at FROM books LIMIT $1 OFFSET $2",
+		"SELECT id, book_id, category_id, author_id, number_of_book, created_at, deleted_at FROM books ORDER BY number_of_book LIMIT $1 OFFSET $2",
 		count, start)
 
 	if err != nil {
@@ -83,15 +83,15 @@ func (dt *Books) DeleteAllBooks(db *sql.DB) error {
 
 	return err
 }
-func (r *Books) Restrictions() error {
-	if r.NumberOfBooks > 5 {
+func (dt *Books) Restrictions() error {
+	if dt.NumberOfBooks > 5 {
 		return errors.New("issuing more than five books is prohibited")
 	}
 	return nil
 }
 
-func (books *Books) Validate() error {
-	if books.NumberOfBooks == 0 {
+func (dt *Books) Validate() error {
+	if dt.NumberOfBooks == 0 {
 		return errors.New("books cannot be zero")
 	}
 	return nil
