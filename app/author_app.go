@@ -159,13 +159,13 @@ func (a *App) PostAuthorImage(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		err = os.MkdirAll("./static/author_image", os.ModePerm)
+		err = os.MkdirAll("D:/static/author_image", os.ModePerm)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 
-		f, err := os.Create(fmt.Sprintf("./static/author_image/%d%s", time.Now().UnixNano(), filepath.Ext(fileHeader.Filename)))
+		f, err := os.Create(fmt.Sprintf("D:/static/author_image/%d%s", time.Now().UnixNano(), filepath.Ext(fileHeader.Filename)))
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return

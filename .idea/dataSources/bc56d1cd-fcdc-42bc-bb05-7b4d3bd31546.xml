@@ -784,7 +784,7 @@ false YEKT
 false Z
 false Zulu
 </TimeZones>
-      <IntrospectionStateNumber>2173</IntrospectionStateNumber>
+      <IntrospectionStateNumber>2184</IntrospectionStateNumber>
       <StartupTime>1642149198</StartupTime>
     </root>
     <database id="2" parent="1" name="postgres">
@@ -801,7 +801,7 @@ false Zulu
 13158||-9223372036854775808|U|G
 13158||10|U|G</Grants>
       <Owner>postgres</Owner>
-      <IntrospectionStateNumber>2174</IntrospectionStateNumber>
+      <IntrospectionStateNumber>2185</IntrospectionStateNumber>
       <Current>1</Current>
       <Relations>sequence|table|24670|24672|1
 sequence|table|24681|24683|1
@@ -893,7 +893,7 @@ sequence|table|25007|25009|1
       <Comment>standard public schema</Comment>
       <StateNumber>287</StateNumber>
       <Owner>postgres</Owner>
-      <IntrospectionStateNumber>2174</IntrospectionStateNumber>
+      <IntrospectionStateNumber>2185</IntrospectionStateNumber>
       <Current>1</Current>
     </schema>
     <extension id="18" parent="2" name="adminpack">
@@ -1269,9 +1269,9 @@ sequence|table|25007|25009|1
       <AccessMethodId>2</AccessMethodId>
     </table>
     <table id="75" parent="17" name="issue">
-      <ObjectId>33884</ObjectId>
+      <ObjectId>33917</ObjectId>
       <Owner>postgres</Owner>
-      <StateNumber>2153</StateNumber>
+      <StateNumber>2180</StateNumber>
       <AccessMethodId>2</AccessMethodId>
     </table>
     <table id="76" parent="17" name="main_admin">
@@ -2936,53 +2936,53 @@ department_id</ColNames>
       <Position>1</Position>
       <DataType>uuid|0s</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>2153</StateNumber>
+      <StateNumber>2180</StateNumber>
       <DefaultExpression>uuid_generate_v4()</DefaultExpression>
       <TypeId>2950</TypeId>
     </column>
     <column id="283" parent="75" name="user_id">
       <Position>2</Position>
       <DataType>uuid|0s</DataType>
-      <StateNumber>2153</StateNumber>
+      <StateNumber>2180</StateNumber>
       <TypeId>2950</TypeId>
     </column>
     <column id="284" parent="75" name="book_id">
       <Position>3</Position>
       <DataType>uuid|0s</DataType>
-      <StateNumber>2153</StateNumber>
+      <StateNumber>2180</StateNumber>
       <TypeId>2950</TypeId>
     </column>
     <column id="285" parent="75" name="return_date">
       <Position>4</Position>
-      <DataType>varchar(225)|0s</DataType>
+      <DataType>timestamp|0s</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>2153</StateNumber>
-      <TypeId>1043</TypeId>
+      <StateNumber>2180</StateNumber>
+      <TypeId>1114</TypeId>
     </column>
     <column id="286" parent="75" name="preliminary_cost">
       <Position>5</Position>
       <DataType>double precision|0s</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>2153</StateNumber>
+      <StateNumber>2180</StateNumber>
       <TypeId>701</TypeId>
     </column>
     <column id="287" parent="75" name="created_at">
       <Position>6</Position>
       <DataType>timestamp|0s</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>2153</StateNumber>
+      <StateNumber>2180</StateNumber>
       <TypeId>1114</TypeId>
     </column>
     <column id="288" parent="75" name="updated_at">
       <Position>7</Position>
       <DataType>timestamp|0s</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>2153</StateNumber>
+      <StateNumber>2180</StateNumber>
       <TypeId>1114</TypeId>
     </column>
     <index id="289" parent="75" name="issue_pkey">
-      <ObjectId>33888</ObjectId>
-      <StateNumber>2153</StateNumber>
+      <ObjectId>33921</ObjectId>
+      <StateNumber>2180</StateNumber>
       <ColNames>id</ColNames>
       <Unique>1</Unique>
       <Primary>1</Primary>
@@ -2991,15 +2991,15 @@ department_id</ColNames>
       <AccessMethodId>403</AccessMethodId>
     </index>
     <key id="290" parent="75" name="issue_pkey">
-      <ObjectId>33889</ObjectId>
-      <StateNumber>2153</StateNumber>
+      <ObjectId>33922</ObjectId>
+      <StateNumber>2180</StateNumber>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
       <UnderlyingIndexName>issue_pkey</UnderlyingIndexName>
     </key>
     <foreign-key id="291" parent="75" name="fk_users_issue">
-      <ObjectId>33890</ObjectId>
-      <StateNumber>2153</StateNumber>
+      <ObjectId>33923</ObjectId>
+      <StateNumber>2180</StateNumber>
       <ColNames>user_id</ColNames>
       <RefTableId>33396</RefTableId>
       <RefColPositions>1</RefColPositions>
@@ -3009,8 +3009,8 @@ department_id</ColNames>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
     <foreign-key id="292" parent="75" name="fk_book_issue">
-      <ObjectId>33895</ObjectId>
-      <StateNumber>2153</StateNumber>
+      <ObjectId>33928</ObjectId>
+      <StateNumber>2180</StateNumber>
       <ColNames>book_id</ColNames>
       <RefTableId>33804</RefTableId>
       <RefColPositions>1</RefColPositions>

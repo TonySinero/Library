@@ -11,13 +11,9 @@
       <change beforePath="$PROJECT_DIR$/app/acceptance_app.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/acceptance_app.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/author_app.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/author_app.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/book_app.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/book_app.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/issue_app.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/db.go" beforeDir="false" afterPath="$PROJECT_DIR$/db/db.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/acceptance.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/acceptance.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/book.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/book.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/books.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/books.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/issue.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/accept_book_image/1642429415521353500.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/author_image/1642429812469373400.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/book_image/1642429657115395500.jpg" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
