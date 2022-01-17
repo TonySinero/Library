@@ -12,8 +12,6 @@ import (
 type Books struct {
 	ID               uuid.UUID `json:"id"       sql:"uuid"`
 	BookID           uuid.UUID `json:"bookID" validate:"required" sql:"book_id"`
-	CategoryID       uuid.UUID `json:"categoryID" validate:"required" sql:"category_id"`
-	AuthorID         uuid.UUID `json:"authorID" validate:"required" sql:"author_id"`
 	NumberOfBooks    uint      `json:"numberOfBooks" validate:"required" sql:"number_of_books"`
 	CreatedAt        time.Time `json:"createdAt" sql:"created_at"`
 	DeletedAt        time.Time `json:"deletedAt" sql:"deleted_at"`
@@ -23,14 +21,14 @@ type Books struct {
 
 // Gets a specific book by id.
 func (dt *Books) GetNumberBook(db *sql.DB) error {
-	return db.QueryRow("SELECT book_id, category_id, author_id, number_of_book, created_at, deleted_at FROM books WHERE id=$1",
-		dt.ID).Scan(&dt.BookID,  &dt.CategoryID, &dt.AuthorID, &dt.NumberOfBooks,  &dt.CreatedAt, &dt.DeletedAt)
+	return db.QueryRow("SELECT book_id, number_of_book, created_at, deleted_at FROM books WHERE id=$1",
+		dt.ID).Scan(&dt.BookID, &dt.NumberOfBooks,  &dt.CreatedAt, &dt.DeletedAt)
 }
 
 // Gets books. Limit count and start position in db.
 func GetNumberBooks(db *sql.DB, start, count int) ([]Books, error) {
 	rows, err := db.Query(
-		"SELECT id, book_id, category_id, author_id, number_of_book, created_at, deleted_at FROM books ORDER BY number_of_book LIMIT $1 OFFSET $2",
+		"SELECT id, book_id, number_of_book, created_at, deleted_at FROM books ORDER BY number_of_book LIMIT $1 OFFSET $2",
 		count, start)
 
 	if err != nil {
@@ -44,7 +42,7 @@ func GetNumberBooks(db *sql.DB, start, count int) ([]Books, error) {
 	// Store query results into book variable if no errors.
 	for rows.Next() {
 		var dt Books
-		if err := rows.Scan(&dt.ID, &dt.BookID, &dt.CategoryID, &dt.AuthorID, &dt.NumberOfBooks, &dt.CreatedAt, &dt.DeletedAt); err != nil {
+		if err := rows.Scan(&dt.ID, &dt.BookID, &dt.NumberOfBooks, &dt.CreatedAt, &dt.DeletedAt); err != nil {
 			return nil, err
 		}
 		book = append(book, dt)
@@ -60,7 +58,7 @@ func (dt *Books) CreateNumberBook(db *sql.DB) error {
 	// Scan db after creation if book exists using new book id.
 	timestamp := time.Now()
 	err := db.QueryRow(
-		"INSERT INTO books(book_id, category_id, author_id, number_of_book, created_at, deleted_at) VALUES($1, $2, $3, $4, $5, $6) RETURNING id, book_id, category_id, author_id, number_of_book, created_at, deleted_at", dt.BookID, dt.CategoryID, dt.AuthorID, dt.NumberOfBooks, timestamp, timestamp).Scan(&dt.ID, &dt.BookID, &dt.CategoryID, &dt.AuthorID, &dt.NumberOfBooks, &dt.CreatedAt, &dt.DeletedAt)
+		"INSERT INTO books(book_id, number_of_book, created_at, deleted_at) VALUES($1, $2, $3, $4) RETURNING id, book_id, number_of_book, created_at, deleted_at", dt.BookID, dt.NumberOfBooks, timestamp, timestamp).Scan(&dt.ID, &dt.BookID, &dt.NumberOfBooks, &dt.CreatedAt, &dt.DeletedAt)
 	if err != nil {
 		return err
 	}
@@ -72,7 +70,7 @@ func (dt *Books) CreateNumberBook(db *sql.DB) error {
 func (dt *Books) UpdateNumberBook(db *sql.DB) error {
 	timestamp := time.Now()
 	_, err :=
-		db.Exec("UPDATE books SET book_id=$1, category_id=$2, author_id=$3, number_of_book=$4, deleted_at=$5 WHERE id=$6 RETURNING id,  book_id, category_id, author_id, number_of_book, created_at, deleted_at",dt.BookID, dt.CategoryID, dt.AuthorID, dt.NumberOfBooks, timestamp, dt.ID)
+		db.Exec("UPDATE books SET book_id=$1, number_of_book=$2, deleted_at=$3 WHERE id=$4 RETURNING id,  book_id, number_of_book, created_at, deleted_at",dt.BookID, dt.NumberOfBooks, timestamp, dt.ID)
 
 	return err
 }

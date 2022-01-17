@@ -1,7 +1,6 @@
 package main
 
 import (
-	//"github.com/jasonlvhit/gocron"
 	"github.com/library/app"
 	"github.com/library/callAt"
 	"github.com/library/db"
@@ -45,14 +44,10 @@ func main() {
 		// Get port from env.
 		a.Run(":" + os.Getenv("PORT"))
 	}
-	//implementation with gocrone
-	//s := gocron.NewScheduler()
-	//s.Every(1).Days().Do(callAt.CheckReturnDate(callAt.DB{}))
-	//<- s.Start()
 
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, syscall.SIGTERM, syscall.SIGINT)
-	ticker := time.NewTicker(24 * time.Hour)
+	ticker := time.NewTicker(time.Hour)
 	task := make(chan []string)
 
 	go func() {
@@ -74,7 +69,9 @@ func main() {
 			select {
 			case <-task:
 				listEmail := <-task
-				callAt.Email(listEmail)
+				for _, v := range listEmail{
+					callAt.Email([]string{v})
+				}
 				log.Println("Email Sent Successfully!")
 			}
 		}

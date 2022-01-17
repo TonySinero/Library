@@ -75,7 +75,7 @@ func (dt *Acceptance) CreateAcceptance(db *sql.DB) error {
 func (dt *Acceptance) UpdateAcceptance(db *sql.DB) error {
 	timestamp := time.Now()
 	_, err :=
-		db.Exec("UPDATE acceptance SET user_id=$1, book_id=$2, book_condition=$3, discount=$4, final_cost=$5, photo=$6, updated_at=$7 WHERE id=$8 RETURNING id, user_id, books_id, book_condition, discount, final_cost, photo, created_at, updated_at",  dt.UserID, dt.BookID, dt.BookCondition, dt.Discount, dt.FinalCost, dt.Photo, timestamp, dt.ID)
+		db.Exec("UPDATE acceptance SET user_id=$1, book_id=$2, book_condition=$3, discount=$4, final_cost=$5, photo=$6, updated_at=$7 WHERE id=$8 RETURNING id, user_id, book_id, book_condition, discount, final_cost, photo, created_at, updated_at",  dt.UserID, dt.BookID, dt.BookCondition, dt.Discount, dt.FinalCost, dt.Photo, timestamp, dt.ID)
 
 	return err
 }

@@ -101,8 +101,6 @@ const BOOKS_SCHEMA = `
 	CREATE TABLE IF NOT EXISTS books (
 		id uuid DEFAULT uuid_generate_v4 () unique,
 	    book_id uuid,
-		category_id uuid,
-	    author_id uuid,
 	    number_of_book int NOT NULL,
 		created_at timestamp NOT NULL,
 		deleted_at timestamp NOT NULL,
@@ -114,18 +112,6 @@ ALTER TABLE books
         FOREIGN KEY (book_id)
             REFERENCES book(id)
             ON DELETE CASCADE;
-
-ALTER TABLE books
-    ADD CONSTRAINT fk_categories_books
-        FOREIGN KEY (category_id)
-            REFERENCES categories(id)
-            ON DELETE CASCADE;
-
-ALTER TABLE books
-    ADD CONSTRAINT fk_authors_books
-        FOREIGN KEY (author_id)
-            REFERENCES authors(id)
-            ON DELETE CASCADE;
 `
 // Schema for lending table.
 const ISSUE_SCHEMA = `
@@ -133,9 +119,10 @@ const ISSUE_SCHEMA = `
 		id uuid DEFAULT uuid_generate_v4 () unique,
 	    user_id uuid,
 	    book_id uuid,
-	    return_date timestamp NOT NULL,
+	    return_date varchar(225) NOT NULL,
 	    preliminary_cost float NOT NULL,
 		created_at timestamp NOT NULL,
+	    updated_at timestamp NOT NULL,
 		primary key (id)
 	);
 

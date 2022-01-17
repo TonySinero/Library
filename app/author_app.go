@@ -29,7 +29,6 @@ func (a *App) initializeAuthorRoutes() {
 	//a.Router.Handle("/authors", a.isAuthorized(a.GetUsers)).Methods("GET")
 	//a.Router.Handle("/author/{id}", a.isAuthorized(a.updateUser)).Methods("PUT")
 
-
 	a.Router.HandleFunc("/author", a.createAuthor).Methods("POST")
 	a.Router.HandleFunc("/authors", a.getAuthors).Methods("GET")
 	a.Router.HandleFunc("/author/{id}", a.updateAuthor).Methods("PUT")
@@ -160,13 +159,13 @@ func (a *App) PostAuthorImage(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		err = os.MkdirAll("./author_image", os.ModePerm)
+		err = os.MkdirAll("./static/author_image", os.ModePerm)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 
-		f, err := os.Create(fmt.Sprintf("./author_image/%d%s", time.Now().UnixNano(), filepath.Ext(fileHeader.Filename)))
+		f, err := os.Create(fmt.Sprintf("./static/author_image/%d%s", time.Now().UnixNano(), filepath.Ext(fileHeader.Filename)))
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
