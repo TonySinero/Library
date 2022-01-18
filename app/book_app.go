@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
+	"github.com/spf13/viper"
 	"io"
 	"net/http"
 	"os"
@@ -76,11 +77,13 @@ func (a *App) getBook(w http.ResponseWriter, r *http.Request) {
 // Gets list of book with count and start variables from URL.
 func (a *App) getBooks(w http.ResponseWriter, r *http.Request) {
 	// Convert count and start string variables to int.
-	count, _ := strconv.Atoi(r.FormValue("count"))
-	start, _ := strconv.Atoi(r.FormValue("start"))
+	count, _ := strconv.Atoi(r.URL.Query().Get("count"))
+	start, _ := strconv.Atoi(r.URL.Query().Get("start"))
 
-	// Default and limit of count is 20.
-	if count > 20 || count < 1 {
+	if count > 20{
+		count = count
+	}
+	if count < 1 {
 		count = 20
 	}
 	// Min start is 0;
@@ -211,13 +214,14 @@ func (a *App) PostBookImage(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		err = os.MkdirAll("D:/static/book_image", os.ModePerm)
+		path := viper.GetString("IMAGE_BOOK_PATH")
+		err = os.MkdirAll(path, os.ModePerm)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 
-		f, err := os.Create(fmt.Sprintf("D:/static/book_image/%d%s", time.Now().UnixNano(), filepath.Ext(fileHeader.Filename)))
+		f, err := os.Create(fmt.Sprintf("%s/%d%s", path, time.Now().UnixNano(), filepath.Ext(fileHeader.Filename)))
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return

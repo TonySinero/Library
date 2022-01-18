@@ -3,6 +3,10 @@ APP_DB_PASSWORD: 'secret'
 APP_DB_NAME: 'postgres'
 APP_DB_HOST: 'localhost'
 
+IMAGE_ACCEPT_PATH: 'D:/static/accept_book_image'
+IMAGE_AUTHOR_PATH: 'D:/static/author_image'
+IMAGE_BOOK_PATH: 'D:/static/book_image'
+
 TEST_DB_USERNAME: 'postgres'
 TEST_DB_PASSWORD: 'secret'
 TEST_DB_NAME: 'postgres'

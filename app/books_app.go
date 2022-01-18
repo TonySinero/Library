@@ -65,17 +65,20 @@ func (a *App) getNumberBook(w http.ResponseWriter, r *http.Request) {
 // Gets list of book with count and start variables from URL.
 func (a *App) getNumberBooks(w http.ResponseWriter, r *http.Request) {
 	// Convert count and start string variables to int.
-	count, _ := strconv.Atoi(r.FormValue("count"))
-	start, _ := strconv.Atoi(r.FormValue("start"))
+	count, _ := strconv.Atoi(r.URL.Query().Get("count"))
+	start, _ := strconv.Atoi(r.URL.Query().Get("start"))
 
-	// Default and limit of count is 20.
-	if count > 20 || count < 1 {
+	if count > 20{
+		count = count
+	}
+	if count < 1 {
 		count = 20
 	}
 	// Min start is 0;
 	if start < 0 {
 		start = 0
 	}
+
 
 	book, err := model.GetNumberBooks(d.Database, start, count)
 	if err != nil {

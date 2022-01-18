@@ -32,11 +32,13 @@ func (a *App) initializeCategoryRoutes() {
 // Gets list of category with count and start variables from URL.
 func (a *App) getCategories(w http.ResponseWriter, r *http.Request) {
 	// Convert count and start string variables to int.
-	count, _ := strconv.Atoi(r.FormValue("count"))
-	start, _ := strconv.Atoi(r.FormValue("start"))
+	count, _ := strconv.Atoi(r.URL.Query().Get("count"))
+	start, _ := strconv.Atoi(r.URL.Query().Get("start"))
 
-	// Default and limit of count is 20.
-	if count > 20 || count < 1 {
+	if count > 20{
+		count = count
+	}
+	if count < 1 {
 		count = 20
 	}
 	// Min start is 0;
