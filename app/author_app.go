@@ -46,7 +46,7 @@ func (a *App) getAuthors(w http.ResponseWriter, r *http.Request) {
 	count, _ := strconv.Atoi(r.URL.Query().Get("count"))
 	start, _ := strconv.Atoi(r.URL.Query().Get("start"))
 
-	if count > 20{
+	if count > 1{
 		count = count
 	}
 	if count < 1 {
