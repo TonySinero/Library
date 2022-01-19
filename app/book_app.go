@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/spf13/viper"
 	"io"
+	"io/ioutil"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -40,7 +41,9 @@ func (a *App) initializeBookRoutes() {
 	a.Router.HandleFunc("/book/{name}", a.getBook).Methods("GET")
 	a.Router.HandleFunc("/book/{id}", a.updateBook).Methods("PUT")
 	a.Router.HandleFunc("/book/{id}", a.deleteBook).Methods("DELETE")
-	a.Router.HandleFunc("/book/image", a.PostBookImage).Methods("POST")
+	a.Router.HandleFunc("/post/image", a.PostBookImage).Methods("POST")
+	a.Router.HandleFunc("/load/image", a.LoadBookImage).Methods("GET")
+
 
 }
 
@@ -219,7 +222,7 @@ func (a *App) PostBookImage(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		path := viper.GetString("IMAGE_BOOK_PATH")
+		path := viper.GetString("IMAGE_POST_PATH")
 		err = os.MkdirAll(path, os.ModePerm)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -242,4 +245,16 @@ func (a *App) PostBookImage(w http.ResponseWriter, r *http.Request) {
 	}
 
 	fmt.Fprintf(w, "Upload successful")
+}
+
+func (a *App) LoadBookImage(w http.ResponseWriter, r *http.Request) {
+	path := viper.GetString("IMAGE_LOAD_PATH")
+	image := r.URL.Query().Get("image")
+	filename := fmt.Sprintf(  "%s/%s", path, image)
+	file, err := ioutil.ReadFile(filename)
+	if err != nil{
+		http.Error(w, err.Error(), http.StatusBadRequest)
+	}else {
+		w.Write(file)
+	}
 }

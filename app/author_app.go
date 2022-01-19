@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/spf13/viper"
 	"io"
+	"io/ioutil"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -33,7 +34,8 @@ func (a *App) initializeAuthorRoutes() {
 	a.Router.HandleFunc("/author", a.createAuthor).Methods("POST")
 	a.Router.HandleFunc("/authors", a.getAuthors).Methods("GET")
 	a.Router.HandleFunc("/author/{id}", a.updateAuthor).Methods("PUT")
-	a.Router.HandleFunc("/author/image", a.PostAuthorImage).Methods("POST")
+	a.Router.HandleFunc("/post/image", a.PostAuthorImage).Methods("POST")
+	a.Router.HandleFunc("/load/image", a.LoadAuthorImage).Methods("GET")
 
 }
 
@@ -167,7 +169,7 @@ func (a *App) PostAuthorImage(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		path := viper.GetString("IMAGE_AUTHOR_PATH")
+		path := viper.GetString("IMAGE_POST_PATH")
 		err = os.MkdirAll(path, os.ModePerm)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -190,4 +192,16 @@ func (a *App) PostAuthorImage(w http.ResponseWriter, r *http.Request) {
 	}
 
 	fmt.Fprintf(w, "Upload successful")
+}
+
+func (a *App) LoadAuthorImage(w http.ResponseWriter, r *http.Request) {
+	path := viper.GetString("IMAGE_LOAD_PATH")
+	image := r.URL.Query().Get("image")
+	filename := fmt.Sprintf(  "%s/%s", path, image)
+	file, err := ioutil.ReadFile(filename)
+	if err != nil{
+		http.Error(w, err.Error(), http.StatusBadRequest)
+	}else {
+		w.Write(file)
+	}
 }

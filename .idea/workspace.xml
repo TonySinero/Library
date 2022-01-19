@@ -7,21 +7,9 @@
     <list default="true" id="3475a3fb-c118-4e1c-adbb-681d943378fe" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/acceptance_app.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/acceptance_app.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/admin_app.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/admin_app.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/author_app.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/author_app.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/book_app.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/book_app.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/books_app.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/books_app.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/category_app.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/category_app.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/issue_app.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/issue_app.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/user_app.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/user_app.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/acceptance.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/acceptance.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/admin.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/admin.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/author.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/author.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/book.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/book.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/books.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/books.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/category.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/category.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/issue.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/issue.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/user.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
