@@ -2,6 +2,7 @@ package model
 
 import (
 	"database/sql"
+	"fmt"
 	"github.com/pkg/errors"
 	"time"
 
@@ -19,10 +20,10 @@ type Categories struct {
 // Query operations
 
 // Gets category. Limit count and start position in db.
-func GetCategories(db *sql.DB, start, count int) ([]Categories, error) {
-	rows, err := db.Query(
-		"SELECT id, name, created_at FROM categories LIMIT $1 OFFSET $2",
-		count, start)
+func GetCategories(db *sql.DB, limit, page int) ([]Categories, error) {
+
+	rows, err := db.Query(fmt.Sprintf(  "SELECT id, name, created_at FROM categories LIMIT %d OFFSET %d",
+		limit, limit*(page-1)))
 
 	if err != nil {
 		return nil, err

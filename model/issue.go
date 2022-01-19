@@ -2,6 +2,7 @@ package model
 
 import (
 	"database/sql"
+	"fmt"
 	"github.com/pkg/errors"
 	"time"
 
@@ -30,10 +31,10 @@ func (dt *Issue) GetIssue(db *sql.DB) error {
 }
 
 // Gets users. Limit count and start position in db.
-func GetIssues(db *sql.DB, start, count int) ([]Issue, error) {
-	rows, err := db.Query(
-		"SELECT id, user_id, book_id, return_date, preliminary_cost, created_at, updated_at FROM issue LIMIT $1 OFFSET $2",
-		count, start)
+func GetIssues(db *sql.DB, limit, page int) ([]Issue, error) {
+
+	rows, err := db.Query(fmt.Sprintf(  "SELECT id, user_id, book_id, return_date, preliminary_cost, created_at, updated_at FROM issue LIMIT %d OFFSET %d",
+		limit, limit*(page-1)))
 
 	if err != nil {
 		return nil, err

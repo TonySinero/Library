@@ -2,6 +2,7 @@ package model
 
 import (
 	"database/sql"
+	"fmt"
 	"github.com/pkg/errors"
 	"time"
 
@@ -55,10 +56,10 @@ func (dt *Book) GetBook(db *sql.DB) error {
 }
 
 // Gets books. Limit count and start position in db.
-func GetBooks(db *sql.DB, start, count int) ([]Book, error) {
-	rows, err := db.Query(
-		"SELECT id, name, category_id, author_id, cost, price_per_day, photo, year_of_publishing, number_of_pages, views, created_at, updated_at FROM book ORDER BY name LIMIT $1 OFFSET $2",
-		count, start)
+func GetBooks(db *sql.DB, limit, page int) ([]Book, error) {
+
+	rows, err := db.Query(fmt.Sprintf(  "SELECT id, name, category_id, author_id, cost, price_per_day, photo, year_of_publishing, number_of_pages, views, created_at, updated_at FROM book ORDER BY name LIMIT %d OFFSET %d",
+		limit, limit*(page-1)))
 
 	if err != nil {
 		return nil, err

@@ -2,6 +2,7 @@ package model
 
 import (
 	"database/sql"
+	"fmt"
 	"github.com/pkg/errors"
 	"strings"
 	"time"
@@ -33,10 +34,10 @@ func (dt *User) GetUser(db *sql.DB) error {
 }
 
 // Gets users. Limit count and start position in db.
-func GetUsers(db *sql.DB, start, count int) ([]User, error) {
-	rows, err := db.Query(
-		"SELECT id, firstname, surname, second_name, passport, date_of_birth, email, address, indebtedness, created_at, updated_at FROM users ORDER BY surname LIMIT $1 OFFSET $2",
-		count, start)
+func GetUsers(db *sql.DB, limit, page int) ([]User, error) {
+
+	rows, err := db.Query(fmt.Sprintf(  "SELECT id, firstname, surname, second_name, passport, date_of_birth, email, address, indebtedness, created_at, updated_at FROM users ORDER BY surname LIMIT %d OFFSET %d",
+		limit, limit*(page-1)))
 
 	if err != nil {
 		return nil, err
