@@ -27,10 +27,10 @@ func (dt *Books) GetNumberBook(db *sql.DB) error {
 }
 
 // Gets books. Limit count and start position in db.
-func GetNumberBooks(db *sql.DB, limit, page int) ([]Books, error) {
+func GetNumberBooks(db *sql.DB, field, sort string, limit, page int) ([]Books, error) {
 
-	rows, err := db.Query(fmt.Sprintf(  "SELECT id, book_id, number_of_book, created_at, deleted_at FROM books ORDER BY number_of_book LIMIT %d OFFSET %d",
-		limit, limit*(page-1)))
+	rows, err := db.Query(fmt.Sprintf(  "SELECT id, book_id, number_of_book, created_at, deleted_at FROM books ORDER BY %s %s LIMIT %d OFFSET %d",
+		field ,sort ,limit, limit*(page-1)))
 
 	if err != nil {
 		return nil, err

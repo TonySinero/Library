@@ -34,9 +34,14 @@ func (a *App) getCategories(w http.ResponseWriter, r *http.Request) {
 	// Convert count and start string variables to int.
 	limit, _ := strconv.Atoi(r.URL.Query().Get("limit"))
 	page, _ := strconv.Atoi(r.URL.Query().Get("page"))
+	sort := r.URL.Query().Get("sort")
+	field := r.URL.Query().Get("field")
 
-	if limit > 1{
-		limit = limit
+	if sort == ""{
+		sort = "ASC"
+	}
+	if field == ""{
+		field = "name"
 	}
 	if limit < 1 {
 		limit = 20
@@ -46,7 +51,7 @@ func (a *App) getCategories(w http.ResponseWriter, r *http.Request) {
 		page = 1
 	}
 
-	category, err := model.GetCategories(d.Database, limit, page)
+	category, err := model.GetCategories(d.Database, field, sort, limit, page)
 	if err != nil {
 		app.RespondWithError(w, http.StatusInternalServerError, err.Error())
 		return

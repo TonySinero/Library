@@ -31,10 +31,10 @@ func (dt *Issue) GetIssue(db *sql.DB) error {
 }
 
 // Gets users. Limit count and start position in db.
-func GetIssues(db *sql.DB, limit, page int) ([]Issue, error) {
+func GetIssues(db *sql.DB, field, sort string, limit, page int) ([]Issue, error) {
 
-	rows, err := db.Query(fmt.Sprintf(  "SELECT id, user_id, book_id, return_date, preliminary_cost, created_at, updated_at FROM issue LIMIT %d OFFSET %d",
-		limit, limit*(page-1)))
+	rows, err := db.Query(fmt.Sprintf(  "SELECT id, user_id, book_id, return_date, preliminary_cost, created_at, updated_at FROM issue ORDER BY %s %s LIMIT %d OFFSET %d",
+		field ,sort ,limit, limit*(page-1)))
 
 	if err != nil {
 		return nil, err

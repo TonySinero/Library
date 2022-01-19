@@ -20,10 +20,10 @@ type Categories struct {
 // Query operations
 
 // Gets category. Limit count and start position in db.
-func GetCategories(db *sql.DB, limit, page int) ([]Categories, error) {
+func GetCategories(db *sql.DB, field, sort string, limit, page int) ([]Categories, error) {
 
-	rows, err := db.Query(fmt.Sprintf(  "SELECT id, name, created_at FROM categories LIMIT %d OFFSET %d",
-		limit, limit*(page-1)))
+	rows, err := db.Query(fmt.Sprintf(  "SELECT id, name, created_at FROM categories ORDER BY %s %s LIMIT %d OFFSET %d",
+		field ,sort ,limit, limit*(page-1)))
 
 	if err != nil {
 		return nil, err

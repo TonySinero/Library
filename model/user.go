@@ -34,10 +34,10 @@ func (dt *User) GetUser(db *sql.DB) error {
 }
 
 // Gets users. Limit count and start position in db.
-func GetUsers(db *sql.DB, limit, page int) ([]User, error) {
+func GetUsers(db *sql.DB, field, sort string, limit, page int) ([]User, error) {
 
-	rows, err := db.Query(fmt.Sprintf(  "SELECT id, firstname, surname, second_name, passport, date_of_birth, email, address, indebtedness, created_at, updated_at FROM users ORDER BY surname LIMIT %d OFFSET %d",
-		limit, limit*(page-1)))
+	rows, err := db.Query(fmt.Sprintf(  "SELECT id, firstname, surname, second_name, passport, date_of_birth, email, address, indebtedness, created_at, updated_at FROM users ORDER BY %s %s LIMIT %d OFFSET %d",
+		field ,sort ,limit, limit*(page-1)))
 
 	if err != nil {
 		return nil, err
