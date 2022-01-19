@@ -37,7 +37,6 @@ func (a *App) initializeBookRoutes() {
 
 	a.Router.HandleFunc("/book", a.createBook).Methods("POST")
 	a.Router.HandleFunc("/books", a.getBooks).Methods("GET")
-	a.Router.HandleFunc("/popularBooks", a.getPopularBooks).Methods("GET")
 	a.Router.HandleFunc("/book/{name}", a.getBook).Methods("GET")
 	a.Router.HandleFunc("/book/{id}", a.updateBook).Methods("PUT")
 	a.Router.HandleFunc("/book/{id}", a.deleteBook).Methods("DELETE")
@@ -48,14 +47,6 @@ func (a *App) initializeBookRoutes() {
 }
 
 // Route handlers
-func (a *App) getPopularBooks(w http.ResponseWriter, r *http.Request) {
-	book, err := model.GetPopularBooks(d.Database)
-	if err != nil {
-		app.RespondWithError(w, http.StatusInternalServerError, err.Error())
-		return
-	}
-	app.RespondWithJSON(w, http.StatusOK, book)
-}
 // Retrieves book from db using id from URL.
 func (a *App) getBook(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)

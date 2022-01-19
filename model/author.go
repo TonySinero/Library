@@ -52,6 +52,18 @@ func GetAuthors(db *sql.DB, field, sort string, limit, page int) ([]Author, erro
 
 // Create new author and insert to database.
 func (dt *Author) CreateAuthor(db *sql.DB) error {
+	if dt.Firstname == "" {
+		return errors.New("name is required")
+	}
+	if dt.Surname == "" {
+		return errors.New("surname is required")
+	}
+	if dt.DateOfBirth == "" {
+		return errors.New("dateOfBirth is required")
+	}
+	if dt.Photo == "" {
+		return errors.New("photo is required")
+	}
 	// Scan db after creation if author exists using new author id.
 	timestamp := time.Now()
 	err := db.QueryRow(
@@ -65,14 +77,6 @@ func (dt *Author) CreateAuthor(db *sql.DB) error {
 
 // Updates a specific author details by id.
 func (dt *Author) UpdateAuthor(db *sql.DB) error {
-	timestamp := time.Now()
-	_, err :=
-		db.Exec("UPDATE authors SET firstname=$1, surname=$2, date_of_birth=$3, photo=$4, updated_at=$5 WHERE id=$6 RETURNING id, firstname, surname, date_of_birth, photo, created_at, updated_at", dt.Firstname, dt.Surname,  dt.DateOfBirth, dt.Photo, timestamp, dt.ID)
-
-	return err
-}
-
-func (dt *Author) Validate() error {
 	if dt.Firstname == "" {
 		return errors.New("name is required")
 	}
@@ -85,5 +89,9 @@ func (dt *Author) Validate() error {
 	if dt.Photo == "" {
 		return errors.New("photo is required")
 	}
-	return nil
+	timestamp := time.Now()
+	_, err :=
+		db.Exec("UPDATE authors SET firstname=$1, surname=$2, date_of_birth=$3, photo=$4, updated_at=$5 WHERE id=$6 RETURNING id, firstname, surname, date_of_birth, photo, created_at, updated_at", dt.Firstname, dt.Surname,  dt.DateOfBirth, dt.Photo, timestamp, dt.ID)
+
+	return err
 }

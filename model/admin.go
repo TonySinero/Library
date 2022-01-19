@@ -62,6 +62,19 @@ func GetAdmins(db *sql.DB, field, sort string, limit, page int) ([]Admin, error)
 
 // Create new admin and insert to database.
 func (u *Admin) CreateAdmin(db *sql.DB) error {
+	if !strings.Contains(u.Email, "@") {
+		return errors.New("Email address is required")
+	}
+	if len(u.Password) < 6 {
+		return errors.New("Password is required")
+	}
+	if len(u.Password) == 0 {
+		return errors.New("Password is required")
+	}
+	temp := &Admin{}
+	if temp.Email != "" {
+		return errors.New("Email address already in use by another user.")
+	}
 	timestamp := time.Now()
 	err := db.QueryRow(
 		"INSERT INTO admins(email, password, created_at, updated_at) VALUES($1, $2, $3, $4) RETURNING id, email, created_at, updated_at", u.Email, u.Password, timestamp, timestamp).Scan(&u.ID, &u.Email, &u.Password, &u.CreatedAt, &u.UpdatedAt)
@@ -74,6 +87,19 @@ func (u *Admin) CreateAdmin(db *sql.DB) error {
 
 // Updates a specific admin's details by id.
 func (u *Admin) UpdateAdmin(db *sql.DB) error {
+	if !strings.Contains(u.Email, "@") {
+		return errors.New("Email address is required")
+	}
+	if len(u.Password) < 6 {
+		return errors.New("Password is required")
+	}
+	if len(u.Password) == 0 {
+		return errors.New("Password is required")
+	}
+	temp := &Admin{}
+	if temp.Email != "" {
+		return errors.New("Email address already in use by another user.")
+	}
 	timestamp := time.Now()
 	_, err :=
 		db.Exec("UPDATE admins SET email=$1, password=$2, updated_at=$3 WHERE id=$4 RETURNING id, email, created_at, updated_at", u.Email, u.Password, timestamp, u.ID)
@@ -86,18 +112,4 @@ func (u *Admin) DeleteAdmin(db *sql.DB) error {
 	_, err := db.Exec("DELETE FROM admins WHERE id=$1", u.ID)
 
 	return err
-}
-
-func (u *Admin) Validate() error {
-	if !strings.Contains(u.Email, "@") {
-		return errors.New("Email address is required")
-	}
-	if len(u.Password) < 6 {
-		return errors.New("Password is required")
-	}
-	temp := &Admin{}
-	if temp.Email != "" {
-		return errors.New("Email address already in use by another user.")
-	}
-	return nil
 }

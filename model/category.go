@@ -48,6 +48,9 @@ func GetCategories(db *sql.DB, field, sort string, limit, page int) ([]Categorie
 
 // Create new category and insert to database.
 func (dt *Categories) CreateCategory(db *sql.DB) error {
+	if dt.Name == "" {
+		return errors.New("date is required")
+	}
 	timestamp := time.Now()
 	err := db.QueryRow(
 		"INSERT INTO categories(name, created_at) VALUES($1, $2) RETURNING id, name, created_at", dt.Name, timestamp).Scan(&dt.ID, &dt.Name, &dt.CreatedAt)
@@ -58,10 +61,4 @@ func (dt *Categories) CreateCategory(db *sql.DB) error {
 	return nil
 }
 
-func (dt *Categories) Validate() error {
-	if dt.Name == "" {
-		return errors.New("category is required")
-	}
-	return nil
-}
 

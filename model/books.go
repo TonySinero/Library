@@ -56,6 +56,9 @@ func GetNumberBooks(db *sql.DB, field, sort string, limit, page int) ([]Books, e
 
 // Create new  and insert to database.
 func (dt *Books) CreateNumberBook(db *sql.DB) error {
+	if dt.NumberOfBooks == 0 {
+		return errors.New("books cannot be zero")
+	}
 	// Scan db after creation if book exists using new book id.
 	timestamp := time.Now()
 	err := db.QueryRow(
@@ -69,6 +72,9 @@ func (dt *Books) CreateNumberBook(db *sql.DB) error {
 
 // Updates a specific book details by id.
 func (dt *Books) UpdateNumberBook(db *sql.DB) error {
+	if dt.NumberOfBooks == 0 {
+		return errors.New("books cannot be zero")
+	}
 	timestamp := time.Now()
 	_, err :=
 		db.Exec("UPDATE books SET book_id=$1, number_of_book=$2, deleted_at=$3 WHERE id=$4 RETURNING id,  book_id, number_of_book, created_at, deleted_at",dt.BookID, dt.NumberOfBooks, timestamp, dt.ID)
@@ -81,17 +87,4 @@ func (dt *Books) DeleteAllBooks(db *sql.DB) error {
 	_, err := db.Exec("DELETE FROM books WHERE id=$1", dt.ID)
 
 	return err
-}
-func (dt *Books) Restrictions() error {
-	if dt.NumberOfBooks > 5 {
-		return errors.New("issuing more than five books is prohibited")
-	}
-	return nil
-}
-
-func (dt *Books) Validate() error {
-	if dt.NumberOfBooks == 0 {
-		return errors.New("books cannot be zero")
-	}
-	return nil
 }

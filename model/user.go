@@ -63,33 +63,6 @@ func GetUsers(db *sql.DB, field, sort string, limit, page int) ([]User, error) {
 
 // Create new user and insert to database.
 func (dt *User) CreateUser(db *sql.DB) error {
-	// Scan db after creation if user exists using new user id.
-	timestamp := time.Now()
-	err := db.QueryRow(
-		"INSERT INTO users(firstname, surname, second_name, passport, date_of_birth, email, address, indebtedness, created_at, updated_at) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING id, firstname, surname, second_name, passport, date_of_birth, email, address, indebtedness, created_at, updated_at", dt.Firstname, dt.Surname, dt.SecondName, dt.Passport, dt.DateOfBirth, dt.Email, dt.Address, dt.Indebtedness, timestamp, timestamp).Scan(&dt.ID, &dt.Firstname, &dt.Surname, &dt.SecondName, &dt.Passport, &dt.DateOfBirth, &dt.Email, &dt.Address, &dt.Indebtedness, &dt.CreatedAt, &dt.UpdatedAt)
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
-// Updates a specific user details by id.
-func (dt *User) UpdateUser(db *sql.DB) error {
-	timestamp := time.Now()
-	_, err :=
-		db.Exec("UPDATE users SET firstname=$1, surname=$2, second_name=$3, passport=$4, date_of_birth=$5, email=$6, address=$7, indebtedness=$8, updated_at=$9 WHERE id=$10 RETURNING id, firstname, surname, second_name, passport, date_of_birth, email, address, indebtedness, created_at, updated_at", dt.Firstname, dt.Surname, dt.SecondName, dt.Passport, dt.DateOfBirth, dt.Email, dt.Address, dt.Indebtedness, timestamp, dt.ID)
-
-	return err
-}
-
-// Deletes a specific user by id.
-func (dt *User) DeleteUser(db *sql.DB) error {
-	_, err := db.Exec("DELETE FROM users WHERE id=$1", dt.ID)
-
-	return err
-}
-
-func (dt *User) Validate() error {
 	if dt.Firstname == "" {
 		return errors.New("name is required")
 	}
@@ -98,6 +71,9 @@ func (dt *User) Validate() error {
 	}
 	if dt.SecondName == "" {
 		return errors.New("secondName is required")
+	}
+	if dt.Passport == "" {
+		return errors.New("passport is required")
 	}
 	if dt.DateOfBirth == "" {
 		return errors.New("dateOfBirth is required")
@@ -111,5 +87,52 @@ func (dt *User) Validate() error {
 	if dt.Indebtedness == "" {
 		return errors.New("indebtedness is required")
 	}
+	// Scan db after creation if user exists using new user id.
+	timestamp := time.Now()
+	err := db.QueryRow(
+		"INSERT INTO users(firstname, surname, second_name, passport, date_of_birth, email, address, indebtedness, created_at, updated_at) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING id, firstname, surname, second_name, passport, date_of_birth, email, address, indebtedness, created_at, updated_at", dt.Firstname, dt.Surname, dt.SecondName, dt.Passport, dt.DateOfBirth, dt.Email, dt.Address, dt.Indebtedness, timestamp, timestamp).Scan(&dt.ID, &dt.Firstname, &dt.Surname, &dt.SecondName, &dt.Passport, &dt.DateOfBirth, &dt.Email, &dt.Address, &dt.Indebtedness, &dt.CreatedAt, &dt.UpdatedAt)
+	if err != nil {
+		return err
+	}
 	return nil
+}
+
+// Updates a specific user details by id.
+func (dt *User) UpdateUser(db *sql.DB) error {
+	if dt.Firstname == "" {
+		return errors.New("name is required")
+	}
+	if dt.Surname == "" {
+		return errors.New("surname is required")
+	}
+	if dt.SecondName == "" {
+		return errors.New("secondName is required")
+	}
+	if dt.Passport == "" {
+		return errors.New("passport is required")
+	}
+	if dt.DateOfBirth == "" {
+		return errors.New("dateOfBirth is required")
+	}
+	if !strings.Contains(dt.Email, "@") {
+		return errors.New("Email address is required")
+	}
+	if dt.Address == "" {
+		return errors.New("address is required")
+	}
+	if dt.Indebtedness == "" {
+		return errors.New("indebtedness is required")
+	}
+	timestamp := time.Now()
+	_, err :=
+		db.Exec("UPDATE users SET firstname=$1, surname=$2, second_name=$3, passport=$4, date_of_birth=$5, email=$6, address=$7, indebtedness=$8, updated_at=$9 WHERE id=$10 RETURNING id, firstname, surname, second_name, passport, date_of_birth, email, address, indebtedness, created_at, updated_at", dt.Firstname, dt.Surname, dt.SecondName, dt.Passport, dt.DateOfBirth, dt.Email, dt.Address, dt.Indebtedness, timestamp, dt.ID)
+
+	return err
+}
+
+// Deletes a specific user by id.
+func (dt *User) DeleteUser(db *sql.DB) error {
+	_, err := db.Exec("DELETE FROM users WHERE id=$1", dt.ID)
+
+	return err
 }

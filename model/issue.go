@@ -60,6 +60,13 @@ func GetIssues(db *sql.DB, field, sort string, limit, page int) ([]Issue, error)
 
 // Create new user and insert to database.
 func (dt *Issue) CreateIssue(db *sql.DB) error {
+	if dt.ReturnDate == "" {
+		return errors.New("date is required")
+	}
+	if dt.PreliminaryCost == 0 {
+		return errors.New("cost cannot be zero")
+	}
+
 	// Scan db after creation if user exists using new user id.
 	timestamp := time.Now()
 	err := db.QueryRow(
@@ -72,6 +79,12 @@ func (dt *Issue) CreateIssue(db *sql.DB) error {
 
 // Updates a specific user details by id.
 func (dt *Issue) UpdateIssue(db *sql.DB) error {
+	if dt.ReturnDate == "" {
+		return errors.New("date is required")
+	}
+	if dt.PreliminaryCost == 0 {
+		return errors.New("cost cannot be zero")
+	}
 	timestamp := time.Now()
 	_, err :=
 		db.Exec("UPDATE issue SET user_id=$1, book_id=$2, return_date=$3, preliminary_cost=$4, updated_at=$5 WHERE id=$6 RETURNING id, user_id, book_id, return_date, preliminary_cost, created_at, updated_at", &dt.UserID, &dt.BookID, &dt.ReturnDate, &dt.PreliminaryCost, timestamp, dt.ID)
@@ -90,10 +103,4 @@ func (dt *Issue) PremCostFunc(b *Book) {
 	dt.PreliminaryCost = b.PricePerDay * 30
 }
 
-func (dt *Issue) Validate() error {
-	if dt.PreliminaryCost == 0 {
-		return errors.New("cost cannot be zero")
-	}
-	return nil
-}
 
