@@ -48,8 +48,6 @@ func (a *App) initializeBookRoutes() {
 	a.Router.HandleFunc("/book/categories", a.getBookToCategories).Methods("GET")
 	a.Router.HandleFunc("/books/authors", a.getBooksWithAuthors).Methods("GET")
 
-
-
 }
 
 // Route handlers
@@ -201,7 +199,7 @@ func (a *App) PostBookImage(w http.ResponseWriter, r *http.Request) {
 
 	// 32 MB is the default used by FormFile()
 	if err := r.ParseMultipartForm(32 << 20); err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusConflict)
 		return
 	}
 

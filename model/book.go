@@ -40,11 +40,12 @@ type BooksWithAuthors struct {
 }
 
 func SelectCategories(db *sql.DB ,id uuid.UUID) []Categories {
-	get, err := db.Query(fmt.Sprintf("SELECT id, name, created_at FROM categories JOIN book_categories ON categories.id = book_categories.categories_id AND book_categories.book_id = %d", id))
+	get, err := db.Query("SELECT id, name, created_at FROM categories JOIN book_categories ON categories.id = book_categories.categories_id AND book_categories.book_id = $1", id)
 
 	if err != nil{
 		return nil
 	}
+
 	category := []Categories{}
 	for get.Next() {
 		var cat Categories
@@ -57,7 +58,7 @@ func SelectCategories(db *sql.DB ,id uuid.UUID) []Categories {
 
 func SelectAuthors(db *sql.DB ,id uuid.UUID) []Author {
 
-	get, err := db.Query(fmt.Sprintf("SELECT id, firstname, surname, date_of_birth, photo, created_at, updated_at FROM authors JOIN book_authors ON authors.id = book_authors.author_id AND book_authors.book_id = %d", id))
+	get, err := db.Query("SELECT id, firstname, surname, date_of_birth, photo, created_at, updated_at FROM authors JOIN book_authors ON authors.id = book_authors.author_id AND book_authors.book_id = $1", id)
 	if err != nil{
 		return nil
 	}
@@ -90,14 +91,17 @@ func GetBooks(db *sql.DB, field, sort string, limit, page int) ([]Book, error) {
 	defer rows.Close()
 
 
+
 	book := []Book{}
 	// Store query results into book variable if no errors.
 	for rows.Next() {
 		var dt Book
-		if err := rows.Scan(&dt.ID, &dt.Name, &dt.Cost, &dt.PricePerDay, &dt.Photo, &dt.YearOfPublishing, &dt.NumberOfPages, &dt.Views, &dt.CreatedAt, &dt.UpdatedAt); err != nil {
-		dt.Category = SelectCategories(db, dt.ID)
+		if err := rows.Scan(&dt.ID, &dt.Name, &dt.Cost, &dt.PricePerDay, &dt.Photo, &dt.YearOfPublishing, &dt.NumberOfPages, &dt.Views, &dt.CreatedAt, &dt.UpdatedAt);
+		err != nil {
 			return nil, err
 		}
+
+		dt.Category = SelectCategories(db, dt.ID)
 		book = append(book, dt)
 	}
 
