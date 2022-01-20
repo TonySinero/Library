@@ -71,8 +71,6 @@ const BOOK_SCHEMA = `
 	CREATE TABLE IF NOT EXISTS book (
 		id uuid DEFAULT uuid_generate_v4 () unique,
 	    name varchar(225) NOT NULL,
-		category_id uuid,
-	    author_id uuid,
 	    cost float NOT NULL,
 	    price_per_day float NOT NULL,
 		photo varchar(225) NOT NULL,
@@ -84,17 +82,17 @@ const BOOK_SCHEMA = `
 		primary key (id)
 	);
 
-ALTER TABLE book
-    ADD CONSTRAINT fk_categories_book
-        FOREIGN KEY (category_id)
-            REFERENCES categories(id)
-            ON DELETE CASCADE;
+CREATE TABLE book_authors (
+    book_id uuid references book(id) on delete cascade,
+    author_id uuid references authors(id) on delete cascade,
+    PRIMARY KEY(book_id, author_id)
+);
 
-ALTER TABLE book
-    ADD CONSTRAINT fk_authors_book
-        FOREIGN KEY (author_id)
-            REFERENCES authors(id)
-            ON DELETE CASCADE;
+CREATE TABLE book_categories (
+    book_id uuid references books(id) on delete cascade,
+    categories_id uuid references categories(id) on delete cascade,
+    PRIMARY KEY(book_id, categories_id)
+);
 `
 // Schema for books table.
 const BOOKS_SCHEMA = `

@@ -14,7 +14,6 @@ type Categories struct {
 	ID             uuid.UUID `json:"id"       sql:"uuid"`
 	Name           string    `json:"name" validate:"required" sql:"name"`
 	CreatedAt      time.Time `json:"createdAt" sql:"created_at"`
-
 }
 
 // Query operations

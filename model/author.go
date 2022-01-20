@@ -10,6 +10,7 @@ import (
 )
 
 // Defines author model.
+
 type Author struct {
 	ID             uuid.UUID `json:"id"       sql:"uuid"`
 	Firstname      string    `json:"firstname" validate:"required" sql:"firstname"`

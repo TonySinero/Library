@@ -42,6 +42,12 @@ func (a *App) initializeBookRoutes() {
 	a.Router.HandleFunc("/book/{id}", a.deleteBook).Methods("DELETE")
 	a.Router.HandleFunc("/post/image", a.PostBookImage).Methods("POST")
 	a.Router.HandleFunc("/load/image", a.LoadBookImage).Methods("GET")
+	a.Router.HandleFunc("/book/author", a.createBookToAuthor).Methods("POST")
+	a.Router.HandleFunc("/book/authors", a.getBookToAuthor).Methods("GET")
+	a.Router.HandleFunc("/book/category", a.createBookToCategory).Methods("POST")
+	a.Router.HandleFunc("/book/categories", a.getBookToCategories).Methods("GET")
+	a.Router.HandleFunc("/books/authors", a.getBooksWithAuthors).Methods("GET")
+
 
 
 }
@@ -91,6 +97,28 @@ func (a *App) getBooks(w http.ResponseWriter, r *http.Request) {
 	}
 
 	book, err := model.GetBooks(d.Database, field, sort, limit, page)
+	if err != nil {
+		app.RespondWithError(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	app.RespondWithJSON(w, http.StatusOK, book)
+}
+
+func (a *App) getBooksWithAuthors(w http.ResponseWriter, r *http.Request) {
+	// Convert count and start string variables to int.
+	limit, _ := strconv.Atoi(r.URL.Query().Get("limit"))
+	page, _ := strconv.Atoi(r.URL.Query().Get("page"))
+
+	if limit < 1 {
+		limit = 20
+	}
+	// Min start is 0;
+	if page < 1 {
+		page = 1
+	}
+
+	book, err := model.GetBooksWithAuthors(d.Database, limit, page)
 	if err != nil {
 		app.RespondWithError(w, http.StatusInternalServerError, err.Error())
 		return
@@ -248,4 +276,67 @@ func (a *App) LoadBookImage(w http.ResponseWriter, r *http.Request) {
 	}else {
 		w.Write(file)
 	}
+}
+
+
+func (a *App) getBookToAuthor(w http.ResponseWriter, r *http.Request) {
+
+	category, err := model.GetBookToAuthors(d.Database)
+	if err != nil {
+		app.RespondWithError(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	app.RespondWithJSON(w, http.StatusOK, category)
+}
+
+// Inserts new category into db.
+func (a *App) createBookToAuthor(w http.ResponseWriter, r *http.Request) {
+	var dt model.BookToAuthors
+	// Gets JSON object from request body.
+	decoder := json.NewDecoder(r.Body)
+	if err := decoder.Decode(&dt); err != nil {
+		app.RespondWithError(w, http.StatusBadRequest, "Invalid request payload")
+		return
+	}
+
+	defer r.Body.Close()
+
+	if err := dt.CreateBookToAuthors(d.Database); err != nil {
+		app.RespondWithError(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+	// Respond with newly created.
+	app.RespondWithJSON(w, http.StatusCreated, dt)
+}
+
+func (a *App) getBookToCategories(w http.ResponseWriter, r *http.Request) {
+
+	category, err := model.GetBookToCategories(d.Database)
+	if err != nil {
+		app.RespondWithError(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	app.RespondWithJSON(w, http.StatusOK, category)
+}
+
+// Inserts new category into db.
+func (a *App) createBookToCategory(w http.ResponseWriter, r *http.Request) {
+	var dt model.BookToCategories
+	// Gets JSON object from request body.
+	decoder := json.NewDecoder(r.Body)
+	if err := decoder.Decode(&dt); err != nil {
+		app.RespondWithError(w, http.StatusBadRequest, "Invalid request payload")
+		return
+	}
+
+	defer r.Body.Close()
+
+	if err := dt.CreateBookToCategories(d.Database); err != nil {
+		app.RespondWithError(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+	// Respond with newly created.
+	app.RespondWithJSON(w, http.StatusCreated, dt)
 }
