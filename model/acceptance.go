@@ -68,7 +68,7 @@ func (dt *Acceptance) CreateAcceptance(db *sql.DB) error {
 		return errors.New("photo is required")
 	}
 	if dt.FinalCost == 0 {
-		return errors.New("photo is required")
+		return errors.New("cost cannot be zero")
 	}
 	// Scan db after creation if acceptance exists using new acceptance id.
 	timestamp := time.Now()
@@ -90,7 +90,7 @@ func (dt *Acceptance) UpdateAcceptance(db *sql.DB) error {
 		return errors.New("photo is required")
 	}
 	if dt.FinalCost == 0 {
-		return errors.New("photo is required")
+		return errors.New("cost cannot be zero")
 	}
 	timestamp := time.Now()
 	_, err :=
@@ -118,8 +118,8 @@ func GetProfit(db *sql.DB) (float32, error) {
 	// Store query results into acceptance variable if no errors.
 	for rows.Next() {
 		var profit float32
-		if err := rows.Scan(&profit); err != nil {
-			log.Fatalf("Scan error:%s", err)
+		if err2 := rows.Scan(&profit); err2 != nil {
+			log.Fatalf("Scan error:%s", err2)
 		}
 		return profit, nil
 	}
