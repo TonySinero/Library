@@ -96,7 +96,6 @@ func GetBooks(db *sql.DB, field, sort string, limit, page int) ([]Book, error) {
 		err != nil {
 			return nil, err
 		}
-
 		dt.Category = SelectCategories(db, dt.ID)
 		dt.Authors = SelectAuthors(db, dt.ID)
 		book = append(book, dt)
