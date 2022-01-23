@@ -24,7 +24,7 @@ type Book struct {
 	ID               uuid.UUID `json:"id"       sql:"uuid"`
 	Name             string    `json:"name" validate:"required" sql:"name"`
 	Category         []Categories `json:"category"`
-	Authors          []Author `json:"authors"`
+	Authors          []Author  `json:"authors"`
 	Cost             float32   `json:"cost" validate:"required" sql:"cost"`
 	PricePerDay      float32   `json:"pricePerDay" validate:"required" sql:"price_per_day"`
 	Photo            string    `json:"photo" validate:"required" sql:"photo"`
@@ -108,7 +108,7 @@ func GetBooks(db *sql.DB, field, sort string, limit, page int) ([]Book, error) {
 // CRUD operations
 
 // Create new book and insert to database.
-func (dt *Book) CreateBook(db *sql.DB) error {
+func (dt *Book) CreateBook(db *sql.DB, categoryId, authorId string, boosNumber int) error {
 	if dt.Name == "" {
 		return errors.New("name is required")
 	}
@@ -128,6 +128,7 @@ func (dt *Book) CreateBook(db *sql.DB) error {
 		return errors.New("numberOfPages cannot be zero")
 	}
 	// Scan db after creation if book exists using new book id.
+
 	timestamp := time.Now()
 	err := db.QueryRow(
 		"INSERT INTO book(name, cost, price_per_day, photo, year_of_publishing, number_of_pages, views, created_at, updated_at) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id, name, cost, price_per_day, photo, year_of_publishing, number_of_pages, views, created_at, updated_at", dt.Name, dt.Cost, dt.PricePerDay, dt.Photo, dt.YearOfPublishing, dt.NumberOfPages, dt.Views, timestamp, timestamp).Scan(&dt.ID, &dt.Name, &dt.Cost, &dt.PricePerDay, &dt.Photo, &dt.YearOfPublishing, &dt.NumberOfPages, &dt.Views, &dt.CreatedAt, &dt.UpdatedAt)
@@ -135,6 +136,44 @@ func (dt *Book) CreateBook(db *sql.DB) error {
 		return err
 	}
 
+	if categoryId != ""{
+		categoryID := uuid.MustParse(categoryId)
+		createCategory(db, dt.ID, categoryID)
+	}
+	if authorId != ""{
+		authorID := uuid.MustParse(authorId)
+		createAuthors(db, dt.ID, authorID)
+	}
+	if boosNumber != 0{
+		createBooks(db, dt.ID, boosNumber)
+	}
+
+	return nil
+}
+
+func createAuthors(db *sql.DB ,id, authorId uuid.UUID) error{
+	err2 := db.QueryRow(
+		"INSERT INTO book_authors(book_id, author_id) VALUES($1, $2)", id, authorId).Scan(&id, &authorId)
+	if err2 != nil {
+		return nil
+	}
+	return nil
+}
+func createCategory(db *sql.DB ,id, categoryId uuid.UUID) error{
+	err2 := db.QueryRow(
+		"INSERT INTO book_categories(book_id, categories_id) VALUES($1, $2)", id, categoryId).Scan(&id, &categoryId)
+	if err2 != nil {
+		return nil
+	}
+	return nil
+}
+func createBooks(db *sql.DB ,id uuid.UUID, booksNumber int) error{
+	timestamp := time.Now()
+	err2 := db.QueryRow(
+		"INSERT INTO books(book_id, number_of_book, created_at, deleted_at ) VALUES($1, $2, $3, $4)", id, booksNumber, timestamp, timestamp).Scan(&id, &booksNumber, &timestamp, &timestamp)
+	if err2 != nil {
+		return nil
+	}
 	return nil
 }
 

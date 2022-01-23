@@ -97,6 +97,10 @@ func (a *App) getBooks(w http.ResponseWriter, r *http.Request) {
 
 // Inserts new book into db.
 func (a *App) createBook(w http.ResponseWriter, r *http.Request) {
+	categoryId := r.FormValue("category")
+	authorId := r.FormValue("author")
+	booksNumber, _ := strconv.Atoi(r.FormValue("booksNumber"))
+
 	var dt model.Book
 	// Gets JSON object from request body.
 	decoder := json.NewDecoder(r.Body)
@@ -107,7 +111,7 @@ func (a *App) createBook(w http.ResponseWriter, r *http.Request) {
 
 	defer r.Body.Close()
 
-	if err := dt.CreateBook(d.Database); err != nil {
+	if err := dt.CreateBook(d.Database, categoryId, authorId, booksNumber); err != nil {
 		app.RespondWithError(w, http.StatusInternalServerError, err.Error())
 		return
 	}

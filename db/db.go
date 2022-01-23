@@ -89,7 +89,7 @@ CREATE TABLE book_authors (
 );
 
 CREATE TABLE book_categories (
-    book_id uuid references books(id) on delete cascade,
+    book_id uuid references book(id) on delete cascade,
     categories_id uuid references categories(id) on delete cascade,
     PRIMARY KEY(book_id, categories_id)
 );
