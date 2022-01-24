@@ -35,37 +35,6 @@ type Book struct {
 	UpdatedAt        time.Time `json:"updatedAt" sql:"updated_at"`
 }
 
-func SelectCategories(db *sql.DB ,id uuid.UUID) []Categories {
-	get, err := db.Query("SELECT id, name, created_at FROM categories JOIN book_categories ON categories.id = book_categories.categories_id AND book_categories.book_id = $1", id)
-
-	if err != nil{
-		return nil
-	}
-
-	category := []Categories{}
-	for get.Next() {
-		var cat Categories
-		err = get.Scan(&cat.ID, &cat.Name, &cat.CreatedAt)
-		category = append(category, cat)
-	}
-	return category
-}
-
-
-func SelectAuthors(db *sql.DB ,id uuid.UUID) []Author {
-
-	get, err := db.Query("SELECT id, firstname, surname, date_of_birth, photo, created_at, updated_at FROM authors JOIN book_authors ON authors.id = book_authors.author_id AND book_authors.book_id = $1", id)
-	if err != nil{
-		return nil
-	}
-	authors := []Author{}
-	for get.Next() {
-		var author Author
-		err = get.Scan(&author.ID, &author.Firstname, &author.Surname, &author.DateOfBirth, &author.Photo, &author.CreatedAt, &author.UpdatedAt)
-		authors = append(authors, author)
-	}
-	return authors
-}
 // Query operations
 
 // Gets a specific book by name.
@@ -85,9 +54,6 @@ func GetBooks(db *sql.DB, field, sort string, limit, page int) ([]Book, error) {
 	}
 	// Wait for query to execute then close the row.
 	defer rows.Close()
-
-
-
 	book := []Book{}
 	// Store query results into book variable if no errors.
 	for rows.Next() {
@@ -276,9 +242,7 @@ func GetBookToCategories(db *sql.DB) ([]BookToCategories, error) {
 }
 
 
-// Create new category and insert to database.
 func (dt *BookToCategories) CreateBookToCategories(db *sql.DB) error {
-
 	err := db.QueryRow(
 		"INSERT INTO book_categories(book_id, categories_id) VALUES($1, $2) RETURNING book_id, categories_id", dt.BookID, dt.CategoriesID).Scan(&dt.BookID, &dt.CategoriesID)
 	if err != nil {
@@ -287,48 +251,68 @@ func (dt *BookToCategories) CreateBookToCategories(db *sql.DB) error {
 
 	return nil
 }
-//other method for get books with authors
-//------------------------------------------------------------
-//func GetBooksWithAuthors(db *sql.DB, limit, page int) ([]BooksWithAuthors, error) {
-//
-//	get1, err1 := db.Query("SELECT id, name from book")
-//	if err1 != nil {
-//		return nil, err1
+
+func SelectCategories(db *sql.DB ,id uuid.UUID) []Categories {
+	get, err := db.Query("SELECT id, name, created_at FROM categories JOIN book_categories ON categories.id = book_categories.categories_id AND book_categories.book_id = $1", id)
+	if err != nil{
+		return nil
+	}
+	defer get.Close()
+	category := []Categories{}
+	for get.Next() {
+		var cat Categories
+		err = get.Scan(&cat.ID, &cat.Name, &cat.CreatedAt)
+		category = append(category, cat)
+	}
+	return category
+}
+
+
+func SelectAuthors(db *sql.DB ,id uuid.UUID) []Author {
+	get, err := db.Query("SELECT id, firstname, surname, date_of_birth, photo, created_at, updated_at FROM authors JOIN book_authors ON authors.id = book_authors.author_id AND book_authors.book_id = $1", id)
+	if err != nil{
+		return nil
+	}
+	defer get.Close()
+	authors := []Author{}
+	for get.Next() {
+		var author Author
+		err = get.Scan(&author.ID, &author.Firstname, &author.Surname, &author.DateOfBirth, &author.Photo, &author.CreatedAt, &author.UpdatedAt)
+		authors = append(authors, author)
+	}
+	return authors
+}
+
+////n + 1 fix
+//func GetBooksID(db *sql.DB) []uuid.UUID {
+//	get, err := db.Query("SELECT book.id FROM book")
+//	if err != nil{
+//		return nil
 //	}
 //
-//	books := []Book{}
-//	for get1.Next() {
-//		var book Book
-//		get1.Scan(&book.ID, &book.Name)
-//		books = append(books, book)
-//	}
+//	defer get.Close()
 //
-//	get, err := db.Query(fmt.Sprintf("SELECT id, name FROM book LIMIT %d OFFSET %d ", limit, page))
-//	if err1 != nil {
-//		return nil, err
-//	}
-//
-//	booksA := []BooksWithAuthors{}
-//
+//	var booksID []uuid.UUID
 //	for get.Next() {
-//		var book Book
-//		var BA BooksWithAuthors
-//		err = get.Scan(&book.ID, &book.Name)
-//		BA.BookID = book.ID
-//		BA.Name = book.Name
-//		if err != nil {
-//			return nil, err
-//		}
-//		BA.Authors = SelectAuthors(db, book.ID)
-//		booksA = append(booksA, BA)
+//		var bookId uuid.UUID
+//		err = get.Scan(&bookId)
+//		booksID = append(booksID, bookId)
 //	}
-//  return booksA, nil
+//	return booksID
 //}
-//------------------------------------------------------
-//---------------------------------------
-//type BooksWithAuthors struct {
-//	BookID   uuid.UUID   `json:"bookId"`
-//	Name      string   `json:"book_name"`
-//	Authors  []Author `json:"authors"`
+//func SecondSelectCategories(db *sql.DB ,id []uuid.UUID) []Categories {
+//	get, err := db.Query("SELECT book_categories.book_id, categories.name, book_categories.categories_id FROM categories JOIN book_categories ON categories.id=book_categories.categories_id AND book_categories.book_id IN ($1)", id)
+//	if err != nil{
+//		log.Fatalln(err)
+//		return nil
+//	}
+//	defer get.Close()
+//
+//	category := []Categories{}
+//	for get.Next() {
+//		var cat Categories
+//		err = get.Scan(&cat.ID, &cat.Name, &cat.CreatedAt)
+//		category = append(category, cat)
+//	}
+//	return category
 //}
-//---------------------------------------

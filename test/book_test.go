@@ -91,8 +91,6 @@ func TestCreateBook(t *testing.T) {
 
 	newData := model.Book{
 		Name: "string1",
-		CategoryID: uuid.UUID{},
-		AuthorID: uuid.UUID{},
 		Cost: 1.1,
 		PricePerDay: 1.5,
 		Photo: "string4",
@@ -117,14 +115,6 @@ func TestCreateBook(t *testing.T) {
 	if m["name"] != "string1" {
 		t.Errorf("Expected book bookname to be 'string1'. Got '%v'", m["name"])
 	}
-
-	if m["categoryID"] != uuid.NewUUID() {
-		t.Errorf("Expected book categoryID to be 'uuid'. Got '%v'", m["categoryID"])
-	}
-	if m["authorID"] != uuid.NewUUID() {
-		t.Errorf("Expected book authorID to be 'uuid'. Got '%v'", m["authorID"])
-	}
-
 	if m["cost"] != float64(1.1) {
 		t.Errorf("Expected book cost to be 1.1 Got '%v'", m["cost"])
 	}
@@ -179,14 +169,6 @@ func TestUpdateBook(t *testing.T) {
 	if m["name"] == originalBook["name"] {
 		t.Errorf("Expected the bookname to change from '%v' to '%v'. Got '%v'", originalBook["name"], m["name"], m["name"])
 	}
-
-	if m["categoryID"] == originalBook["categoryID"] {
-		t.Errorf("Expected the categoryID to change from '%v' to '%v'. Got '%v'", originalBook["categoryID"], m["categoryID"], m["categoryID"])
-	}
-	if m["authorID"] == originalBook["authorID"] {
-		t.Errorf("Expected the authorID to change from '%v' to '%v'. Got '%v'", originalBook["authorID"], m["authorID"], m["authorID"])
-	}
-
 	if m["cost"] == originalBook["cost"] {
 		t.Errorf("Expected the cost to change from '%v' to '%v'. Got '%v'", originalBook["cost"], m["cost"], m["cost"])
 	}
@@ -244,6 +226,6 @@ func addBook(count int) {
 
 	for i := 1; i <= count; i++ {
 		timestamp := time.Now()
-		d.Database.Exec("INSERT INTO book(id, name, category_id, author_id, cost, price_per_day, photo, year_of_publishing, number_of_pages, created_at, updated_at) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10,  $11)", testID, "string"+strconv.Itoa(i), i, i, i, i, "string"+strconv.Itoa(i), i, i, timestamp, timestamp)
+		d.Database.Exec("INSERT INTO book(id, name, cost, price_per_day, photo, year_of_publishing, number_of_pages, created_at, updated_at) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)", testID, "string"+strconv.Itoa(i), i, i, "string"+strconv.Itoa(i), i, i, timestamp, timestamp)
 	}
 }
