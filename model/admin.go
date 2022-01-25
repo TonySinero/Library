@@ -29,7 +29,7 @@ func (u *Admin) GetAdmin(db *sql.DB) error {
 
 // Gets a specific admin by email and password.
 func (u *Admin) GetAdminByEmailAndPassword(db *sql.DB) error {
-	return db.QueryRow("SELECT id, email, created_at, updated_at FROM admins WHERE email=$1 AND password=$2", u.Email, u.Password).Scan(&u.ID, &u.Email, &u.CreatedAt, &u.UpdatedAt)
+	return db.QueryRow("SELECT id, email, password, created_at, updated_at FROM admins WHERE email=$1 AND password=$2", u.Email, u.Password).Scan(&u.ID, &u.Email, &u.Password, &u.CreatedAt, &u.UpdatedAt)
 }
 
 // Gets multiple admin. Limit count and start position in db.
@@ -77,7 +77,7 @@ func (u *Admin) CreateAdmin(db *sql.DB) error {
 	}
 	timestamp := time.Now()
 	err := db.QueryRow(
-		"INSERT INTO admins(email, password, created_at, updated_at) VALUES($1, $2, $3, $4) RETURNING id, email, created_at, updated_at", u.Email, u.Password, timestamp, timestamp).Scan(&u.ID, &u.Email, &u.Password, &u.CreatedAt, &u.UpdatedAt)
+		"INSERT INTO admins(email, password, created_at, updated_at) VALUES($1, $2, $3, $4) RETURNING id, email, password, created_at, updated_at", u.Email, u.Password, timestamp, timestamp).Scan(&u.ID, &u.Email, &u.Password, &u.CreatedAt, &u.UpdatedAt)
 	if err != nil {
 		return err
 	}
@@ -102,7 +102,7 @@ func (u *Admin) UpdateAdmin(db *sql.DB) error {
 	}
 	timestamp := time.Now()
 	_, err :=
-		db.Exec("UPDATE admins SET email=$1, password=$2, updated_at=$3 WHERE id=$4 RETURNING id, email, created_at, updated_at", u.Email, u.Password, timestamp, u.ID)
+		db.Exec("UPDATE admins SET email=$1, password=$2, updated_at=$3 WHERE id=$4 RETURNING id, email, password, created_at, updated_at", u.Email, u.Password, timestamp, u.ID)
 
 	return err
 }

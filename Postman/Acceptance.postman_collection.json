@@ -1,0 +1,234 @@
+{
+	"info": {
+		"_postman_id": "deaaa823-d72c-4bf6-826a-fc320dea3488",
+		"name": "Acceptance",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create Acceptance",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"userID\":\"b2fb1605-9e42-47c0-8deb-da8402a38aba\",\r\n\"bookID\":\"909d8002-fad5-4b63-aa9f-d93b5a19a5c1\",\r\n\"bookCondition\":\"Normal\",\r\n\"discount\": 10,\r\n\"finalCost\":26,\r\n\"photo\":\"image.jpg\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8000/acceptance",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"acceptance"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Acceptances",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"userID\":\"b2fb1605-9e42-47c0-8deb-da8402a38aba\",\r\n\"bookID\":\"909d8002-fad5-4b63-aa9f-d93b5a19a5c1\",\r\n\"bookCondition\":\"Normal\",\r\n\"discount\": 10,\r\n\"finalCost\":26,\r\n\"photo\":\"image.jpg\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8000/acceptances",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"acceptances"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Acceptance",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"userID\":\"b2fb1605-9e42-47c0-8deb-da8402a38aba\",\r\n\"bookID\":\"909d8002-fad5-4b63-aa9f-d93b5a19a5c1\",\r\n\"bookCondition\":\"Normal\",\r\n\"discount\": 10,\r\n\"finalCost\":26,\r\n\"photo\":\"image.jpg\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8000/acceptance/14ee749c-eff9-4c17-86fe-738ec64a9cea",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"acceptance",
+						"14ee749c-eff9-4c17-86fe-738ec64a9cea"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Acceptance",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"userID\":\"b2fb1605-9e42-47c0-8deb-da8402a38aba\",\r\n\"bookID\":\"909d8002-fad5-4b63-aa9f-d93b5a19a5c1\",\r\n\"bookCondition\":\"Normal\",\r\n\"discount\": 10,\r\n\"finalCost\":26,\r\n\"photo\":\"image2.jpg\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8000/acceptance/14ee749c-eff9-4c17-86fe-738ec64a9cea",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"acceptance",
+						"14ee749c-eff9-4c17-86fe-738ec64a9cea"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Acceptance",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"userID\":\"b2fb1605-9e42-47c0-8deb-da8402a38aba\",\r\n\"bookID\":\"909d8002-fad5-4b63-aa9f-d93b5a19a5c1\",\r\n\"bookCondition\":\"Normal\",\r\n\"discount\": 10,\r\n\"finalCost\":26,\r\n\"photo\":\"image.jpg\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8000/acceptance/14ee749c-eff9-4c17-86fe-738ec64a9cea",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"acceptance",
+						"14ee749c-eff9-4c17-86fe-738ec64a9cea"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Upload Image to Acceptance",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": []
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8000/post/image",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"post",
+						"image"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Load Image to Acceptance",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": []
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8000/load/image?image=name",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"load",
+						"image"
+					],
+					"query": [
+						{
+							"key": "image",
+							"value": "name"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Profit",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": []
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8000/profit",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"profit"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

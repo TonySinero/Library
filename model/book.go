@@ -177,30 +177,6 @@ func (dt *Book) DeleteBook(db *sql.DB) error {
 }
 
 
-func GetBookToAuthors(db *sql.DB) ([]BookToAuthors, error) {
-
-	rows, err := db.Query(
-		"SELECT book_id, author_id FROM book_authors")
-
-	if err != nil {
-		return nil, err
-	}
-	// Wait for query to execute then close the row.
-	defer rows.Close()
-
-	cat := []BookToAuthors{}
-
-	// Store query results into book variable if no errors.
-	for rows.Next() {
-		var dt BookToAuthors
-		if err := rows.Scan(&dt.BookID, &dt.AuthorID); err != nil {
-			return nil, err
-		}
-		cat = append(cat, dt)
-	}
-
-	return cat, nil
-}
 
 
 // Create new category and insert to database.
@@ -215,31 +191,6 @@ func (dt *BookToAuthors) CreateBookToAuthors(db *sql.DB) error {
 	return nil
 }
 
-
-func GetBookToCategories(db *sql.DB) ([]BookToCategories, error) {
-
-	rows, err := db.Query(
-		"SELECT book_id, categories_id FROM book_categories")
-
-	if err != nil {
-		return nil, err
-	}
-	// Wait for query to execute then close the row.
-	defer rows.Close()
-
-	cat := []BookToCategories{}
-
-	// Store query results into book variable if no errors.
-	for rows.Next() {
-		var dt BookToCategories
-		if err := rows.Scan(&dt.BookID, &dt.CategoriesID); err != nil {
-			return nil, err
-		}
-		cat = append(cat, dt)
-	}
-
-	return cat, nil
-}
 
 
 func (dt *BookToCategories) CreateBookToCategories(db *sql.DB) error {

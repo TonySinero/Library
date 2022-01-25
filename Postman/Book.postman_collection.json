@@ -1,0 +1,405 @@
+{
+	"info": {
+		"_postman_id": "3fa07b19-6c57-4514-ba34-4cf1bb9aa2c5",
+		"name": "Book",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create Book",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"name\":\"Green Mile\",\r\n\"cost\":80.5,\r\n\"pricePerDay\":0.50,\r\n\"photo\": \"image77.jpg\",\r\n\"yearOfPublishing\":1996,\r\n\"numberOfPages\":384,\r\n\"views\":850\r\n} "
+				},
+				"url": {
+					"raw": "http://localhost:8000/book?category=6bf5dbec-eb6a-4ca2-bd85-bfcd5d5b7796&author=727a9406-f3d6-4125-854d-d78ae81cfaf7&booksNumber=15",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"book"
+					],
+					"query": [
+						{
+							"key": "category",
+							"value": "6bf5dbec-eb6a-4ca2-bd85-bfcd5d5b7796"
+						},
+						{
+							"key": "author",
+							"value": "727a9406-f3d6-4125-854d-d78ae81cfaf7"
+						},
+						{
+							"key": "booksNumber",
+							"value": "15"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Books",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"name\":\"Green Mile\",\r\n\"cost\":80.5,\r\n\"pricePerDay\":0.50,\r\n\"photo\": \"image77.jpg\",\r\n\"yearOfPublishing\":1996,\r\n\"numberOfPages\":384,\r\n\"views\":850\r\n} "
+				},
+				"url": {
+					"raw": "http://localhost:8000/books?limit=20&page=1&sort=ASC&field=name",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"books"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "20"
+						},
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "sort",
+							"value": "ASC"
+						},
+						{
+							"key": "field",
+							"value": "name"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Book",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"name\":\"Green Mile\",\r\n\"cost\":80.5,\r\n\"pricePerDay\":0.50,\r\n\"photo\": \"image77.jpg\",\r\n\"yearOfPublishing\":1996,\r\n\"numberOfPages\":384,\r\n\"views\":850\r\n} "
+				},
+				"url": {
+					"raw": "http://localhost:8000/book/Green Mile",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"book",
+						"Green Mile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Book",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"name\":\"Blade Runer\",\r\n\"cost\":80.5,\r\n\"pricePerDay\":0.50,\r\n\"photo\": \"image77.jpg\",\r\n\"yearOfPublishing\":1996,\r\n\"numberOfPages\":384,\r\n\"views\":850\r\n} "
+				},
+				"url": {
+					"raw": "http://localhost:8000/book/fa4fa1d6-60d5-4d24-95ce-7c5be45bc06c",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"book",
+						"fa4fa1d6-60d5-4d24-95ce-7c5be45bc06c"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Book",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"name\":\"Blade Runer\",\r\n\"cost\":80.5,\r\n\"pricePerDay\":0.50,\r\n\"photo\": \"image77.jpg\",\r\n\"yearOfPublishing\":1996,\r\n\"numberOfPages\":384,\r\n\"views\":850\r\n} "
+				},
+				"url": {
+					"raw": "http://localhost:8000/book/fa4fa1d6-60d5-4d24-95ce-7c5be45bc06c",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"book",
+						"fa4fa1d6-60d5-4d24-95ce-7c5be45bc06c"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Upload Image Book",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": []
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8000/post/image",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"post",
+						"image"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Load Image Book",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://localhost:8000/load/image?image=name",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"load",
+						"image"
+					],
+					"query": [
+						{
+							"key": "image",
+							"value": "name"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Connection Between Author to Book",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"bookId\":\"efd0741d-c323-4a01-babf-9fc86fce8b02\",\r\n\"authorId\":\"47a8f74f-c55c-48d7-a95e-1d5c5df5011e\"\r\n} "
+				},
+				"url": {
+					"raw": "http://localhost:8000/book/author",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"book",
+						"author"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Connection Between Categoty to Book",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"bookId\":\"f48d0843-9379-4a39-85a4-39d22a69d5ba\",\r\n\"categoriesId\":\"235e046e-3487-4d00-abe2-676cf7c6a99c\"\r\n} "
+				},
+				"url": {
+					"raw": "http://localhost:8000/book/category",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"book",
+						"category"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Number of Book",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"bookID\":\"f48d0843-9379-4a39-85a4-39d22a69d5ba\",\r\n\"numberOfBooks\":2\r\n} "
+				},
+				"url": {
+					"raw": "http://localhost:8000/book/number",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"book",
+						"number"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Number of Books",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"bookId\":\"f48d0843-9379-4a39-85a4-39d22a69d5ba\",\r\n\"categoriesId\":\"235e046e-3487-4d00-abe2-676cf7c6a99c\"\r\n} "
+				},
+				"url": {
+					"raw": "http://localhost:8000/books/number",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"books",
+						"number"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Number of Book",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"bookId\":\"f48d0843-9379-4a39-85a4-39d22a69d5ba\",\r\n\"categoriesId\":\"235e046e-3487-4d00-abe2-676cf7c6a99c\"\r\n} "
+				},
+				"url": {
+					"raw": "http://localhost:8000/book/number/35b6c892-7806-4d5e-bf16-d2af0068d2ec",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"book",
+						"number",
+						"35b6c892-7806-4d5e-bf16-d2af0068d2ec"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Number of Book",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"bookID\":\"8107ee38-9ffe-46fe-a6cb-5315a0d229bf\",\r\n\"numberOfBooks\":6\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8000/book/number/35b6c892-7806-4d5e-bf16-d2af0068d2ec",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"book",
+						"number",
+						"35b6c892-7806-4d5e-bf16-d2af0068d2ec"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete All of Books Number",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"bookID\":\"8107ee38-9ffe-46fe-a6cb-5315a0d229bf\",\r\n\"numberOfBooks\":6\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8000/book/number/35b6c892-7806-4d5e-bf16-d2af0068d2ec",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"book",
+						"number",
+						"35b6c892-7806-4d5e-bf16-d2af0068d2ec"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

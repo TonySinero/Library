@@ -1,0 +1,133 @@
+{
+	"info": {
+		"_postman_id": "4ae80368-79f1-4e63-bfdb-389b627f5cb1",
+		"name": "Isuue",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create Issue",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"userID\":\"f31d9fed-cb28-47d7-8152-e490fc2ffdbd\",\r\n\"bookID\":\"efd0741d-c323-4a01-babf-9fc86fce8b02\",\r\n\"returnDate\":\"2022-02-05\",\r\n\"preliminaryCost\": 38.5\r\n} "
+				},
+				"url": {
+					"raw": "http://localhost:8000/issue",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"issue"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Issuing",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"userID\":\"f31d9fed-cb28-47d7-8152-e490fc2ffdbd\",\r\n\"bookID\":\"efd0741d-c323-4a01-babf-9fc86fce8b02\",\r\n\"returnDate\":\"2022-02-05\",\r\n\"preliminaryCost\": 38.5\r\n} "
+				},
+				"url": {
+					"raw": "http://localhost:8000/issuing",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"issuing"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Issue",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"userID\":\"f31d9fed-cb28-47d7-8152-e490fc2ffdbd\",\r\n\"bookID\":\"efd0741d-c323-4a01-babf-9fc86fce8b02\",\r\n\"returnDate\":\"2022-02-05\",\r\n\"preliminaryCost\": 38.5\r\n} "
+				},
+				"url": {
+					"raw": "http://localhost:8000/issue/da7a37e0-520e-43f2-94bc-b6caae3e8d72",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"issue",
+						"da7a37e0-520e-43f2-94bc-b6caae3e8d72"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Issue",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"userID\":\"f31d9fed-cb28-47d7-8152-e490fc2ffdbd\",\r\n\"bookID\":\"efd0741d-c323-4a01-babf-9fc86fce8b02\",\r\n\"returnDate\":\"2022-02-15\",\r\n\"preliminaryCost\": 38.5\r\n} "
+				},
+				"url": {
+					"raw": "http://localhost:8000/issue/da7a37e0-520e-43f2-94bc-b6caae3e8d72",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"issue",
+						"da7a37e0-520e-43f2-94bc-b6caae3e8d72"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Issue",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"userID\":\"f31d9fed-cb28-47d7-8152-e490fc2ffdbd\",\r\n\"bookID\":\"efd0741d-c323-4a01-babf-9fc86fce8b02\",\r\n\"returnDate\":\"2022-02-15\",\r\n\"preliminaryCost\": 38.5\r\n} "
+				},
+				"url": {
+					"raw": "http://localhost:8000/issue/da7a37e0-520e-43f2-94bc-b6caae3e8d72",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"issue",
+						"da7a37e0-520e-43f2-94bc-b6caae3e8d72"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -12,7 +12,7 @@ import (
 )
 const MAX_UPLOAD_SIZE = 1024 * 1024
 
-func (a *App) PostBookImage(w http.ResponseWriter, r *http.Request) {
+func (a *App) PostImage(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "POST" {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		return
@@ -85,7 +85,7 @@ func (a *App) PostBookImage(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Upload successful")
 }
 
-func (a *App) LoadBookImage(w http.ResponseWriter, r *http.Request) {
+func (a *App) LoadImage(w http.ResponseWriter, r *http.Request) {
 	path := viper.GetString("IMAGE_LOAD_PATH")
 	image := r.URL.Query().Get("image")
 	filename := fmt.Sprintf(  "%s/%s", path, image)
