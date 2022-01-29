@@ -2,7 +2,6 @@ package model
 
 import (
 	"database/sql"
-	"fmt"
 	"github.com/pkg/errors"
 	"time"
 
@@ -26,8 +25,8 @@ type Author struct {
 // Gets authors. Limit count and start position in db.
 func GetAuthors(db *sql.DB, field, sort string, limit, page int) ([]Author, error) {
 
-	rows, err := db.Query(fmt.Sprintf(  "SELECT id, firstname, surname, date_of_birth, photo, created_at, updated_at FROM authors ORDER BY %s %s LIMIT %d OFFSET %d",
-		field ,sort ,limit, limit*(page-1)))
+	rows, err := db.Query(  "SELECT * FROM authors ORDER BY $1 ,$2 LIMIT $3 OFFSET $4",
+		field ,sort ,limit, limit*(page-1))
 
 	if err != nil {
 		return nil, err

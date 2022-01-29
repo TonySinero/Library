@@ -5,6 +5,7 @@ APP_DB_HOST: 'localhost'
 
 IMAGE_POST_PATH: 'D:/static/accept_book_image'
 IMAGE_LOAD_PATH: 'D:/static/accept_book_image'
+ACCESS_STRING: 'secret'
 
 
 TEST_DB_USERNAME: 'postgres'

@@ -78,6 +78,7 @@ func (a *App) Run(addr string) {
 func (a *App) isAuthorized(endpoint func(http.ResponseWriter, *http.Request)) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		// Check if request has "Token" header.
+		key := viper.GetString("ACCESS_STRING")
 		if r.Header["Token"] != nil {
 			if len(r.Header["Token"][0]) < 1 {
 				app.RespondWithError(w, http.StatusUnauthorized, "Unauthorized")
@@ -87,7 +88,7 @@ func (a *App) isAuthorized(endpoint func(http.ResponseWriter, *http.Request)) ht
 					if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 						app.RespondWithError(w, http.StatusInternalServerError, "There was error with signing the token.")
 					}
-					return mySigningKey, nil
+					return []byte(key), nil
 				})
 
 				if err != nil {

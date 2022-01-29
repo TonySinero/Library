@@ -9,12 +9,12 @@ import (
 	_ "github.com/lib/pq"
 	app "github.com/library/app/utils"
 	"github.com/library/model"
+	"github.com/spf13/viper"
 	"net/http"
 	"strconv"
 )
 
 // Used for validating header tokens.
-var mySigningKey = []byte("secret")
 
 // Initialize DB and routes.
 func (a *App) AdminInitialize() {
@@ -199,8 +199,8 @@ func (a *App) deleteAdmin(w http.ResponseWriter, r *http.Request) {
 // Generate JWT
 func GenerateJWT() (string, error) {
 	token := jwt.New(jwt.SigningMethodHS256)
-
-	tokenString, err := token.SignedString(mySigningKey)
+	key := viper.GetString("ACCESS_STRING")
+	tokenString, err := token.SignedString([]byte(key))
 
 	if err != nil {
 		// fmt.Errorf("Something Went Wrong: %s", err.Error())

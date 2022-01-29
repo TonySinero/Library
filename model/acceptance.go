@@ -2,7 +2,6 @@ package model
 
 import (
 	"database/sql"
-	"fmt"
 	"github.com/pkg/errors"
 	"log"
 	"time"
@@ -34,8 +33,8 @@ func (dt *Acceptance) GetAcceptance(db *sql.DB) error {
 // Gets acceptances. Limit count and start position in db.
 func GetAcceptances(db *sql.DB, field, sort string, limit, page int) ([]Acceptance, error) {
 
-	rows, err := db.Query(fmt.Sprintf(  "SELECT id, user_id, book_id, book_condition, discount, final_cost, photo, created_at, updated_at FROM acceptance ORDER BY %s %s LIMIT %d OFFSET %d",
-		field ,sort ,limit, limit*(page-1)))
+	rows, err := db.Query(  "SELECT * FROM acceptance ORDER BY $1 ,$2 LIMIT $3 OFFSET $4",
+		field ,sort ,limit, limit*(page-1))
 
 	if err != nil {
 		return nil, err

@@ -2,7 +2,6 @@ package model
 
 import (
 	"database/sql"
-	"fmt"
 	"github.com/pkg/errors"
 	"time"
 
@@ -21,8 +20,8 @@ type Categories struct {
 // Gets category. Limit count and start position in db.
 func GetCategories(db *sql.DB, field, sort string, limit, page int) ([]Categories, error) {
 
-	rows, err := db.Query(fmt.Sprintf(  "SELECT id, name, created_at FROM categories ORDER BY %s %s LIMIT %d OFFSET %d",
-		field ,sort ,limit, limit*(page-1)))
+	rows, err := db.Query(  "SELECT * FROM categories ORDER BY $1 ,$2 LIMIT $3 OFFSET $4",
+		field ,sort ,limit, limit*(page-1))
 
 	if err != nil {
 		return nil, err

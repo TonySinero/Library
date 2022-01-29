@@ -2,7 +2,6 @@ package model
 
 import (
 	"database/sql"
-	"fmt"
 	"github.com/pkg/errors"
 	"strings"
 	"time"
@@ -35,8 +34,8 @@ func (u *Admin) GetAdminByEmailAndPassword(db *sql.DB) error {
 // Gets multiple admin. Limit count and start position in db.
 func GetAdmins(db *sql.DB, field, sort string, limit, page int) ([]Admin, error) {
 
-	rows, err := db.Query(fmt.Sprintf(  "SELECT id, email, created_at, updated_at FROM admins ORDER BY %s %s LIMIT %d OFFSET %d",
-		field ,sort ,limit, limit*(page-1)))
+	rows, err := db.Query( "SELECT id, email, created_at, updated_at FROM admins ORDER BY $1 ,$2 LIMIT $3 OFFSET $4",
+		field ,sort ,limit, limit*(page-1))
 
 	if err != nil {
 		return nil, err
