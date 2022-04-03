@@ -1,0 +1,157 @@
+{
+	"info": {
+		"_postman_id": "9b78d6a4-aa38-4167-8dc2-9dce25e1212d",
+		"name": "Admin",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create Admin",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"email\":\"abor1@gmail.com\",\r\n\"password\":\"admin111s\"\r\n} "
+				},
+				"url": {
+					"raw": "http://localhost:8000/admin",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"admin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login Admin",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"email\":\"abor1@gmail.com\",\r\n\"password\":\"admin111s\"\r\n} "
+				},
+				"url": {
+					"raw": "http://localhost:8000/admin/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"admin",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Admins",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"email\":\"abor1@gmail.com\",\r\n\"password\":\"admin111s\"\r\n} "
+				},
+				"url": {
+					"raw": "http://localhost:8000/admins",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"admins"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Admin",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"email\":\"abor1@gmail.com\",\r\n\"password\":\"admin111s\"\r\n} "
+				},
+				"url": {
+					"raw": "http://localhost:8000/admin/5d79984c-9f71-403f-963e-fa61817d5f16",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"admin",
+						"5d79984c-9f71-403f-963e-fa61817d5f16"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Admin",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"email\":\"sdvs@gmail.com\",\r\n\"password\":\"admin11321s\"\r\n} "
+				},
+				"url": {
+					"raw": "http://localhost:8000/admin/5d79984c-9f71-403f-963e-fa61817d5f16",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"admin",
+						"5d79984c-9f71-403f-963e-fa61817d5f16"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Admin",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"email\":\"sdvs@gmail.com\",\r\n\"password\":\"admin11321s\"\r\n} "
+				},
+				"url": {
+					"raw": "http://localhost:8000/admin/5d79984c-9f71-403f-963e-fa61817d5f16",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"admin",
+						"5d79984c-9f71-403f-963e-fa61817d5f16"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

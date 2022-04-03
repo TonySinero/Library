@@ -1,0 +1,16 @@
+APP_DB_USERNAME: 'postgres'
+APP_DB_PASSWORD: 'secret'
+APP_DB_NAME: 'postgres'
+APP_DB_HOST: 'localhost'
+
+IMAGE_POST_PATH: 'D:/static/accept_book_image'
+IMAGE_LOAD_PATH: 'D:/static/accept_book_image'
+ACCESS_STRING: 'secret'
+
+
+TEST_DB_USERNAME: 'postgres'
+TEST_DB_PASSWORD: 'secret'
+TEST_DB_NAME: 'postgres'
+TEST_DB_HOST: 'localhost'
+
+PORT: '8000'

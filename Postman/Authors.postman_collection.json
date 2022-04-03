@@ -1,0 +1,145 @@
+{
+	"info": {
+		"_postman_id": "01aacc93-e87e-4d2e-90bc-b6c005cf2e71",
+		"name": "Authors",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create Author",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"firstname\":\"Dan\",\r\n\"surname\":\"Brown\",\r\n\"dateOfBirth\":\"1964-06-22\",\r\n\"photo\":\"image35.jpg\"\r\n} "
+				},
+				"url": {
+					"raw": "http://localhost:8000/author",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"author"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Authors",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"firstname\":\"Dan\",\r\n\"surname\":\"Brown\",\r\n\"dateOfBirth\":\"1964-06-22\",\r\n\"photo\":\"image35.jpg\"\r\n} "
+				},
+				"url": {
+					"raw": "http://localhost:8000/authors",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"authors"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Author",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"firstname\":\"Dan\",\r\n\"surname\":\"Brown\",\r\n\"dateOfBirth\":\"1964-06-22\",\r\n\"photo\":\"image356.jpg\"\r\n} "
+				},
+				"url": {
+					"raw": "http://localhost:8000/author/bd3659b2-49ca-4f00-b841-2503b5ef6832",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"author",
+						"bd3659b2-49ca-4f00-b841-2503b5ef6832"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Upload Image Author",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": []
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8000/post/image",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"post",
+						"image"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Load Image Author",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": []
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8000/load/image",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"load",
+						"image"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

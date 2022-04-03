@@ -1,0 +1,133 @@
+{
+	"info": {
+		"_postman_id": "a450b1ea-4722-4a1b-97f0-c3f6df1f603d",
+		"name": "User",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get Users",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"firstName\":\"Tim\",\r\n\"surname\":\"Gerov\",\r\n\"secondName\":\"Jr.\",\r\n\"passport\": \"33466\",\r\n\"dateOfBirth\":\"22.06.1995\",\r\n\"email\":\"tim@gmail.com\",\r\n\"address\":\"Florida , USA\",\r\n\"indebtedness\":\"None\"\r\n} "
+				},
+				"url": {
+					"raw": "http://localhost:8000/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"firstName\":\"Tim\",\r\n\"surname\":\"Gerov\",\r\n\"secondName\":\"Jr.\",\r\n\"passport\": \"33466\",\r\n\"dateOfBirth\":\"22.06.1995\",\r\n\"email\":\"tim@gmail.com\",\r\n\"address\":\"Florida , USA\",\r\n\"indebtedness\":\"None\"\r\n} "
+				},
+				"url": {
+					"raw": "http://localhost:8000/user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get User",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"firstName\":\"Tim\",\r\n\"surname\":\"Gerov\",\r\n\"secondName\":\"Jr.\",\r\n\"passport\": \"33466\",\r\n\"dateOfBirth\":\"22.06.1995\",\r\n\"email\":\"tim@gmail.com\",\r\n\"address\":\"Florida , USA\",\r\n\"indebtedness\":\"None\"\r\n} "
+				},
+				"url": {
+					"raw": "http://localhost:8000/user/3732bf0e-09a8-49b4-ad9f-0e4a0affc7e9",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"user",
+						"3732bf0e-09a8-49b4-ad9f-0e4a0affc7e9"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update User",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"firstName\":\"Tim\",\r\n\"surname\":\"holand\",\r\n\"secondName\":\"Jr.\",\r\n\"passport\": \"33466\",\r\n\"dateOfBirth\":\"22.06.1995\",\r\n\"email\":\"holand@gmail.com\",\r\n\"address\":\"Florida , USA\",\r\n\"indebtedness\":\"None\"\r\n} "
+				},
+				"url": {
+					"raw": "http://localhost:8000/user/3732bf0e-09a8-49b4-ad9f-0e4a0affc7e9",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"user",
+						"3732bf0e-09a8-49b4-ad9f-0e4a0affc7e9"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete User",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"firstName\":\"Tim\",\r\n\"surname\":\"holand\",\r\n\"secondName\":\"Jr.\",\r\n\"passport\": \"33466\",\r\n\"dateOfBirth\":\"22.06.1995\",\r\n\"email\":\"holand@gmail.com\",\r\n\"address\":\"Florida , USA\",\r\n\"indebtedness\":\"None\"\r\n} "
+				},
+				"url": {
+					"raw": "http://localhost:8000/user/3732bf0e-09a8-49b4-ad9f-0e4a0affc7e9",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"user",
+						"3732bf0e-09a8-49b4-ad9f-0e4a0affc7e9"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
